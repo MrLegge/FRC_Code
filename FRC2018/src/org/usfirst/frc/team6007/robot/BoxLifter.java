@@ -21,5 +21,12 @@ public class BoxLifter(){
   public BoxLifter(){
     
   }
+ // maybe code(function) to return the arm for the low delivery
+ 
+ 
+ // maybe code (function) for the switch delivery
+ 
+ 
+  // maybe code (function) for the scales delivery
 }
 
