@@ -15,11 +15,20 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 public class BoxLifter(){
  
   RobotDrive lifterBase;
+ 
+ private Spark leftLifterMotor;
+	private Spark rightLifterMotor;
+	final int LEFT_LIFTER_MOTOR_ID = 2;
+	final int RIGHT_LIFTER_MOTOR_ID = 3;
+	private double MotorSpeed = 0.5;
   
   //constructor
   
   public BoxLifter(){
-    
+   
+ leftLifterMotor = new Spark(LEFT_LIFTER_MOTOR_ID);
+	rightLifterMotor = new Spark(RIGHT_LIFTER_MOTOR_ID);
+   
   }
 }
 
