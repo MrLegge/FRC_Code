@@ -45,19 +45,29 @@ public class BoxGrabber{
 	public void suckIn(){
 
 		grabberBase.drive(1, 0);
-		
+		Timer.delay(1);
 	}
 	
 	// function to eject the power cube from the holder
 	public void spitOut(){
 
 		grabberBase.drive(-1, 0);
-		
+		Timer.delay(1);
 	}
 	
-	// maybe a function to 'shuffle' the power cube so it sits straight in the holder
-	
-		// forward and reverse the motors a few times
-		// will need to test the time needed for the forward and reverse so not to drop it by accedent
+	//this will shuffle the cube around by sucking in and out to align it properly
+	public void shuffle(){
+		
+		grabberBase.drive(1, 0);
+		Timer.delay(0.2);
+		grabberBase.drive(-1, 0);
+		Timer.delay(0.2);
+		grabberBase.drive(1, 0);
+		Timer.delay(0.2);
+		grabberBase.drive(-1, 0);
+		Timer.delay(0.5);
+		grabberBase.drive(0, 0);
+	}
+
 		
 }
