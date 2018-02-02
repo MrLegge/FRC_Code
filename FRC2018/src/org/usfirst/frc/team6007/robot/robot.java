@@ -46,8 +46,8 @@ public class Robot extends SampleRobot {
 	/*********************************
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
-	final int FRONT_LEFT_MOTOR_ID = 0;
-	final int REAR_LEFT_MOTOR_ID = 1;
+	final int FRONT_LEFT_MOTOR_ID = 1;
+	final int REAR_LEFT_MOTOR_ID = 0;
 	final int FRONT_RIGHT_MOTOR_ID = 2;
 	final int REAR_RIGHT_MOTOR_ID = 3;
 	/*********************************
