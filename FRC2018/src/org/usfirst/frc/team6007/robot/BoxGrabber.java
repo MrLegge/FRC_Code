@@ -4,13 +4,12 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType; 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive 
 
 public class BoxGrabber{
 	
 	Joystick driverStick;
-	RobotDrive grabberBase;
+	DifferentialDrive grabberBase;
 
 	private Spark leftGrabberMotor;
 	private Spark rightGrabberMotor;
@@ -32,7 +31,7 @@ public class BoxGrabber{
 		
 	driverStick = new Joystick(0);
 	
-	grabberBase = new RobotDrive(leftGrabberMotor, rightGrabberMotor);
+	grabberBase = new DifferentialDrive(leftGrabberMotor, rightGrabberMotor);
 	
 																															
 	//comment out one inversion
@@ -48,13 +47,13 @@ public class BoxGrabber{
 	
 	public void suckIn(){
 
-		grabberBase.drive(1, 0);
+		grabberBase.arcadeDrive(1, 0);
 		
 	}
 	
 	public void spitOut(){
 
-		grabberBase.drive(-1, 0);
+		grabberBase.arcaeDrive(-1, 0);
 		
 	}
 
