@@ -14,21 +14,35 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 public class BoxLifter(){
  
-  RobotDrive lifterBase;
+ RobotDrive lifterBase;
+ Joystick driverStick;
  
  private Spark leftLifterMotor;
-	private Spark rightLifterMotor;
-	final int LEFT_LIFTER_MOTOR_ID = 2;
-	final int RIGHT_LIFTER_MOTOR_ID = 3;
-	private double MotorSpeed = 0.5;
+ private Spark rightLifterMotor;
+ final int LEFT_LIFTER_MOTOR_ID = 2;  //Change these depending on pin configuration
+ final int RIGHT_LIFTER_MOTOR_ID = 3; //Change these depending on pin configuration
+ private double MotorSpeed = 0.5;
   
   //constructor
   
   public BoxLifter(){
    
- leftLifterMotor = new Spark(LEFT_LIFTER_MOTOR_ID);
-	rightLifterMotor = new Spark(RIGHT_LIFTER_MOTOR_ID);
+  leftLifterMotor = new Spark(LEFT_LIFTER_MOTOR_ID);
+  rightLifterMotor = new Spark(RIGHT_LIFTER_MOTOR_ID);
+	  
+  driverStick = new Joystick(0);
+	
+  grabberBase = new RobotDrive(leftLifterMotor, rightLifterMotor);
    
   }
+
+   public void liftUp(){
+		
+   }
+	
+   public void liftDown(){
+		
+   }
+
 }
 
