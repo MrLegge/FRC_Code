@@ -53,7 +53,7 @@ public class BoxGrabber{
 	
 	public void spitOut(){
 
-		grabberBase.arcaeDrive(-1, 0);
+		grabberBase.arcadeDrive(-1, 0);
 		
 	}
 
