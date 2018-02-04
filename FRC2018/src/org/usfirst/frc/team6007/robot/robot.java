@@ -46,8 +46,9 @@ public class Robot extends SampleRobot {
 	/*********************************
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
-	final int FRONT_LEFT_MOTOR_ID = 1;
+
 	final int REAR_LEFT_MOTOR_ID = 0;
+	final int FRONT_LEFT_MOTOR_ID = 1;
 	final int FRONT_RIGHT_MOTOR_ID = 2;
 	final int REAR_RIGHT_MOTOR_ID = 3;
 	/*********************************
@@ -94,12 +95,12 @@ public class Robot extends SampleRobot {
 	
 	public void robotInit(){
 		//NOT SURE YET CHECK MOTOR DIRECTIONS
-		driveBase.setInvertedMotor(MotorType.kFrontRight, true);
+		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
 		driveBase.setInvertedMotor(MotorType.kRearRight, true);
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
-		driveBase.setInvertedMotor(MotorType.kRearLeft, true);
+		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 
-// DONT CHANGE THIS CODE!!!	
+/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
 		 new Thread(() -> {
                 UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
                 camera.setResolution(640, 480);
@@ -116,7 +117,7 @@ public class Robot extends SampleRobot {
                     outputStream.putFrame(output);
                 }
             }).start();
-//CAN CHANGE BELOW THIS		
+/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
 	
 		//Disables the setExpiration to stop robot stopping
