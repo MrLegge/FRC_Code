@@ -43,6 +43,8 @@ public class Robot extends SampleRobot {
 	Joystick driverStick;
 	RobotDrive driveBase;
 	String gameData;
+	int startPos;
+	startPos = 0;           //change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
 	
 	
 
@@ -155,9 +157,63 @@ public class Robot extends SampleRobot {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if(gameData.charAt(0) == 'L')
 		{
-			//Put left auto code here
-		} else {
-			//Put right auto code here
+		  switch(startPos){
+			  case 0:                       //position 1 (left) going to left side
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
+			  break;
+			  case 1:                       //position 1 (left) going to left side
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 2:                       //center position (2) going to left side
+				  //drive forward
+				  //turn 45
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 3:                       //position 3 (right) going to left side
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
+			  break;
+			  default: 
+			  break;
+		  }
+		} 
+		else {
+		  switch(startPos){
+			  case 0:                       //position 3 (right) going to right side
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
+			  break;
+			  case 1:                       //position 3 (right) going to right side
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 2:                       //center position (2) going to right side
+				  //drive forward
+				  //turn 45
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 3:                       //position 1 (left) going to right side
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
+			  break;
+			  default: 
+			  break;
 		}
 		
 		
