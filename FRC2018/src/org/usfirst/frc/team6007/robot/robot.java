@@ -9,8 +9,11 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType; 
+
+//New Import
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -39,7 +42,7 @@ public class Robot extends SampleRobot {
 	
 	Joystick driverStick;
 	RobotDrive driveBase;
-	
+	String gameData;
 	
 	
 
@@ -69,25 +72,36 @@ public class Robot extends SampleRobot {
 		driverStick = new Joystick(0);
 		/*
 		//COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED
-		VictorSP frontLeftMotor = new VictorSP(FRONT_LEFT_MOTOR_ID);
-		VictorSP rearLeftMotor = new VictorSP(REAR_LEFT_MOTOR_ID);
-		VictorSP frontRightMotor = new VictorSP(FRONT_RIGHT_MOTOR_ID);
-		VictorSP rearRightMotor = new VictorSP(REAR_RIGHT_MOTOR_ID);
+		Spark m_frontLeft = new Spark(1);
+		Spark m_rearLeft = new Spark(0)
+		SpeedControllerGroup m_left = new SpeedControllerGroup(m_frontLeft, m_rearLeft);
+
+		Spark m_frontRight = new Spark(2)
+		Spark m_rearRight = new Spark(3)
+		SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+
+		DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 		*/
 		
 		 
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
-		Spark frontLeftMotor = new Spark(FRONT_LEFT_MOTOR_ID);
-		Spark rearLeftMotor = new Spark(REAR_LEFT_MOTOR_ID);
-		Spark frontRightMotor = new Spark(FRONT_RIGHT_MOTOR_ID);
-		Spark rearRightMotor = new Spark(REAR_RIGHT_MOTOR_ID);
+		Spark m_frontLeft = new Spark(1);
+		Spark m_rearLeft = new Spark(0)
+		SpeedControllerGroup m_left = new SpeedControllerGroup(m_frontLeft, m_rearLeft);
+
+		Spark m_frontRight = new Spark(2)
+		Spark m_rearRight = new Spark(3)
+		SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+
+		DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
 		
 		//Use Talon to define another motor controller
 		
-		driveBase = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+
 		
 		//This stops the robot if no input received SAFETY!!
+		
 		driveBase.setExpiration(0.1);
 		
 		
@@ -130,16 +144,21 @@ public class Robot extends SampleRobot {
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 		
 		
-		
-
-			
-	
-		
-		
 		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
 		driveBase.setInvertedMotor(MotorType.kRearRight, true);
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
+		
+		
+		
+		
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if(gameData.charAt(0) == 'L')
+		{
+			//Put left auto code here
+		} else {
+			//Put right auto code here
+		}
 		
 		
 		driveBase.setSafetyEnabled(true);
