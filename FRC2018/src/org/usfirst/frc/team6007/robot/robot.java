@@ -44,6 +44,8 @@ public class Robot extends SampleRobot {
 	Joystick driverStick;
 	RobotDrive driveBase;
 	String gameData;
+	int startPos;
+	startPos = 0;           //change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
 	
 	
 
@@ -88,13 +90,15 @@ public class Robot extends SampleRobot {
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
 		Spark motor_frontLeft = new Spark(1);
 		Spark motor_rearLeft = new Spark(0)
-		SpeedControllerGroup motor_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
+
+		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 
 		Spark motor_frontRight = new Spark(2)
 		Spark motor_rearRight = new Spark(3)
-		SpeedControllerGroup motor_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
+		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
-		DifferentialDrive motor_drive = new DifferentialDrive(motor_left, motor_right);
+		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
+
 
 		
 		//Use Talon to define another motor controller
@@ -156,9 +160,63 @@ public class Robot extends SampleRobot {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if(gameData.charAt(0) == 'L')
 		{
-			//Put left auto code here
-		} else {
-			//Put right auto code here
+		  switch(startPos){
+			  case 0:                       //position 1 (left) going to left side
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
+			  break;
+			  case 1:                       //position 1 (left) going to left side
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 2:                       //center position (2) going to left side
+				  //drive forward
+				  //turn 45
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 3:                       //position 3 (right) going to left side
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
+			  break;
+			  default: 
+			  break;
+		  }
+		} 
+		else {
+		  switch(startPos){
+			  case 0:                       //position 3 (right) going to right side
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
+			  break;
+			  case 1:                       //position 3 (right) going to right side
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 2:                       //center position (2) going to right side
+				  //drive forward
+				  //turn 45
+				  //drive forward
+				  //drop cube
+			  break;
+			  case 3:                       //position 1 (left) going to right side
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
+			  break;
+			  default: 
+			  break;
 		}
 		
 		
@@ -176,7 +234,7 @@ public class Robot extends SampleRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			
-			double speedModifierX = 1.0;
+			double speedModifierX = -1.0; //changed to -ve to invert the twist turn
 			double speedModifierY = -1.0;
 
 			//Sets speed to half when side button is held, for fine control
