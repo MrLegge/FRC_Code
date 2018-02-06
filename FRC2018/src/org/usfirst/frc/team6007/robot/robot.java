@@ -231,7 +231,7 @@ public class Robot extends SampleRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			
-			double speedModifierX = -1.0;
+			double speedModifierX = -1.0; //changed to -ve to invert the twist turn
 			double speedModifierY = -1.0;
 
 			//Sets speed to half when side button is held, for fine control
