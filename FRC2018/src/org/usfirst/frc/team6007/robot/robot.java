@@ -10,8 +10,9 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SampleRobot;
 
-//New Import
+//New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -85,15 +86,15 @@ public class Robot extends SampleRobot {
 		
 		 
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
-		Spark m_frontLeft = new Spark(1);
-		Spark m_rearLeft = new Spark(0)
-		SpeedControllerGroup m_left = new SpeedControllerGroup(m_frontLeft, m_rearLeft);
+		Spark motor_frontLeft = new Spark(1);
+		Spark motor_rearLeft = new Spark(0)
+		SpeedControllerGroup motor_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 
-		Spark m_frontRight = new Spark(2)
-		Spark m_rearRight = new Spark(3)
-		SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+		Spark motor_frontRight = new Spark(2)
+		Spark motor_rearRight = new Spark(3)
+		SpeedControllerGroup motor_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
-		DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
+		DifferentialDrive motor_drive = new DifferentialDrive(motor_left, motor_right);
 
 		
 		//Use Talon to define another motor controller
