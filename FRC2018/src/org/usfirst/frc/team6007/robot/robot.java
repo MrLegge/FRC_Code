@@ -87,15 +87,15 @@ public class Robot extends SampleRobot {
 		
 		 
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
-		Spark m_frontLeft = new Spark(1);
-		Spark m_rearLeft = new Spark(0)
-		SpeedControllerGroup m_left = new SpeedControllerGroup(m_frontLeft, m_rearLeft);
+		Spark motor_frontLeft = new Spark(1);
+		Spark motor_rearLeft = new Spark(0)
+		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 
-		Spark m_frontRight = new Spark(2)
-		Spark m_rearRight = new Spark(3)
-		SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+		Spark motor_frontRight = new Spark(2)
+		Spark motor_rearRight = new Spark(3)
+		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
-		DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
+		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
 
 		
 		//Use Talon to define another motor controller
@@ -231,7 +231,7 @@ public class Robot extends SampleRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			
-			double speedModifierX = 1.0;
+			double speedModifierX = -1.0; //changed to -ve to invert the twist turn
 			double speedModifierY = -1.0;
 
 			//Sets speed to half when side button is held, for fine control
