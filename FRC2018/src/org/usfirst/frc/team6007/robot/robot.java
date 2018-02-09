@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.SampleRobot;
 
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.DriverStation;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -45,7 +47,7 @@ public class Robot extends SampleRobot {
 	RobotDrive driveBase;
 	String gameData;
 	int startPos;
-	
+	           
 	
 	
 
@@ -76,25 +78,25 @@ public class Robot extends SampleRobot {
 		/*
 		//COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED
 		Spark motor_frontLeft = new VictorSP(1);
-		Spark motor_rearLeft = new VictorSP(0)
+		Spark motor_rearLeft = new VictorSP(0);
 		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 
-		Spark motor_frontRight = new VictorSP(2)
-		Spark motor_rearRight = new VictorSP(3)
+		Spark motor_frontRight = new VictorSP(2);
+		Spark motor_rearRight = new VictorSP(3);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
 		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
 		*/
-		startPos = 0;           //change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
+		
 		 
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
 		Spark motor_frontLeft = new Spark(1);
-		Spark motor_rearLeft = new Spark(0)
+		Spark motor_rearLeft = new Spark(0);
 
 		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 
-		Spark motor_frontRight = new Spark(2)
-		Spark motor_rearRight = new Spark(3)
+		Spark motor_frontRight = new Spark(2);
+		Spark motor_rearRight = new Spark(3);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
 		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
@@ -109,6 +111,7 @@ public class Robot extends SampleRobot {
 		
 		driveBase.setExpiration(0.1);
 		
+		startPos = 0;	//change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
 		
 	}
 	
@@ -158,8 +161,7 @@ public class Robot extends SampleRobot {
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if(gameData.charAt(0) == 'L')
-		{
+		if(gameData.charAt(0) == 'L'){
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
 				  //drive forward 
@@ -217,11 +219,11 @@ public class Robot extends SampleRobot {
 			  break;
 			  default: 
 			  break;
-			}
-		
-		}	
-		driveBase.setSafetyEnabled(true);
+		}
 	}
+}	
+		
+	
 	
 	public void operatorControl(){
 		driveBase.setSafetyEnabled(true);
@@ -239,8 +241,8 @@ public class Robot extends SampleRobot {
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
-				speedModifierX = -driverStick.getRawAxis(3);
-				speedModifierY = -driverStick.getRawAxis(3);			
+				speedModifierX = 0.7;
+				speedModifierY = -0.7;			
 			}
 
 
