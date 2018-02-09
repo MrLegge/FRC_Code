@@ -45,7 +45,7 @@ public class Robot extends SampleRobot {
 	RobotDrive driveBase;
 	String gameData;
 	int startPos;
-	startPos = 0;           //change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
+	
 	
 	
 
@@ -85,7 +85,7 @@ public class Robot extends SampleRobot {
 
 		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
 		*/
-		
+		startPos = 0;           //change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
 		 
 		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
 		Spark motor_frontLeft = new Spark(1);
@@ -239,8 +239,8 @@ public class Robot extends SampleRobot {
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
-				speedModifierX = 0.7;
-				speedModifierY = -0.7;			
+				speedModifierX = -driverStick.getRawAxis(3);
+				speedModifierY = -driverStick.getRawAxis(3);			
 			}
 
 
