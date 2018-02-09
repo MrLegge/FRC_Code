@@ -217,9 +217,9 @@ public class Robot extends SampleRobot {
 			  break;
 			  default: 
 			  break;
-		}
+			}
 		
-		
+		}	
 		driveBase.setSafetyEnabled(true);
 	}
 	
