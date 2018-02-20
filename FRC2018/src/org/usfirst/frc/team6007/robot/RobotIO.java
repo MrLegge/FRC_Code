@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType; 
 
 
-public class IORobot(){
+public class RobotIO(){
   
   AHRS ahrs;
  // Joystick driverStick;
@@ -18,7 +18,7 @@ public class IORobot(){
   
 }
 
-public IORobot(){
+public RobotIO(){
   try{
   ahrs = new AHRS(SPI.Port.kMXP); 
   }
