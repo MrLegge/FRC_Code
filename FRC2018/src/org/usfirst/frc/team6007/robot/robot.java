@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team6007.robot;
 
+import edu.wpi.first.wpilibj.TimedRobot;
+
+//camera stuff
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc; 
 
@@ -8,11 +11,11 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.SampleRobot;
 
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
@@ -22,107 +25,65 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * This is a demo program showing the use of the RobotDrive class.
- * The SampleRobot class is the base of a robot application that will automatically call your
- * Autonomous and OperatorControl methods at the right time as controlled by the switches on
- * the driver station or the field controls.
- *
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the SampleRobot
- * documentation. If you change the name of this class or the package after 
- * creating this project, you must also update the manifest file in the resource
- * directory.
- *
- * WARNING: While it may look like a good choice to use for your code if you're inexperienced,
- * don't. Unless you know what you are doing, complex code will be much more difficult under
- * this system. Use IterativeRobot or Command-Based instead if you're new.
- */
-public class Robot extends SampleRobot {
+//sensor imports
+import edu.wpi.first.wpilibj.Encoder;
+
+
+public class Robot extends TimedRobot {
 	
 	Joystick driverStick;
-	RobotDrive driveBase;
+	DifferentialDrive driveBase;
 	String gameData;
 	int startPos;
-	           
-	
+	BoxGrabber boxGrab;
+	BoxLifter boxlift;
+	Encoder right_motor_encoder;
+	Encoder left_motor_encoder;
+	Encoder lifter_motor_encoder;
 	
 
-	/*********************************
-	*  Change these depending on pin configuration on RoboRIO *** 
-	*********************************/
-
-	final int REAR_LEFT_MOTOR_ID = 0;
-	final int FRONT_LEFT_MOTOR_ID = 1;
-	final int FRONT_RIGHT_MOTOR_ID = 2;
-	final int REAR_RIGHT_MOTOR_ID = 3;
-	/*********************************
-	*  Change these depending on time delay on RoboRIO *** 
-	*********************************/
 	
 	//ADD OPTIONS FOR AUTONOMOUS 
-
-	
-	
-
-	
-
-	
+	startPos = 0;
 	
 	public Robot(){
-		//Defines driverStick variable, can be used for extra driverSticks
+		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-		/*
-		//COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED
-		Spark motor_frontLeft = new VictorSP(1);
-		Spark motor_rearLeft = new VictorSP(0);
-		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
+		boxGrab = new BoxGrabber();
+		boxlift = new BoxLifter();
+		
+		right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k2X);
+		left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
+		lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
+		
+		
+	
+		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
+		//Spark motor_frontLeft = new Spark(FRONT_LEFT_MOTOR_ID);
+		//Spark motor_rearLeft = new Spark(REAR_LEFT_MOTOR_ID);
+		//Spark motor_frontRight = new Spark(FRONT_RIGHT_MOTOR_ID);
+		//Spark motor_rearRight = new Spark(REAR_RIGHT_MOTOR_ID);
 
-		Spark motor_frontRight = new VictorSP(2);
-		Spark motor_rearRight = new VictorSP(3);
+		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
+		VictorSP motor_frontLeft = new VictorSP(RobotMap.FRONT_LEFT_MOTOR_ID);
+		VictorSP motor_rearLeft = new VictorSP(RobotMap.REAR_LEFT_MOTOR_ID);
+		VictorSP motor_frontRight = new VictorSP(RobotMap.FRONT_RIGHT_MOTOR_ID);
+		VictorSP motor_rearRight = new VictorSP(RobotMap.REAR_RIGHT_MOTOR_ID);
+
+		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
-		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
-		*/
-		
-		 
-		//COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
-		Spark motor_frontLeft = new Spark(1);
-		Spark motor_rearLeft = new Spark(0);
-
-		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
-
-		Spark motor_frontRight = new Spark(2);
-		Spark motor_rearRight = new Spark(3);
-		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
-
-		DifferentialDrive motor_drive = new DifferentialDrive(motors_left, motors_right);
-
-
-		
-		//Use Talon to define another motor controller
-		
-
+		driveBase = new DifferentialDrive(motors_left, motors_right);
 		
 		//This stops the robot if no input received SAFETY!!
-		
 		driveBase.setExpiration(0.1);
-		
-		startPos = 0;	//change depending on our starting position in auto (0,1,2,3 cases, 1,2,3 positions left to right)
-		
+
 	}
 	
 	public void robotInit(){
-		//NOT SURE YET CHECK MOTOR DIRECTIONS
-		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
-		driveBase.setInvertedMotor(MotorType.kRearRight, true);
-		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
-		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 
-/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
+	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
 		 new Thread(() -> {
                 UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
                 camera.setResolution(640, 480);
@@ -139,11 +100,13 @@ public class Robot extends SampleRobot {
                     outputStream.putFrame(output);
                 }
             }).start();
-/*************************************************CAN CHANGE BELOW THIS *************************************************/	
+
+	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
-	
+
+		
+	public void autonomousPeriodic(){
 		//Disables the setExpiration to stop robot stopping
-	public void autonomous(){
 		driveBase.setSafetyEnabled(false);
 		
 		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
@@ -161,7 +124,8 @@ public class Robot extends SampleRobot {
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if(gameData.charAt(0) == 'L'){
+		if(gameData.charAt(0) == 'L')
+		{
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
 				  //drive forward 
@@ -198,17 +162,17 @@ public class Robot extends SampleRobot {
 				  //turn right 90
 				  //drive forward 
 				  //drop cube
-			  break;
+				  break;
 			  case 1:                       //position 3 (right) going to right side
 				  //drive forward
 				  //drop cube
-			  break;
+				  break;
 			  case 2:                       //center position (2) going to right side
 				  //drive forward
 				  //turn 45
 				  //drive forward
 				  //drop cube
-			  break;
+				  break;
 			  case 3:                       //position 1 (left) going to right side
 				 //drive forward
 				 //turn left 90
@@ -216,18 +180,24 @@ public class Robot extends SampleRobot {
 				 //turn left 90
 				 //drive forward
 				 //drop cube
-			  break;
+				 break;
+			  
 			  default: 
-			  break;
+				  //driveBase.drive(0.0,0);
+				// Timer.delay(1.0);
+				//  driveBase.drive(0, 0);
+				  break;
+			}
 		}
-	}
-}	
-		
-	
-	
-	public void operatorControl(){
 		driveBase.setSafetyEnabled(true);
-	  	
+	}
+	
+	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
+		driveBase.setSafetyEnabled(true);
+
+			  
+		
+		
 		//Ensures robot only drives when under operator control 
 		while(isOperatorControl() && isEnabled()){
 			
@@ -241,30 +211,83 @@ public class Robot extends SampleRobot {
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
-				speedModifierX = 0.7;
-				speedModifierY = -0.7;			
+				speedModifierX = -driverStick.getRawAxis(3);
+				speedModifierY = -driverStick.getRawAxis(3);			
 			}
 
 
+			if (driverStick.getRawButton(3)){
+				
+				double intakePower = -0.7;  //this value will need to be created from the PID data
+				boxGrab.suckIn(intakePower);
+				
+			}
+			
+			if (driverStick.getRawButton(4)){
+				
+				double outputPower = 1;  //this value will need to be created from the PID data
+				boxGrab.spitOut(outputPower);
+				
+			}
+			
+			if (driverStick.getRawButton(2)){
+				
+				boxGrab.shuffle();
+				
+			}
+			
+			if (driverStick.getRawButton(5)){
+				
+				double liftPower = -0.8;  //this value will need to be created from the PID data
+				boxlift.liftUp(liftPower);
+								
+			}
+			
+			if (driverStick.getRawButton(6)){
+				
+				double lowerPower = 0.5;  //this value will need to be created from the PID data
+				boxlift.placeDown(lowerPower);
+				
+			}	
 			
 			//Sets the driving method
 			//Use this one for z rotation
-			driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
-			
+			driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 			
+			
+			System.out.print("encoder Left:  ");
+			System.out.println(right_motor_encoder.getRaw());
+			System.out.print("encoder Right:  ");
+			System.out.println(left_motor_encoder.getRaw());
+			System.out.print("encoder Lifter:  ");
+			System.out.println(lifter_motor_encoder.getRaw());
 
 			
 		}
 	}
-	
-	public void test(){
+	public void disabledInit(){
 		
-	} 
+		
+	}
+	public void teleopInit(){
+		
+		
+	}
+	public void disabledPeriodic(){
+		
+		
+	}
+	public void robotPeriodic(){
+		
+		
+	}
+	public void testPeriodic(){
+		
+	LiveWindow.run();
+		
+	}
 	
-	/*public RobotCamera getCamera(){
-		return camera;
-	}*/
 	
 }
