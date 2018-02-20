@@ -1,97 +1,69 @@
-// this is the code that brings the external libries in for our use
+/* this is the code that brings the external libraries in for our use*/
 package org.usfirst.frc.team6007.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 // this is the declaraion of the class everything must be within these curly braces
-public class BoxGrabber{
+public class BoxGrabber extends Subsystem{
 	
-	// sets asside some space to make these objects will be declared later
-	Joystick driverStick;
-
+	// sets asside some space to make these objects will be declared later	
 	DifferentialDrive grabberBase;
 
+	/* motor controllers*/
+	private VictorSP leftGrabberMotor;
+	private VictorSP rightGrabberMotor;
+	//private Spark leftGrabberMotor;
+	//private Spark rightGrabberMotor;
 
-
-	// motor controller
-
-	private Spark leftGrabberMotor;
-	private Spark rightGrabberMotor;
 	
-	// these are the constants that need to be used later the numeral relates to the port that the motor controller is pluged in  
-	final int LEFT_GRABBER_MOTOR_ID = 2;
-	final int RIGHT_GRABBER_MOTOR_ID = 3;
 	
-	// these are the variables that we will use latter
-	private double MotorSpeed = 0.5;
 	
-
-	// this is the constructor that 'builds' the object when called
+	/* this is the constructor that 'builds' the object when called*/
 	public BoxGrabber(){
 	
 
-	
-	leftGrabberMotor = new Spark(LEFT_GRABBER_MOTOR_ID);
-	rightGrabberMotor = new Spark(RIGHT_GRABBER_MOTOR_ID);
-		
-	driverStick = new Joystick(0);
+	/* this is where the motorcontrollers above get created but using the 'new' keyword and including the needed parametres*/
+	leftGrabberMotor = new VictorSP(RobotMap.LEFT_GRABBER_MOTOR_ID);
+	rightGrabberMotor = new VictorSP(RobotMap.RIGHT_GRABBER_MOTOR_ID);
+	//leftGrabberMotor = new Spark(LEFT_GRABBER_MOTOR_ID);
+	//rightGrabberMotor = new Spark(RIGHT_GRABBER_MOTOR_ID);		
 	
 	grabberBase = new DifferentialDrive(leftGrabberMotor, rightGrabberMotor);
 	
-																															
-	//comment out one inversion
-	grabberBase.setInvertedMotor(MotorType.kFrontRight, true);
-	grabberBase.setInvertedMotor(MotorType.kFrontLeft, true);
-
-		// this is where the objects above get created but using the 'new' keyword and including the needed parametres  
-		driverStick = new Joystick(0);
-
-		leftGrabberMotor = new Spark(LEFT_GRABBER_MOTOR_ID);
-		rightGrabberMotor = new Spark(RIGHT_GRABBER_MOTOR_ID);
-																													
-		//comment out one inversion
-		//grabberBase.setInvertedMotor(MotorType.kFrontRight, true);
-		grabberBase.setInvertedMotor(MotorType.kFrontLeft, true);
-
-	
 	}
 	
-	// function to pull the power cube into the holder
-	public void suckIn(){
+	/* function to pull the power cube into the holder*/
+	public void suckIn(double intakePower){
 
-
-		grabberBase.arcadeDrive(1, 0);
-		
-
-		Timer.delay(1);
+		grabberBase.arcadeDrive(intakePower, 0);
 
 	}
 	
-	// function to eject the power cube from the holder
-	public void spitOut(){
+	/* function to eject the power cube from the holder*/
+	public void spitOut(double outputPower){
 
-		grabberBase.arcaeDrive(-1, 0);
+		grabberBase.arcadeDrive(outputPower, 0);
 
-	
 	}
 	
-	//this will shuffle the cube around by sucking in and out to align it properly
+	/*this will shuffle the cube around by sucking in and out to align it properly*/
 	public void shuffle(){
 
-		
-		grabberBase.drive(1, 0);
+		grabberBase.arcadeDrive(1, 0);
 		Timer.delay(0.2);
-		grabberBase.drive(-1, 0);
+		grabberBase.arcadeDrive(-1, 0);
 		Timer.delay(0.2);
-		grabberBase.drive(1, 0);
+		grabberBase.arcadeDrive(1, 0);
 		Timer.delay(0.2);
-		grabberBase.drive(-1, 0);
+		grabberBase.arcadeDrive(-1, 0);
 		Timer.delay(0.5);
-		grabberBase.drive(0, 0);
+		grabberBase.arcadeDrive(0, 0);
 	}
 
 		
