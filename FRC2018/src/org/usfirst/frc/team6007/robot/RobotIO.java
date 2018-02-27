@@ -15,6 +15,7 @@ public class RobotIO(){
 }
 
 public RobotIO(){
+	//start navx
   try{
   ahrs = new AHRS(SPI.Port.kMXP); 
   }
