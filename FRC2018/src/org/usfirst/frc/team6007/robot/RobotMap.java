@@ -28,6 +28,8 @@ package org.usfirst.frc.team6007.robot;
 	final int LEFT_MOTOR_ENCODER_B_CHANNEL = 3;
 	final int LIFTER_MOTOR_ENCODER_A_CHANNEL = 4;
 	final int LIFTER_MOTOR_ENCODER_B_CHANNEL = 5;
-		
+	
+	/*****Analog PinOut******/
+	final int ROBOT_LIFTER_GYRO = 0;
 		
 }	
