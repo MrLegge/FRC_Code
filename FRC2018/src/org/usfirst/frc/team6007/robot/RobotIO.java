@@ -62,21 +62,11 @@ public RobotIO(){
 	****************************************************************************************************************/
 	/***************************************************************************************************************
 	* these are the base functions to bring the gyro data in *
-	AnalogInput exampleAnalog = new AnalogInput(0);
-	int bits;
-	exampleAnalog.setOversampleBits(4);
-	bits = exampleAnalog.getOversampleBits();
-	exampleAnalog.setAverageBits(2);
-	bits = exampleAnalog.getAverageBits();	
-	int raw = exampleAnalog.getValue();
-	double volts = exampleAnalog.getVoltage();
-	int averageRaw = exampleAnalog.getAverageValue();
-	double averageVolts = exampleAnalog.getAverageVoltage();
-  
-	Raw value - The instantaneous raw 12-bit (0-4096) value representing the 0-5V range of the ADC. Note that this method does not take into account the calibration information stored in the module.
-	Voltage - The instantaneous voltage value of the channel. This method takes into account the calibration information stored in the module to convert the raw value to a voltage.
-	Average Raw value - The raw, unscaled value output from the oversampling and averaging engine. See above for information on the effect of oversampling and averaging and how to set the number of bits for each.
-	Average Voltage - The scaled voltage value output from the oversampling and averaging engine. This method uses the stored calibration information to convert the raw average value into a voltage.
-  ****************************************************************************************************************/
+	AnalogGyro exampleAnalogGyro = new AnalogGyro(0);
+	void	calibrate() Calibrate the gyro by running for a number of samples and computing the center value.
+	double	getAngle() Return the actual angle in degrees that the robot is currently facing.
+	void	initGyro() Initialize the gyro.
+	void	reset() Reset the gyro.
+  	****************************************************************************************************************/
   
 }
