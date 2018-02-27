@@ -56,8 +56,6 @@ public class Robot extends TimedRobot {
 		right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k2X);
 		left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
 		lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
-		
-		
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
 		//Spark motor_frontLeft = new Spark(FRONT_LEFT_MOTOR_ID);
@@ -75,6 +73,10 @@ public class Robot extends TimedRobot {
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
 		driveBase = new DifferentialDrive(motors_left, motors_right);
+		
+		//PIDController leftPID = new PIDController(0.1,0,0, left_motor_encoder, motors_left);
+		//PIDController rightPID = new PIDController(0.1,0,0, right_motor_encoder, motors_right);
+		
 		
 		//This stops the robot if no input received SAFETY!!
 		driveBase.setExpiration(0.1);
@@ -101,7 +103,18 @@ public class Robot extends TimedRobot {
                 }
             }).start();
 
-	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
+	/*************************************************CAN CHANGE BELOW THIS *************************************************/
+		//leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		//rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		//leftEncoder.reset();
+		//rightEncoder.reset();
+
+		//leftPID.setOutputRange(-0.75,0.75); //max speed it can set to motors
+		//rightPID.setOutputRange(-0.75,0.75); //max speed it can set to motors
+
+		//leftPID.enable();
+		//rightPID.enable();
+		
 	}
 
 		
@@ -120,7 +133,8 @@ public class Robot extends TimedRobot {
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 		
-		
+		//leftPID.setSetpoint(400);
+		//rightPID.setSetpoint(400);
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -195,7 +209,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
 		driveBase.setSafetyEnabled(true);
 
-			  
+		//leftPID.disable();
+		//rightPID.disable();	  
 		
 		
 		//Ensures robot only drives when under operator control 
