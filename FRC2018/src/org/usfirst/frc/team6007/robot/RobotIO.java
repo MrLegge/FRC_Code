@@ -64,6 +64,7 @@ public RobotIO(){
 	* these are the base functions to bring the gyro data in *
 	AnalogGyro exampleAnalogGyro = new AnalogGyro(0);
 	void	calibrate() Calibrate the gyro by running for a number of samples and computing the center value.
+	int	getCenter() Return the gyro center value set during calibration to use as a future preset.
 	double	getAngle() Return the actual angle in degrees that the robot is currently facing.
 	void	initGyro() Initialize the gyro.
 	void	reset() Reset the gyro.
