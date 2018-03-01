@@ -15,68 +15,54 @@ import edu.wpi.first.wpilibj.CameraServer;
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
-
-//sensor imports
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.VictorSP;
 
 
 public class Robot extends TimedRobot {
 	
-	Joystick driverStick;
-	DifferentialDrive driveBase;
-	String gameData;
-	int startPos;
-	BoxGrabber boxGrab;
-	BoxLifter boxlift;
-	Encoder right_motor_encoder;
-	Encoder left_motor_encoder;
-	Encoder lifter_motor_encoder;
-	
+	public Joystick driverStick;
+	public DifferentialDrive driveBase;
+	private String gameData;
+	private int startPos;
+	public BoxGrabber boxGraber;
+	public BoxLifter boxlifter;
+
 
 	
-	//ADD OPTIONS FOR AUTONOMOUS 
-	startPos = 0;
+	
 	
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-		boxGrab = new BoxGrabber();
-		boxlift = new BoxLifter();
+		boxGraber = new BoxGrabber();
+		boxlifter = new BoxLifter();
 		
-		right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k2X);
-		left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
-		lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k2X);
+		//ADD OPTIONS FOR AUTONOMOUS 
+		startPos = 0;
+				
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
-		//Spark motor_frontLeft = new Spark(FRONT_LEFT_MOTOR_ID);
-		//Spark motor_rearLeft = new Spark(REAR_LEFT_MOTOR_ID);
-		//Spark motor_frontRight = new Spark(FRONT_RIGHT_MOTOR_ID);
-		//Spark motor_rearRight = new Spark(REAR_RIGHT_MOTOR_ID);
+		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
 		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
-		VictorSP motor_frontLeft = new VictorSP(RobotMap.FRONT_LEFT_MOTOR_ID);
-		VictorSP motor_rearLeft = new VictorSP(RobotMap.REAR_LEFT_MOTOR_ID);
-		VictorSP motor_frontRight = new VictorSP(RobotMap.FRONT_RIGHT_MOTOR_ID);
-		VictorSP motor_rearRight = new VictorSP(RobotMap.REAR_RIGHT_MOTOR_ID);
+		//VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		//VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		//VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		//VictorSP motor_rearRight = new VictorSP(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
 		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
 		driveBase = new DifferentialDrive(motors_left, motors_right);
-		
-		//PIDController leftPID = new PIDController(0.1,0,0, left_motor_encoder, motors_left);
-		//PIDController rightPID = new PIDController(0.1,0,0, right_motor_encoder, motors_right);
-		
 		
 		//This stops the robot if no input received SAFETY!!
 		driveBase.setExpiration(0.1);
@@ -84,7 +70,30 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void robotInit(){
-
+		
+		/****seting encoder parameters*********************check against standards b4 use**/
+	/*	right_motor_encoder.setMaxPeriod(.1);
+		right_motor_encoder.setMinRate(10);
+		right_motor_encoder.setDistancePerPulse(5);
+		right_motor_encoder.setSamplesToAverage(7);
+		
+		left_motor_encoder.setMaxPeriod(.1);
+		left_motor_encoder.setMinRate(10);
+		left_motor_encoder.setDistancePerPulse(5);
+		left_motor_encoder.setSamplesToAverage(7);
+		
+		lifter_motor_encoder.setMaxPeriod(.1);
+		lifter_motor_encoder.setMinRate(10);
+		lifter_motor_encoder.setDistancePerPulse(5);
+		lifter_motor_encoder.setSamplesToAverage(7);*/
+		
+		/****remove deadband from the speed controllers on driveBase*****Check effects b4 blind use*****/
+	//	motor_frontLeft.enableDeadbandElimination(true);
+		//motor_rearLeft.enableDeadbandElimination(true);
+		//motor_frontRight.enableDeadbandElimination(true);
+		//motor_rearRight.enableDeadbandElimination(true);
+		
+		
 	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
 		 new Thread(() -> {
                 UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -103,18 +112,7 @@ public class Robot extends TimedRobot {
                 }
             }).start();
 
-	/*************************************************CAN CHANGE BELOW THIS *************************************************/
-		//leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-		//rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-		//leftEncoder.reset();
-		//rightEncoder.reset();
-
-		//leftPID.setOutputRange(-0.75,0.75); //max speed it can set to motors
-		//rightPID.setOutputRange(-0.75,0.75); //max speed it can set to motors
-
-		//leftPID.enable();
-		//rightPID.enable();
-		
+	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
 
 		
@@ -133,8 +131,7 @@ public class Robot extends TimedRobot {
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 		
-		//leftPID.setSetpoint(400);
-		//rightPID.setSetpoint(400);
+		
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -209,8 +206,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
 		driveBase.setSafetyEnabled(true);
 
-		//leftPID.disable();
-		//rightPID.disable();	  
+			  
 		
 		
 		//Ensures robot only drives when under operator control 
@@ -227,41 +223,50 @@ public class Robot extends TimedRobot {
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
 				speedModifierX = -driverStick.getRawAxis(3);
-				speedModifierY = -driverStick.getRawAxis(3);			
+				speedModifierY = -driverStick.getRawAxis(3);	
+
+				//change = joystick - limitedJoystick;
+				//if (change>limit) change = limit;
+				//else (if change<-limit) change = -limit;
+				//limitedJoystick += change;
+				
+				//limit is the amount of change you will allow every iteration
+				//limitedJoystick is the rate-limited joystick value you use to control your motors.
+				
 			}
 
 
 			if (driverStick.getRawButton(3)){
 				
 				double intakePower = -0.7;  //this value will need to be created from the PID data
-				boxGrab.suckIn(intakePower);
+				boxGraber.suckIn(intakePower);
 				
 			}
 			
 			if (driverStick.getRawButton(4)){
 				
 				double outputPower = 1;  //this value will need to be created from the PID data
-				boxGrab.spitOut(outputPower);
+				boxGraber.spitOut(outputPower);
 				
 			}
 			
 			if (driverStick.getRawButton(2)){
 				
-				boxGrab.shuffle();
+				boxGraber.shuffle();
 				
 			}
 			
 			if (driverStick.getRawButton(5)){
 				
 				double liftPower = -0.8;  //this value will need to be created from the PID data
-				boxlift.liftUp(liftPower);
+				boxlifter.liftUp(liftPower);
 								
 			}
 			
 			if (driverStick.getRawButton(6)){
 				
 				double lowerPower = 0.5;  //this value will need to be created from the PID data
-				boxlift.placeDown(lowerPower);
+				boxlifter.placeDown(lowerPower);
 				
 			}	
 			
@@ -272,12 +277,12 @@ public class Robot extends TimedRobot {
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 			
 			
-			System.out.print("encoder Left:  ");
+			/*System.out.print("encoder Left:  ");
 			System.out.println(right_motor_encoder.getRaw());
 			System.out.print("encoder Right:  ");
 			System.out.println(left_motor_encoder.getRaw());
 			System.out.print("encoder Lifter:  ");
-			System.out.println(lifter_motor_encoder.getRaw());
+			System.out.println(lifter_motor_encoder.getRaw());*/
 
 			
 		}
@@ -298,6 +303,7 @@ public class Robot extends TimedRobot {
 		
 		
 	}
+	@SuppressWarnings("deprecation")
 	public void testPeriodic(){
 		
 	LiveWindow.run();
