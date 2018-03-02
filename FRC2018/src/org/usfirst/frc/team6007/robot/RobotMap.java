@@ -42,5 +42,6 @@ package org.usfirst.frc.team6007.robot;
 	*****************************************************************************/	
 	public class Robot_Constants{
 		final static double CIRCUMFERENCE_OF_WHEEL = 0;//needs to be found for encoder distance
+		final static double MOTOR_TURNS_PER_TURN_OF_WHEEL = 0;//needs to be found for encoder distance
 	}
 }	
