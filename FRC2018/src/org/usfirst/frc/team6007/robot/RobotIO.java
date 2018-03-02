@@ -126,5 +126,32 @@ public class RobotIO{
 	public Encoder getRight_motor_encoder() {
 		return right_motor_encoder;
 	}
+	
+	public boolean driveStraight(double distance){
+		
+		private int currentLeftTurns = left_motor_encoder.get();
+		private int currentRightTurns = right_motor_encoder.get();
+		
+		if(currentLeftTurns != currentRightTurns){
+		
+			if(currentLeftTurns > currentRightTurns){
+			
+				System.out.print("");
+				System.out.println("");
+			}
+		
+			else{
+			
+				System.out.println("");
+				
+			}
+		}
+		
+		
+		while(currentRightTurns < distance && currentLeftTurns < distance){
+		
+		}
+		
+	}
 
 }
