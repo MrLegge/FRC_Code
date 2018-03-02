@@ -41,7 +41,12 @@ package org.usfirst.frc.team6007.robot;
 	* Constants for use in the calculations
 	*****************************************************************************/	
 	public class Robot_Constants{
-		final static double CIRCUMFERENCE_OF_WHEEL = 495;//in millimetres
+		final static double CIRCUMFERENCE_OF_WHEEL = 0.4787787204070844895417068516118;//in metres 
 		final static double MOTOR_TURNS_PER_TURN_OF_WHEEL = 0;//needs to be found for encoder distance
+	}
+	public class PID {
+	    public static final double kP = 0.001;
+	    public static final double kI = 0.0;
+	    public static final double kD = 0.0;
 	}
 }	
