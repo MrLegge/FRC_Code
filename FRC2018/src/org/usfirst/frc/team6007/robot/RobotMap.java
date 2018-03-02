@@ -36,6 +36,10 @@ package org.usfirst.frc.team6007.robot;
 	public class Analog_PinOut{
 		final static int ROBOT_LIFTER_GYRO = 0;
 	}
+		
+	/****************************************************************************
+	* Constants for use in the calculations
+	*****************************************************************************/	
 	public class Robot_Constants{
 		final static double CIRCUMFERENCE_OF_WHEEL = 0;//needs to be found for encoder distance
 	}
