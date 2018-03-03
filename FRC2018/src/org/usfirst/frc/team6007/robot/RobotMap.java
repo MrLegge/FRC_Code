@@ -12,7 +12,7 @@ package org.usfirst.frc.team6007.robot;
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
 	public class PWM_PinOut {
-		public static final int REAR_LEFT_MOTOR_ID = 0;
+		public static final int REAR_LEFT_MOTOR_ID = 0;                //motor pins are correct as of 3/3
 		public static final int FRONT_LEFT_MOTOR_ID = 1;
 		public static final int FRONT_RIGHT_MOTOR_ID = 2;
 		public static final int REAR_RIGHT_MOTOR_ID = 3;	
@@ -23,7 +23,7 @@ package org.usfirst.frc.team6007.robot;
 		public static final int LEFT_GRABBER_MOTOR_ID = 6;
 		public static final int RIGHT_GRABBER_MOTOR_ID = 7;
 	}
-	public class DIO_PinOut{
+	public class DIO_PinOut{                                                 //encoder pins are correct as of 3/3
 		public static final int RIGHT_MOTOR_ENCODER_A_CHANNEL = 0;
 		public static final int RIGHT_MOTOR_ENCODER_B_CHANNEL = 1;
 		
@@ -33,7 +33,7 @@ package org.usfirst.frc.team6007.robot;
 		public static final int LIFTER_MOTOR_ENCODER_A_CHANNEL = 4;
 		public static final int LIFTER_MOTOR_ENCODER_B_CHANNEL = 5;
 	}	
-	public class Analog_PinOut{
+	public class Analog_PinOut{                                               //gyro not yet put in
 		public static final int ROBOT_LIFTER_GYRO = 0;
 	}
 		
