@@ -206,38 +206,7 @@ public class Robot extends TimedRobot {
 		  }
 		} 
 		else {
-		  switch(startPos){
-			  case 0:                       //position 3 (right) going to right side
-				  //drive forward 
-				  //turn right 90
-				  //drive forward 
-				  //drop cube
-				  break;
-			  case 1:                       //position 3 (right) going to right side
-				  //drive forward
-				  //drop cube
-				  break;
-			  case 2:                       //center position (2) going to right side
-				  //drive forward
-				  //turn 45
-				  //drive forward
-				  //drop cube
-				  break;
-			  case 3:                       //position 1 (left) going to right side
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //drop cube
-				 break;
-			  
-			  default: 
-				  //driveBase.drive(0.0,0);
-				// Timer.delay(1.0);
-				//  driveBase.drive(0, 0);
-				  break;
-			}
+		 
 		}
 		driveBase.setSafetyEnabled(true);
 	}
