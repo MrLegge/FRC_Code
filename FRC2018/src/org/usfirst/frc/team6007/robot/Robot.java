@@ -282,12 +282,12 @@ public class Robot extends TimedRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			
-			double speedModifierX = -1.0; //changed to -ve to invert the twist turn
+			double speedModifierX = 1.0; //changed to -ve to invert the twist turn
 			double speedModifierY = -1.0;
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
-				speedModifierX = -driverStick.getRawAxis(3);
+				speedModifierX = driverStick.getRawAxis(3);
 				speedModifierY = -driverStick.getRawAxis(3);	
 
 				//change = joystick - limitedJoystick;
@@ -313,7 +313,7 @@ public class Robot extends TimedRobot {
 			}
 			
 			
-			if (driverStick.getRawButton(4)){
+			if (driverStick.getRawButton(11)){
 				
 				double outputPower = 1;  //this value will need to be created from the PID data
 				boxGraber.spitOut(outputPower);	
