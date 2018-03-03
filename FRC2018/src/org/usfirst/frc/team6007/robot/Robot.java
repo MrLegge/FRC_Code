@@ -201,6 +201,9 @@ public class Robot extends TimedRobot {
 
 			  break;  
 			  default: 
+				    //driveBase.drive(0.0,0);
+				// Timer.delay(1.0);
+				//  driveBase.drive(0, 0);
 				  
 			  break;
 		  }
