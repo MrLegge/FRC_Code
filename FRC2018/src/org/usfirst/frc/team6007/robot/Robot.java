@@ -155,24 +155,53 @@ public class Robot extends TimedRobot {
 				  
 			  break;
 			  case 1:                       //position 1 (left) going to left side
-				  //drive forward
-				  //drop cube
+				  			//to do adjust values using NavX
+				  			//to do configure boxlifter				  
+				  
+				  driveBase.tankDrive(0.8, 0.8);  //drives straight
+				  delay(0.5);			  //for 0.5 seconds	
+				  boxLifter.liftUp(-0.6);	  //lifts the arm up
+				  delay(0.1);			  //for 0.1 seconds
+				  boxGrabber.spitOut(1);	  //spits the cube out	
+				  delay(0.5);			  //for 0.5 seconds
+
 			  break;
 			  case 2:                       //center position (2) going to left side
-				  //drive forward
-				  //turn 45
-				  //drive forward
-				  //drop cube
+				  			//to do adjust values using NavX
+				  			//to do configure boxlifter				 
+				  driveBase.tankDrive(0.8, 0.8);  //drives straight
+				  delay(0.3);                     //for 0.3 seconds
+				  driveBase.tankDrive(-0.5, 0.5); //turns left
+				  delay(0.1);			  //for 0.2 seconds
+				  driveBase.tankDrive(0.6, 0.6);  //drives straight
+				  delay(0.2);			  //for 0.3 seconds	  
+				  boxLifter.liftUp(-0.6);	  //lifts the arm up
+				  delay(0.1);			  //for 0.1 seconds
+				  boxGrabber.spitOut(1);	  //spits the cube out	
+				  delay(0.5);			  //for 0.5 seconds				  
+
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //drop cube
-			  break;
+				  			//to do adjust values using NavX
+				  			//to do configure boxlifter				
+				  driveBase.tankDrive(0.8, 0.8);  //drives straight
+				  delay(0.9);                     //for 0.9 seconds
+				  driveBase.tankDrive(-0.5, 0.5); //turns left
+				  delay(0.2);			  //for 0.2 seconds
+				  driveBase.tankDrive(0.8, 0.8);  //drives straight
+				  delay(1.1);                     //for 1.1 seconds
+				  driveBase.tankDrive(-0.5, 0.5); //turns left
+				  delay(0.2);			  //for 0.2 seconds
+				  driveBase.tankDrive(0.6, 0.6);  //drives straight
+				  delay(0.2);			  //for 0.2 seconds	
+				  boxLifter.liftUp(-0.6);	  //lifts the arm up
+				  delay(0.1);			  //for 0.1 seconds
+				  boxGrabber.spitOut(1);	  //spits the cube out	
+				  delay(0.5);			  //for 0.5 seconds				  
+
+			  break;  
 			  default: 
+				  
 			  break;
 		  }
 		} 
