@@ -139,9 +139,17 @@ public class Robot extends TimedRobot {
 		{
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
-				  //drive forward 
-				  //turn right 90
-				  //drive forward 
+				  			//to do adjust values using NavX
+				  			//to do configure boxlifter
+				  driveBase.tankDrive(0.8, 0.8); 
+				  delay(1.5);
+				  driveBase.tankDrive(0.5, -0.5);
+				  delay(0.2);
+				  driveBase.tankDrive(0.6, 0.6);
+				  delay(0.2);
+				  boxLifter.liftUp(-0.6);
+				  delay(0.1);
+				  
 				  //drop cube
 			  break;
 			  case 1:                       //position 1 (left) going to left side
@@ -231,44 +239,43 @@ public class Robot extends TimedRobot {
 				//limitedJoystick += change;
 				
 				//limit is the amount of change you will allow every iteration
-				//limitedJoystick is the rate-limited joystick value you use to control your motors.
+				//limitedJoystick is the rate-limited joystick value you use to control your motors.	
+			}
+			
+			
+			if (driverStick.getRawButton(2)){
 				
+				boxGraber.shuffle();	
 			}
 
-
+			
 			if (driverStick.getRawButton(3)){
 				
 				double intakePower = -0.7;  //this value will need to be created from the PID data
-				boxGraber.suckIn(intakePower);
-				
+				boxGraber.suckIn(intakePower);	
 			}
+			
 			
 			if (driverStick.getRawButton(4)){
 				
 				double outputPower = 1;  //this value will need to be created from the PID data
-				boxGraber.spitOut(outputPower);
-				
+				boxGraber.spitOut(outputPower);	
 			}
 			
-			if (driverStick.getRawButton(2)){
-				
-				boxGraber.shuffle();
-				
-			}
 			
 			if (driverStick.getRawButton(5)){
 				
-				double liftPower = -0.8;  //this value will need to be created from the PID data
-				boxlifter.liftUp(liftPower);
-								
+				double liftPower = -0.6;  //this value will need to be created from the PID data
+				boxlifter.liftUp(liftPower);					
 			}
+			
 			
 			if (driverStick.getRawButton(6)){
 				
 				double lowerPower = 0.5;  //this value will need to be created from the PID data
-				boxlifter.placeDown(lowerPower);
-				
+				boxlifter.placeDown(lowerPower);	
 			}	
+			
 			
 			//Sets the driving method
 			//Use this one for z rotation
