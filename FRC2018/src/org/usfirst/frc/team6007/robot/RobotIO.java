@@ -136,8 +136,10 @@ public class RobotIO{
 		
 			if(currentLeftTurns > currentRightTurns){
 			
-				System.out.print("");
-				System.out.println("");
+				System.out.print("left turns is bigger than right  left:");
+				System.out.print(currentLeftTurns);
+				System.out.print("  right:");
+				System.out.println(currentRightTurns);
 			}
 		
 			else{
