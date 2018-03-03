@@ -141,16 +141,18 @@ public class Robot extends TimedRobot {
 			  case 0:                       //position 1 (left) going to left side
 				  			//to do adjust values using NavX
 				  			//to do configure boxlifter
-				  driveBase.tankDrive(0.8, 0.8); 
-				  delay(1.5);
-				  driveBase.tankDrive(0.5, -0.5);
-				  delay(0.2);
-				  driveBase.tankDrive(0.6, 0.6);
-				  delay(0.2);
-				  boxLifter.liftUp(-0.6);
-				  delay(0.1);
 				  
-				  //drop cube
+				  driveBase.tankDrive(0.8, 0.8);  //drives staight
+				  delay(1.5);			  //for 1.5 seconds
+				  driveBase.tankDrive(0.5, -0.5); //turns right
+				  delay(0.2);			  //for 0.2 seconds	
+				  driveBase.tankDrive(0.6, 0.6);  //drives straight
+				  delay(0.2);			  //for 0.2 seconds	
+				  boxLifter.liftUp(-0.6);	  //lifts the arm up
+				  delay(0.1);			  //for 0.1 seconds
+				  boxGrabber.spitOut(1);	  //spits the cube out	
+				  delay(0.5);			  //for 0.5 seconds
+				  
 			  break;
 			  case 1:                       //position 1 (left) going to left side
 				  //drive forward
