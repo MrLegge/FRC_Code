@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
 	private int startPos;
 	public BoxGrabber boxGraber;
 	public BoxLifter boxlifter;
-
+	boolean flag = true;
 
 	
 	
@@ -44,7 +45,7 @@ public class Robot extends TimedRobot {
 		boxlifter = new BoxLifter();
 		
 		//ADD OPTIONS FOR AUTONOMOUS 
-		startPos = 0;
+		startPos = 3;
 				
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
@@ -135,129 +136,154 @@ public class Robot extends TimedRobot {
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if(gameData.charAt(0) == 'L')
+		gameData = "RRR";
+		if(gameData.charAt(0) == 'L' && flag)
 		{
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
-				  			//to do adjust values using NavX
-				  			//to do configure boxlifter
-				  
-				  driveBase.tankDrive(0.8, 0.8);  //drives staight
-				  delay(1.5);			  //for 1.5 seconds
-				  driveBase.tankDrive(0.5, -0.5); //turns right
-				  delay(0.2);			  //for 0.2 seconds	
-				  driveBase.tankDrive(0.6, 0.6);  //drives straight
-				  delay(0.2);			  //for 0.2 seconds	
-				  boxLifter.liftUp(-0.6);	  //lifts the arm up
-				  delay(0.1);			  //for 0.1 seconds
-				  boxGrabber.spitOut(1);	  //spits the cube out	
-				  delay(0.5);			  //for 0.5 seconds
-				  
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  driveBase.arcadeDrive(-0.65, 0.8);
+				  Timer.delay(0.7);				  
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);
+
+				  flag = false;
 			  break;
 			  case 1:                       //position 1 (left) going to left side
-				  			//to do adjust values using NavX
-				  			//to do configure boxlifter				  
+				  							//very good
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(2);				  
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);				  
+				  boxGraber.spitOut(1);
+				  Timer.delay(1.5);
 				  
-				  driveBase.tankDrive(0.8, 0.8);  //drives straight
-				  delay(0.5);			  //for 0.5 seconds	
-				  boxLifter.liftUp(-0.6);	  //lifts the arm up
-				  delay(0.1);			  //for 0.1 seconds
-				  boxGrabber.spitOut(1);	  //spits the cube out	
-				  delay(0.5);			  //for 0.5 seconds
-
+				  flag = false;
+				  //drive forward
+				  //drop cube
 			  break;
 			  case 2:                       //center position (2) going to left side
-				  			//to do adjust values using NavX
-				  			//to do configure boxlifter				 
-				  driveBase.tankDrive(0.8, 0.8);  //drives straight
-				  delay(0.3);                     //for 0.3 seconds
-				  driveBase.tankDrive(-0.5, 0.5); //turns left
-				  delay(0.1);			  //for 0.2 seconds
-				  driveBase.tankDrive(0.6, 0.6);  //drives straight
-				  delay(0.2);			  //for 0.3 seconds	  
-				  boxLifter.liftUp(-0.6);	  //lifts the arm up
-				  delay(0.1);			  //for 0.1 seconds
-				  boxGrabber.spitOut(1);	  //spits the cube out	
-				  delay(0.5);			  //for 0.5 seconds				  
-
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  driveBase.tankDrive(-0.65, 0.65);
+				  Timer.delay(0.73);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.9);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1.1);
+				  driveBase.tankDrive(0.7, -0.6);
+				  Timer.delay(0.9);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(2.5);
+				  driveBase.tankDrive(0.65, -0.65);
+				  Timer.delay(1.4);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.42);
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);
+				  
+				  flag = false;
+				  //drive forward
+				  //turn 45
+				  //drive forward
+				  //drop cube
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-				  			//to do adjust values using NavX
-				  			//to do configure boxlifter				
-				  driveBase.tankDrive(0.8, 0.8);  //drives straight
-				  delay(0.9);                     //for 0.9 seconds
-				  driveBase.tankDrive(-0.5, 0.5); //turns left
-				  delay(0.2);			  //for 0.2 seconds
-				  driveBase.tankDrive(0.8, 0.8);  //drives straight
-				  delay(1.1);                     //for 1.1 seconds
-				  driveBase.tankDrive(-0.5, 0.5); //turns left
-				  delay(0.2);			  //for 0.2 seconds
-				  driveBase.tankDrive(0.6, 0.6);  //drives straight
-				  delay(0.2);			  //for 0.2 seconds	
-				  boxLifter.liftUp(-0.6);	  //lifts the arm up
-				  delay(0.1);			  //for 0.1 seconds
-				  boxGrabber.spitOut(1);	  //spits the cube out	
-				  delay(0.5);			  //for 0.5 seconds				  
-
-			  break;  
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
+			  break;
 			  default: 
-				    //driveBase.drive(0.0,0);
-				// Timer.delay(1.0);
-				//  driveBase.drive(0, 0);
-				  
 			  break;
 		  }
 		} 
-		else {
+		else if(gameData.charAt(0) == 'R' && flag){
 		  switch(startPos){
-			  case 0:                                       //position 3 (right) going to right side
-				  driveBase.tankDrive(0.8, 0.8);        //drive forward 
-				  delay(1.5);                           //for 1.5 secs 
-				  driveBase.tankDrive(0.5, -0.5);       //turn right (try for 90 degrees)
-				  delay(0.2)                            //for .2 secs
-				  driveBase.tankDrive(0.6, 0.6);        //drive forward 
-				  delay(0.2);                           //for .2 secs
-				  boxLifter.liftUp(-0.6);	        //lift arm
-				  delay(0.1);			       //for .1 seconds
-				  boxGrabber.spitOut(1);	        //spit out cube
-				  delay(0.5);			        //for .5 seconds
+			  case 0:                       //position 4 (right) going to right side
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
 				  break;
-			  case 1:                                 //position 3 (right) going to right side
-				  driveBase.tankDrive(0.8, 0.8);  //drive forward 
-				  delay(1);                       //for 1 sec
-				  boxLifter.liftUp(-0.6);	  //lifts the arm up
-				  delay(0.1);			  //for 0.1 seconds
-				  boxGrabber.spitOut(1);	  //spits the cube out	
-				  delay(0.5);			  //for 0.5 seconds
+			  case 1:                       //position 3 (right) going to right side
+				  //drive forward
+				  //drop cube
 				  break;
-			  case 2:                                   //center position (2) going to right side
-				  driveBase.tankDrive(0.8, 0.8);    //drive forward
-			          delay(0.5);                       //for .5 secs
-				  driveBase.tankDrive(0.5, -0.50;)  //turn right (try for 45 degrees)
-			          delay(0.1);                       //for .1 secs
-				  driveBase.tankDrive(0.8, 0.8);    //drive forward
-				  delay(0.5);                       //for .5 secs
-				  boxLifter.liftUp(-0.6);	    //lifts the arm up
-				  delay(0.1);			    //for 0.1 seconds
-				  boxGrabber.spitOut(1);	    //spits the cube out	
-				  delay(0.5);			    //for 0.5 seconds
+			  case 2:                       //center position (2) going to right side
+				  
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.4);	
+				  driveBase.arcadeDrive(-0.7, 0.8);
+				  Timer.delay(0.7);				  			  
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.9);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.9);
+				  driveBase.arcadeDrive(-0.7, -0.8);
+				  Timer.delay(0.85);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(2.4);
+				  driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  driveBase.tankDrive(-0.65, 0.65);
+				  Timer.delay(1.35);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.3);
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);
+
+				  
+				  flag = false;
+				  
 				  break;
-			  case 3:                                      //position 1 (left) going to right side
-				 driveBase.tankDrive(0.8, 0.8);        //drive forward 
-				 delay(2);                             //for 2 secs 
-				 driveBase.tankDrive(-0.5, 0.5);       //turn left (try for 90 degrees)
-				 delay(0.2);                           //for .2 secs
-				 driveBase.tankDrive(0.8, 0.8);        //drive forward 
-				 delay(2);                             //for 2.7 secs 
-				 driveBase.tankDrive(-0.5, 0.5);       //turn left (try for 90 degrees)
-				 delay(0.2)                            //for .2 secs
-				 driveBase.tankDrive(0.8, 0.8);        //drive forward 
-				 delay(0.3);                           //for .3 secs 
-				 boxLifter.liftUp(-0.6);	       //lifts the arm up
-				 delay(0.1);			       //for 0.1 seconds
-				 boxGrabber.spitOut(1);	               //spits the cube out	
-				 delay(0.5);			       //for 0.5 seconds
+			  case 3:                       //position 1 (left) going to right side
+				
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1.2);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(3.4);
+				  driveBase.arcadeDrive(-0.65, 0.7);	//90 degree turn
+				  Timer.delay(1.45);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1.8);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(2);
+				  driveBase.arcadeDrive(-0.65, 0.7);
+				  Timer.delay(0.65);
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);						  
+				  
+				  
+				  
+				  
+				  flag = false;
+
 				 break;
+			  
 			  default: 
 				  //driveBase.drive(0.0,0);
 				// Timer.delay(1.0);
@@ -287,8 +313,8 @@ public class Robot extends TimedRobot {
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
-				speedModifierX = driverStick.getRawAxis(3);
-				speedModifierY = -driverStick.getRawAxis(3);	
+				speedModifierX = -driverStick.getRawAxis(3);
+				speedModifierY = driverStick.getRawAxis(3);	
 
 				//change = joystick - limitedJoystick;
 				//if (change>limit) change = limit;
@@ -296,43 +322,44 @@ public class Robot extends TimedRobot {
 				//limitedJoystick += change;
 				
 				//limit is the amount of change you will allow every iteration
-				//limitedJoystick is the rate-limited joystick value you use to control your motors.	
-			}
-			
-			
-			if (driverStick.getRawButton(2)){
+				//limitedJoystick is the rate-limited joystick value you use to control your motors.
 				
-				boxGraber.shuffle();	
 			}
 
-			
+
 			if (driverStick.getRawButton(3)){
 				
 				double intakePower = -0.7;  //this value will need to be created from the PID data
-				boxGraber.suckIn(intakePower);	
+				boxGraber.suckIn(intakePower);
+				
 			}
-			
 			
 			if (driverStick.getRawButton(11)){
 				
 				double outputPower = 1;  //this value will need to be created from the PID data
-				boxGraber.spitOut(outputPower);	
+				boxGraber.spitOut(outputPower);
+				
 			}
 			
+			if (driverStick.getRawButton(2)){
+				
+				boxGraber.shuffle();
+				
+			}
 			
 			if (driverStick.getRawButton(5)){
 				
 				double liftPower = -0.6;  //this value will need to be created from the PID data
-				boxlifter.liftUp(liftPower);					
+				boxlifter.liftUp(liftPower);
+								
 			}
-			
 			
 			if (driverStick.getRawButton(6)){
 				
 				double lowerPower = 0.5;  //this value will need to be created from the PID data
-				boxlifter.placeDown(lowerPower);	
+				boxlifter.placeDown(lowerPower);
+				
 			}	
-			
 			
 			//Sets the driving method
 			//Use this one for z rotation
