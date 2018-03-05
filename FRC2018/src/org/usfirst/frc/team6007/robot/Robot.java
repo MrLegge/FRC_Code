@@ -139,6 +139,15 @@ public class Robot extends TimedRobot {
 			addSequential(new SetWristSetpoint(Wrist.PICKUP));
 			addSequential(new OpenClaw());
 		    }
+		}
+		
+		public class PrepareToGrab extends CommandGroup {
+		    // example of parallel comands eg.hold arm up and drive 
+		    public  PrepareToGrab() {
+			addParallel(new SetWristSetpoint(Wrist.PICKUP));
+			addParallel(new SetElevatorSetpoint(Elevator.BOTTOM));
+			addParallel(new OpenClaw());
+		    }
 		}*/
 		
 		
