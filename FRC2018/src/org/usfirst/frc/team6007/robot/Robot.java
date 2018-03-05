@@ -157,7 +157,9 @@ public class Robot extends TimedRobot {
 			addParallel(new SetElevatorSetpoint(Elevator.STOW));
 			addSequential(new SetWristSetpoint(Wrist.STOW));
 		    }
-		}*/
+		}
+		
+		button3.whenPressed(new DriveToDistance(0.11));*/
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -166,6 +168,7 @@ public class Robot extends TimedRobot {
 		{
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
+				  // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -178,7 +181,6 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.2);	
 				  driveBase.arcadeDrive(-0.65, 0.8);
 				  Timer.delay(0.7);	
-				  // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
@@ -201,6 +203,7 @@ public class Robot extends TimedRobot {
 				  //drop cube
 			  break;
 			  case 2:                       //center position (2) going to left side
+				   // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -221,7 +224,6 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.4);
 				  driveBase.tankDrive(-0.6, -0.6);
 				  Timer.delay(0.42);
-				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 				  
@@ -256,7 +258,7 @@ public class Robot extends TimedRobot {
 				  //drop cube
 				  break;
 			  case 2:                       //center position (2) going to right side
-				  
+				  // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -279,7 +281,6 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.35);
 				  driveBase.tankDrive(-0.6, -0.6);
 				  Timer.delay(0.3);
-				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
@@ -288,7 +289,7 @@ public class Robot extends TimedRobot {
 				  
 				  break;
 			  case 3:                       //position 1 (left) going to right side
-				
+				  // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1.2);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -303,7 +304,6 @@ public class Robot extends TimedRobot {
 				  Timer.delay(2);
 				  driveBase.arcadeDrive(-0.65, 0.7);
 				  Timer.delay(0.65);
-				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);						  
 				  
