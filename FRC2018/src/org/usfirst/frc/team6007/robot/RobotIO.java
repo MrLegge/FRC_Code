@@ -15,7 +15,7 @@ public class RobotIO{
 	public Joystick driverStick;
 	private static AnalogGyro robotLifterGyro;
 	private Encoder right_motor_encoder, left_motor_encoder, lifter_motor_encoder;
- 
+ 	public double currentHeading;
 
 
 	public RobotIO(){
@@ -114,13 +114,17 @@ public class RobotIO{
 	public float getRobotHeading(){
 		System.out.print("angle via NavX: ");
 		System.out.println(ahrs.getAngle());
-		return ahrs.getAngle();	
+		return ahrs.getCompassHeading();	
 	}
 	
+	
+	// Gyro related methods
 	public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
 	}
-
+	
+	
+	// encoder related methods 
 	public Encoder getLifter_motor_encoder() {
 		return lifter_motor_encoder;
 	}
@@ -133,6 +137,8 @@ public class RobotIO{
 		return right_motor_encoder;
 	}
 	
+	
+	// some methods to help with the general opperation
 	public boolean driveStraight(double distance){
 		
 		private int currentLeftTurns = left_motor_encoder.get();
