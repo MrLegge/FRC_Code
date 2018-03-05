@@ -102,13 +102,19 @@ public class RobotIO{
 		}
 	}
 
-
+	// NavX related methods for data
 	public AHRS getAhrs() {
 		return ahrs;
 	}
 
 	public void setAhrs(AHRS ahrs) {
 		this.ahrs = ahrs;
+	}
+	
+	public float getRobotHeading(){
+		System.out.print("angle via NavX: ");
+		System.out.println(ahrs.getAngle());
+		return ahrs.getAngle();	
 	}
 	
 	public static double getRobotLifterGyroAngle() {
