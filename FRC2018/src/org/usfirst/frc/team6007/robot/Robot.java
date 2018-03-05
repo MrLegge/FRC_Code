@@ -132,7 +132,14 @@ public class Robot extends TimedRobot {
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 		
-		
+		/*public class PlaceSoda extends CommandGroup {
+			//example of comands
+			public  PlaceCube() {
+			addSequential(new SetElevatorSetpoint(Elevator.TABLE_HEIGHT));
+			addSequential(new SetWristSetpoint(Wrist.PICKUP));
+			addSequential(new OpenClaw());
+		    }
+		}*/
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
