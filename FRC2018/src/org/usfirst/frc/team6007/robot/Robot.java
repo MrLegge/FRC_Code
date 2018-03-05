@@ -160,8 +160,9 @@ public class Robot extends TimedRobot {
 		}
 		
 		// this is how we drive straight with the Gyro in the navX
+		double Kp = 0.003; 
 		while (isAutonomous() && isEnabled()) {
-    		double angle = gyro.getAngle();
+    		double angle = RobotIO.currentHeading;
     		myDrive.arcadeDrive(-1.0, -angle * Kp);
     		Timer.delay(0.01);
 		
