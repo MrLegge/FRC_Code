@@ -148,6 +148,15 @@ public class Robot extends TimedRobot {
 			addParallel(new SetElevatorSetpoint(Elevator.BOTTOM));
 			addParallel(new OpenClaw());
 		    }
+		}
+		
+		public class Grab extends CommandGroup {
+
+		    public  Grab() {
+			addSequential(new CloseClaw());
+			addParallel(new SetElevatorSetpoint(Elevator.STOW));
+			addSequential(new SetWristSetpoint(Wrist.STOW));
+		    }
 		}*/
 		
 		
