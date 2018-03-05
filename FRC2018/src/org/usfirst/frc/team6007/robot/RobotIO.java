@@ -152,8 +152,8 @@ public class RobotIO{
 		
 		while(currentRightTurns < distance && currentLeftTurns < distance){
 		
-		}
+			}
 		
-	}
+		}
 
-}
+	}
