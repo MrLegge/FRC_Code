@@ -159,6 +159,13 @@ public class Robot extends TimedRobot {
 		    }
 		}
 		
+		// this is how we drive straight with the Gyro in the navX
+		while (isAutonomous() && isEnabled()) {
+    		double angle = gyro.getAngle();
+    		myDrive.arcadeDrive(-1.0, -angle * Kp);
+    		Timer.delay(0.01);
+		
+    		// Maybe a drive function that will take a distance to let us drive (set in the encoders rather than timed)
 		button3.whenPressed(new DriveToDistance(0.11));*/
 		
 		
