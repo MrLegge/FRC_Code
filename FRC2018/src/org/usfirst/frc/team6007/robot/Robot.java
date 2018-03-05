@@ -152,7 +152,8 @@ public class Robot extends TimedRobot {
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1.2);	
 				  driveBase.arcadeDrive(-0.65, 0.8);
-				  Timer.delay(0.7);				  
+				  Timer.delay(0.7);	
+				  // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
@@ -165,7 +166,8 @@ public class Robot extends TimedRobot {
 				  driveBase.tankDrive(-0.7, -0.7);
 				  Timer.delay(1.5);
 				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);				  
+				  Timer.delay(1.2);
+				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(1);
 				  Timer.delay(1.5);
 				  
@@ -194,6 +196,7 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.4);
 				  driveBase.tankDrive(-0.6, -0.6);
 				  Timer.delay(0.42);
+				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 				  
@@ -251,6 +254,7 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.35);
 				  driveBase.tankDrive(-0.6, -0.6);
 				  Timer.delay(0.3);
+				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
@@ -274,6 +278,7 @@ public class Robot extends TimedRobot {
 				  Timer.delay(2);
 				  driveBase.arcadeDrive(-0.65, 0.7);
 				  Timer.delay(0.65);
+				   // maybe build the spit as a comandGroup Item and call from function
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);						  
 				  
