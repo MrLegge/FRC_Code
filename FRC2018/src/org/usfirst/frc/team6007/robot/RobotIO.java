@@ -66,19 +66,19 @@ public class RobotIO{
 		Stopped - If the counter is currently stopped (period has exceeded Max Period)
 		****************************************************************************************************************/
 	  try {
-		  right_motor_encoder = new Encoder(RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
+		  right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the right encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  left_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the left encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  lifter_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the lifter encoder:  " + ex.getMessage(), true);
