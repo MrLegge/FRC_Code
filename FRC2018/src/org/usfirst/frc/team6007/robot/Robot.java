@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 	private int startPos;
 	public BoxGrabber boxGraber;
 	public BoxLifter boxlifter;
+	public RobotIO robotIO;
 	boolean flag = true;
 
 	
@@ -43,27 +44,22 @@ public class Robot extends TimedRobot {
 		driverStick = new Joystick(0);
 		boxGraber = new BoxGrabber();
 		boxlifter = new BoxLifter();
+		robotIO = new RobotIO(); 
 		
 		//ADD OPTIONS FOR AUTONOMOUS 
 		startPos = 3;
 				
 	
-		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
-		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
-		Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
-		Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
-		Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
+		/*PASSING MOTOR CONTROLLERS*/
+		/*PWMSpeedController motor_frontLeft = RobotMap.motor_frontLeft;
+		PWMSpeedController motor_rearLeft = RobotMap.motor_rearLeft;
+		PWMSpeedController motor_frontRight = RobotMap.motor_frontRight;
+		PWMSpeedController motor_rearRight = RobotMap.motor_rearRight;
 
-		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
-		//VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
-		//VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
-		//VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
-		//VictorSP motor_rearRight = new VictorSP(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
+		SpeedControllerGroup motors_left = RobotMap.motors_left;
+		SpeedControllerGroup motors_right = RobotMap.motors_right;*/
 
-		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
-		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
-
-		driveBase = new DifferentialDrive(motors_left, motors_right);
+		driveBase = RobotMap.driveBase;
 		
 		//This stops the robot if no input received SAFETY!!
 		driveBase.setExpiration(0.1);
@@ -189,7 +185,7 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.2);	
 				  driveBase.arcadeDrive(-0.65, 0.8);
 				  Timer.delay(0.7);	
-				  boxGraber.spitOut(0.5);
+				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
 				  flag = false;
@@ -242,7 +238,6 @@ public class Robot extends TimedRobot {
 				  //drop cube
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1.2);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -259,7 +254,6 @@ public class Robot extends TimedRobot {
 				  Timer.delay(0.65);
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
-				  
 			  break;
 			  default: 
 			  break;
@@ -268,7 +262,7 @@ public class Robot extends TimedRobot {
 		else if(gameData.charAt(0) == 'R' && flag){
 		  switch(startPos){
 			  case 0:                       //position 4 (right) going to right side
-				  driveBase.tankDrive(-0.5, -0.5);
+				   driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
 				  Timer.delay(1);
@@ -286,7 +280,6 @@ public class Robot extends TimedRobot {
 				  flag = false;
 				  break;
 			  case 1:                       //position 3 (right) going to right side
-				  
 				   driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(2);				  
 				  driveBase.tankDrive(-0.7, -0.7);
@@ -443,9 +436,8 @@ public class Robot extends TimedRobot {
 			/*System.out.print("encoder Left:  ");
 			System.out.println(right_motor_encoder.getRaw());
 			System.out.print("encoder Right:  ");
-			System.out.println(left_motor_encoder.getRaw());
-			System.out.print("encoder Lifter:  ");
-			System.out.println(lifter_motor_encoder.getRaw());*/
+			System.out.println(left_motor_encoder.getRaw());*/
+			System.out.println("encoder Lifter:  "+ lifter_motor_encoder.getDistance());
 
 			
 		}
