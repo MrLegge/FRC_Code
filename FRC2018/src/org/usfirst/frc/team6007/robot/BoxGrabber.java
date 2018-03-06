@@ -26,10 +26,10 @@ public class BoxGrabber extends Subsystem{
 	/* this is where the motorcontrollers above get created but using the 'new' keyword and including the needed parametres*/
 	//leftGrabberMotor = new VictorSP(RobotMap.PWM_PinOut.LEFT_GRABBER_MOTOR_ID);
 	//rightGrabberMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_GRABBER_MOTOR_ID);
-	leftGrabberMotor = new Spark(RobotMap.PWM_PinOut.LEFT_GRABBER_MOTOR_ID);
-	rightGrabberMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_GRABBER_MOTOR_ID);		
+	//leftGrabberMotor = new Spark(RobotMap.LEFT_GRABBER_MOTOR_ID);
+	//rightGrabberMotor = new Spark(RobotMap.RIGHT_GRABBER_MOTOR_ID);		
 	
-	grabberBase = new DifferentialDrive(leftGrabberMotor, rightGrabberMotor);	
+	grabberBase = RobotMap.grabberBase;	
 	}
 	
 	/* function to pull the power cube into the holder*/
@@ -44,7 +44,6 @@ public class BoxGrabber extends Subsystem{
 	
 	/*this will shuffle the cube around by sucking in and out to align it properly*/
 	public void shuffle(){
-		new Thread(() -> {
 			grabberBase.arcadeDrive(1, 0);
 			Timer.delay(0.2);
 			grabberBase.arcadeDrive(-1, 0);
@@ -54,7 +53,6 @@ public class BoxGrabber extends Subsystem{
 			grabberBase.arcadeDrive(-1, 0);
 			Timer.delay(0.5);
 			grabberBase.arcadeDrive(0, 0);
-			}).start();
 	}
 
 	@Override
