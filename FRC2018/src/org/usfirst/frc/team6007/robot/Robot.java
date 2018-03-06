@@ -189,7 +189,7 @@ public class Robot extends TimedRobot {
 				  Timer.delay(1.2);	
 				  driveBase.arcadeDrive(-0.65, 0.8);
 				  Timer.delay(0.7);	
-				  boxGraber.spitOut(0.5);				  
+				  boxGraber.spitOut(0.5);
 				  Timer.delay(1.5);
 
 				  flag = false;
@@ -242,12 +242,24 @@ public class Robot extends TimedRobot {
 				  //drop cube
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //drop cube
+
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1.2);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(3.4);
+				  driveBase.arcadeDrive(-0.65, -0.7);	//90 degree turn
+				  Timer.delay(1.45);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1.8);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(2);
+				  driveBase.arcadeDrive(-0.65, -0.7);
+				  Timer.delay(0.65);
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);
+				  
 			  break;
 			  default: 
 			  break;
@@ -256,14 +268,36 @@ public class Robot extends TimedRobot {
 		else if(gameData.charAt(0) == 'R' && flag){
 		  switch(startPos){
 			  case 0:                       //position 4 (right) going to right side
-				  //drive forward 
-				  //turn right 90
-				  //drive forward 
-				  //drop cube
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  driveBase.arcadeDrive(-0.65, -0.8);
+				  Timer.delay(0.7);	
+				  boxGraber.spitOut(0.5);				  
+				  Timer.delay(1.5);
+
+				  flag = false;
 				  break;
 			  case 1:                       //position 3 (right) going to right side
-				  //drive forward
-				  //drop cube
+				  
+				   driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(2);				  
+				  driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);
+				   // maybe build the spit as a comandGroup Item and call from function
+				  boxGraber.spitOut(1);
+				  Timer.delay(1.5);
+			
+				  flag = false;
 				  break;
 			  case 2:                       //center position (2) going to right side
 				  // maybe build the spit as a comandGroup Item and call from function
