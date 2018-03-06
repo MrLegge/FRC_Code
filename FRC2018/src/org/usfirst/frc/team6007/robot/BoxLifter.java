@@ -17,8 +17,8 @@ public class BoxLifter extends PIDSubsystem{
 	/* select correct controller for robot configuration  */
 	//private VictorSP topLifterMotor;
 	//private VictorSP bottomLifterMotor;
-	private Spark topLifterMotor;
-	private Spark bottomLifterMotor;
+	//private Spark topLifterMotor;
+	//private Spark bottomLifterMotor;
 
 	
 	
@@ -30,10 +30,10 @@ public class BoxLifter extends PIDSubsystem{
 		getPIDController().setContinuous(false);
 		//topLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
 		//bottomLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);
-		topLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
-		bottomLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);		
-		bottomLifterMotor.setInverted(true);
-		lifterBase = new DifferentialDrive(topLifterMotor, bottomLifterMotor);
+		//topLifterMotor = new Spark(RobotMap.RIGHT_TOP_LIFTER_MOTOR_ID);
+		//bottomLifterMotor = new Spark(RobotMap.RIGHT_BOTTOM_LIFTER_MOTOR_ID);		
+		//bottomLifterMotor.setInverted(true);
+		lifterBase = RobotMap.lifterBase;
 		lifterBase.setExpiration(0.1);
 	
 }
