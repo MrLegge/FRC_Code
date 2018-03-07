@@ -1,4 +1,10 @@
 package org.usfirst.frc.team6007.robot;
+
+import edu.wpi.first.wpilibj.PWMSpeedController;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into 
  * to a variable name. This provides flexibility changing wiring, makes checking 
@@ -42,7 +48,7 @@ package org.usfirst.frc.team6007.robot;
 	* Constants for use in the calculations
 	*****************************************************************************/	
 
-		public static final double CIRCUMFERENCE_OF_WHEEL = 0.4787787204070844895417068516118;//in metres 
+		public static final double CIRCUMFERENCE = 0.4787787204070844895417068516118;//in metres 
 		public static final double MOTOR_TURNS_PER_TURN_OF_WHEEL = 0;//needs to be found for encoder distance
 		public static final double DISTANCE_PER_PULSE = CIRCUMFERENCE / (3 * 512);
 	
@@ -68,8 +74,8 @@ package org.usfirst.frc.team6007.robot;
 		private static PWMSpeedController bottomLifterMotor;
 		
 		//grabber base
-		private PWMSpeedController leftGrabberMotor;
-		private PWMSpeedController rightGrabberMotor;
+		private static PWMSpeedController leftGrabberMotor;
+		private static PWMSpeedController rightGrabberMotor;
 		
 	/***********************************************************************************
 	* these is the drive bases fpr the different bases
