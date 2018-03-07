@@ -1,67 +1,60 @@
-/* this is the code that brings the external libries in for our use  */
+/* this is the code that brings the external libraries in for our use*/
 package org.usfirst.frc.team6007.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 //import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-/* this is the declaraion of the class everything must be within these curly braces  */
-public class BoxLifter extends PIDSubsystem{
-	
-	/* sets asside some space to make these objects will be declared later  */
-	
-	public DifferentialDrive lifterBase;
+// this is the declaraion of the class everything must be within these curly braces
+public class BoxGrabber extends Subsystem{	
+	// sets asside some space to make these objects will be declared later	
+	DifferentialDrive grabberBase;
 
-	
-	/* select correct controller for robot configuration  */
-	//private VictorSP topLifterMotor;
-	//private VictorSP bottomLifterMotor;
-	private Spark topLifterMotor;
-	private Spark bottomLifterMotor;
+	/* motor controllers*/
+	//private VictorSP leftGrabberMotor;
+	//private VictorSP rightGrabberMotor;
+	private Spark leftGrabberMotor;
+	private Spark rightGrabberMotor;
 
 	
 	
-
-	/* this is the constructor that 'builds' the object when called  */
-	public BoxLifter(){
-		super("BoxLifter", 2.0, 0.0, 0.0 );
-		setAbsoluteTolerance(0.05);
-		getPIDController().setContinuous(false);
-		//topLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
-		//bottomLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);
-		topLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
-		bottomLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);		
-		bottomLifterMotor.setInverted(true);
-		lifterBase = new DifferentialDrive(topLifterMotor, bottomLifterMotor);
-		lifterBase.setExpiration(0.1);
 	
-}
+	/* this is the constructor that 'builds' the object when called*/
+	public BoxGrabber(){	
+	/* this is where the motorcontrollers above get created but using the 'new' keyword and including the needed parametres*/
+	//leftGrabberMotor = new VictorSP(RobotMap.PWM_PinOut.LEFT_GRABBER_MOTOR_ID);
+	//rightGrabberMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_GRABBER_MOTOR_ID);
+	leftGrabberMotor = new Spark(RobotMap.PWM_PinOut.LEFT_GRABBER_MOTOR_ID);
+	rightGrabberMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_GRABBER_MOTOR_ID);		
 	
-	/* function to pull the power cube into the holder  */
-	public void liftUp(double liftPower){
-
-		lifterBase.arcadeDrive(-liftPower, 0);
-
+	grabberBase = new DifferentialDrive(leftGrabberMotor, rightGrabberMotor);	
 	}
 	
-	/* function to eject the power cube from the holder  */
-	public void placeDown(double lowerPower){
-
-		lifterBase.arcadeDrive(lowerPower, 0);	
+	/* function to pull the power cube into the holder*/
+	public void suckIn(double intakePower){
+		grabberBase.arcadeDrive(intakePower, 0);
+	}
 	
+	/* function to eject the power cube from the holder*/
+	public void spitOut(double outputPower){
+		grabberBase.arcadeDrive(outputPower, 0);
 	}
-
-	@Override
-	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return RobotIO.getRobotLifterGyroAngle();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		// TODO Auto-generated method stub
+	
+	/*this will shuffle the cube around by sucking in and out to align it properly*/
+	public void shuffle(){
 		
+			grabberBase.arcadeDrive(1, 0);
+			Timer.delay(0.2);
+			grabberBase.arcadeDrive(-1, 0);
+			Timer.delay(0.2);
+			grabberBase.arcadeDrive(1, 0);
+			Timer.delay(0.2);
+			grabberBase.arcadeDrive(-1, 0);
+			Timer.delay(0.5);
+			grabberBase.arcadeDrive(0, 0);
+			
 	}
 
 	@Override
@@ -71,9 +64,3 @@ public class BoxLifter extends PIDSubsystem{
 	}
 		
 }
-
-
-
-
-
-
