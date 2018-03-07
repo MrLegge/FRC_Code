@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.CameraServer;
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-//import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
-//import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Spark;
 //import edu.wpi.first.wpilibj.VictorSP;
 
 
@@ -40,8 +40,7 @@ public class Robot extends TimedRobot {
 	
 	
 	public Robot(){
-		/*Defines base variable, can be used for extra methods*/
-		RobotMap.robotInit();
+		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
 		boxGraber = new BoxGrabber();
 		boxlifter = new BoxLifter();
@@ -51,16 +50,22 @@ public class Robot extends TimedRobot {
 		startPos = 3;
 				
 	
-		/*PASSING MOTOR CONTROLLERS*/
-		/*PWMSpeedController motor_frontLeft = RobotMap.motor_frontLeft;
-		PWMSpeedController motor_rearLeft = RobotMap.motor_rearLeft;
-		PWMSpeedController motor_frontRight = RobotMap.motor_frontRight;
-		PWMSpeedController motor_rearRight = RobotMap.motor_rearRight;
+		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
+		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
-		SpeedControllerGroup motors_left = RobotMap.motors_left;
-		SpeedControllerGroup motors_right = RobotMap.motors_right;*/
+		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
+		//VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		//VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		//VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		//VictorSP motor_rearRight = new VictorSP(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
-		driveBase = RobotMap.driveBase;
+		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
+		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
+
+		driveBase = new DifferentialDrive(motors_left, motors_right);
 		
 		//This stops the robot if no input received SAFETY!!
 		driveBase.setExpiration(0.1);
@@ -92,7 +97,7 @@ public class Robot extends TimedRobot {
 		//motor_rearRight.enableDeadbandElimination(true);
 		
 		
-	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
+	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************
 		 new Thread(() -> {
                 UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
                 camera.setResolution(640, 480);
@@ -129,42 +134,7 @@ public class Robot extends TimedRobot {
 		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
 		
-		/*public class PlaceSoda extends CommandGroup {
-			//example of comands
-			public  PlaceCube() {
-			addSequential(new SetElevatorSetpoint(Elevator.TABLE_HEIGHT));
-			addSequential(new SetWristSetpoint(Wrist.PICKUP));
-			addSequential(new OpenClaw());
-		    }
-		}
 		
-		public class PrepareToGrab extends CommandGroup {
-		    // example of parallel comands eg.hold arm up and drive 
-		    public  PrepareToGrab() {
-			addParallel(new SetWristSetpoint(Wrist.PICKUP));
-			addParallel(new SetElevatorSetpoint(Elevator.BOTTOM));
-			addParallel(new OpenClaw());
-		    }
-		}
-		
-		public class Grab extends CommandGroup {
-
-		    public  Grab() {
-			addSequential(new CloseClaw());
-			addParallel(new SetElevatorSetpoint(Elevator.STOW));
-			addSequential(new SetWristSetpoint(Wrist.STOW));
-		    }
-		}
-		
-		// this is how we drive straight with the Gyro in the navX
-		double Kp = 0.003; 
-		while (isAutonomous() && isEnabled()) {
-    		double angle = RobotIO.currentHeading;
-    		myDrive.arcadeDrive(-1.0, -angle * Kp);
-    		Timer.delay(0.01);
-		
-    		// Maybe a drive function that will take a distance to let us drive (set in the encoders rather than timed)
-		button3.whenPressed(new DriveToDistance(0.11));*/
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -173,7 +143,6 @@ public class Robot extends TimedRobot {
 		{
 		  switch(startPos){
 			  case 0:                       //position 1 (left) going to left side
-				  // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -185,7 +154,7 @@ public class Robot extends TimedRobot {
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1.2);	
 				  driveBase.arcadeDrive(-0.65, 0.8);
-				  Timer.delay(0.7);	
+				  Timer.delay(0.7);				  
 				  boxGraber.spitOut(0.5);				  
 				  Timer.delay(1.5);
 
@@ -198,8 +167,7 @@ public class Robot extends TimedRobot {
 				  driveBase.tankDrive(-0.7, -0.7);
 				  Timer.delay(1.5);
 				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);
-				   // maybe build the spit as a comandGroup Item and call from function
+				  Timer.delay(1.2);				  
 				  boxGraber.spitOut(1);
 				  Timer.delay(1.5);
 				  
@@ -208,7 +176,6 @@ public class Robot extends TimedRobot {
 				  //drop cube
 			  break;
 			  case 2:                       //center position (2) going to left side
-				   // maybe build the spit as a comandGroup Item and call from function
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -239,22 +206,12 @@ public class Robot extends TimedRobot {
 				  //drop cube
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.2);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(3.4);
-				  driveBase.arcadeDrive(-0.65, -0.7);	//90 degree turn
-				  Timer.delay(1.45);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.8);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(2);
-				  driveBase.arcadeDrive(-0.65, -0.7);
-				  Timer.delay(0.65);
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //turn left 90
+				 //drive forward
+				 //drop cube
 			  break;
 			  default: 
 			  break;
@@ -263,38 +220,17 @@ public class Robot extends TimedRobot {
 		else if(gameData.charAt(0) == 'R' && flag){
 		  switch(startPos){
 			  case 0:                       //position 4 (right) going to right side
-				   driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.7);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);	
-				  driveBase.arcadeDrive(-0.65, -0.8);
-				  Timer.delay(0.7);	
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);
-
-				  flag = false;
+				  //drive forward 
+				  //turn right 90
+				  //drive forward 
+				  //drop cube
 				  break;
 			  case 1:                       //position 3 (right) going to right side
-				   driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(2);				  
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);
-				   // maybe build the spit as a comandGroup Item and call from function
-				  boxGraber.spitOut(1);
-				  Timer.delay(1.5);
-			
-				  flag = false;
+				  //drive forward
+				  //drop cube
 				  break;
 			  case 2:                       //center position (2) going to right side
-				  // maybe build the spit as a comandGroup Item and call from function
+				  
 				  driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(1);	
 				  driveBase.tankDrive(-0.6, -0.6);
@@ -325,23 +261,8 @@ public class Robot extends TimedRobot {
 				  
 				  break;
 			  case 3:                       //position 1 (left) going to right side
-				  // maybe build the spit as a comandGroup Item and call from function
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.2);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(3.4);
-				  driveBase.arcadeDrive(-0.65, 0.7);	//90 degree turn
-				  Timer.delay(1.45);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.8);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(2);
-				  driveBase.arcadeDrive(-0.65, 0.7);
-				  Timer.delay(0.65);
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);						  
+				
+				  
 				  
 				  
 				  
@@ -367,7 +288,7 @@ public class Robot extends TimedRobot {
 		
 		
 		//Ensures robot only drives when under operator control 
-		while(isOperatorControl() && isEnabled()){
+		while(isOperatorControl() && isEnabled()) {//&&false){
 			
 			//Exponential Speed Controller
 			//double speedSlider = driverStick.getRawAxis(3) + 2;
@@ -415,7 +336,7 @@ public class Robot extends TimedRobot {
 			
 			if (driverStick.getRawButton(5)){
 				
-				double liftPower = -0.6;  //this value will need to be created from the PID data
+				double liftPower = 0.45;  //this value will hold arm at current weight
 				boxlifter.liftUp(liftPower);
 								
 			}
@@ -434,19 +355,20 @@ public class Robot extends TimedRobot {
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 			
 			
-			System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
-			System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
-			System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
-
-			
-		}
+			}
+		
+		System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
+		System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
+		System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
 	}
 	public void disabledInit(){
 		
 		
 	}
 	public void teleopInit(){
-		
+		RobotIO.getLifter_motor_encoder().reset();
+		RobotIO.getLeft_motor_encoder().reset();
+		RobotIO.getRight_motor_encoder().reset();
 		
 	}
 	public void disabledPeriodic(){
