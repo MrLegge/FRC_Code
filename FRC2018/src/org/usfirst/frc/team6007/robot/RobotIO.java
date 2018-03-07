@@ -14,7 +14,9 @@ public class RobotIO{
 	private AHRS ahrs;
 	public Joystick driverStick;
 	private static AnalogGyro robotLifterGyro;
-	private Encoder right_motor_encoder, left_motor_encoder, lifter_motor_encoder;
+	private static Encoder right_motor_encoder;
+	private static Encoder left_motor_encoder;
+	private static Encoder lifter_motor_encoder;
  	public double currentHeading;
 
 
@@ -94,7 +96,7 @@ public class RobotIO{
 		void	reset() Reset the gyro.
 	  ****************************************************************************************************************/
 	  try {
-		  robotLifterGyro = new AnalogGyro(RobotMap.Analog_PinOut.ROBOT_LIFTER_GYRO);
+		  robotLifterGyro = new AnalogGyro(RobotMap.ROBOT_LIFTER_GYRO);
 		  robotLifterGyro.initGyro();
 		  robotLifterGyro.calibrate();
 		}catch (RuntimeException ex ){
@@ -125,24 +127,24 @@ public class RobotIO{
 	
 	
 	// encoder related methods 
-	public Encoder getLifter_motor_encoder() {
+	public static Encoder getLifter_motor_encoder() {
 		return lifter_motor_encoder;
 	}
 
-	public Encoder getLeft_motor_encoder() {
+	public static Encoder getLeft_motor_encoder() {
 		return left_motor_encoder;
 	}
 
-	public Encoder getRight_motor_encoder() {
+	public static Encoder getRight_motor_encoder() {
 		return right_motor_encoder;
 	}
 	
 	
 	// some methods to help with the general opperation
-	public boolean driveStraight(double distance){
+		public boolean driveStraight(double distance){
 		
-		private int currentLeftTurns = left_motor_encoder.get();
-		private int currentRightTurns = right_motor_encoder.get();
+		int currentLeftTurns = left_motor_encoder.get();
+		int currentRightTurns = right_motor_encoder.get();
 		
 		if(currentLeftTurns != currentRightTurns){
 		
@@ -165,6 +167,7 @@ public class RobotIO{
 		while(currentRightTurns < distance && currentLeftTurns < distance){
 		
 			}
+		return false;
 		
 		}
 
