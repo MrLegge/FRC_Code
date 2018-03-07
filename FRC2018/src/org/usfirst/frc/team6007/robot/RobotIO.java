@@ -17,7 +17,7 @@ public class RobotIO{
 	private static Encoder right_motor_encoder;
 	private static Encoder left_motor_encoder;
 	private static Encoder lifter_motor_encoder;
- 	public double currentHeading;
+ 
 
 
 	public RobotIO(){
@@ -68,19 +68,19 @@ public class RobotIO{
 		Stopped - If the counter is currently stopped (period has exceeded Max Period)
 		****************************************************************************************************************/
 	  try {
-		  right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
+		  right_motor_encoder = new Encoder(RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the right encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  left_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the left encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  lifter_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the lifter encoder:  " + ex.getMessage(), true);
@@ -96,7 +96,7 @@ public class RobotIO{
 		void	reset() Reset the gyro.
 	  ****************************************************************************************************************/
 	  try {
-		  robotLifterGyro = new AnalogGyro(RobotMap.ROBOT_LIFTER_GYRO);
+		  robotLifterGyro = new AnalogGyro(RobotMap.Analog_PinOut.ROBOT_LIFTER_GYRO);
 		  robotLifterGyro.initGyro();
 		  robotLifterGyro.calibrate();
 		}catch (RuntimeException ex ){
@@ -104,7 +104,7 @@ public class RobotIO{
 		}
 	}
 
-	// NavX related methods for data
+
 	public AHRS getAhrs() {
 		return ahrs;
 	}
@@ -113,20 +113,10 @@ public class RobotIO{
 		this.ahrs = ahrs;
 	}
 	
-	public float getRobotHeading(){
-		System.out.print("angle via NavX: ");
-		System.out.println(ahrs.getAngle());
-		return ahrs.getCompassHeading();	
-	}
-	
-	
-	// Gyro related methods
 	public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
 	}
-	
-	
-	// encoder related methods 
+
 	public static Encoder getLifter_motor_encoder() {
 		return lifter_motor_encoder;
 	}
@@ -138,37 +128,5 @@ public class RobotIO{
 	public static Encoder getRight_motor_encoder() {
 		return right_motor_encoder;
 	}
-	
-	
-	// some methods to help with the general opperation
-		public boolean driveStraight(double distance){
-		
-		int currentLeftTurns = left_motor_encoder.get();
-		int currentRightTurns = right_motor_encoder.get();
-		
-		if(currentLeftTurns != currentRightTurns){
-		
-			if(currentLeftTurns > currentRightTurns){
-			
-				System.out.print("left turns is bigger than right  left: ");
-				System.out.print(currentLeftTurns);
-				System.out.print("   right: ");
-				System.out.println(currentRightTurns);
-			}
-		
-			else{
-			
-				System.out.println("");
-				
-			}
-		}
-		
-		
-		while(currentRightTurns < distance && currentLeftTurns < distance){
-		
-			}
-		return false;
-		
-		}
 
-	}
+}
