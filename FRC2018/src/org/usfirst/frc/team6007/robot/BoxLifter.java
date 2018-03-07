@@ -3,7 +3,7 @@ package org.usfirst.frc.team6007.robot;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 //import edu.wpi.first.wpilibj.VictorSP;
-//import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /* this is the declaraion of the class everything must be within these curly braces  */
@@ -17,8 +17,8 @@ public class BoxLifter extends PIDSubsystem{
 	/* select correct controller for robot configuration  */
 	//private VictorSP topLifterMotor;
 	//private VictorSP bottomLifterMotor;
-	//private Spark topLifterMotor;
-	//private Spark bottomLifterMotor;
+	private Spark topLifterMotor;
+	private Spark bottomLifterMotor;
 
 	
 	
@@ -30,10 +30,10 @@ public class BoxLifter extends PIDSubsystem{
 		getPIDController().setContinuous(false);
 		//topLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
 		//bottomLifterMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);
-		//topLifterMotor = new Spark(RobotMap.RIGHT_TOP_LIFTER_MOTOR_ID);
-		//bottomLifterMotor = new Spark(RobotMap.RIGHT_BOTTOM_LIFTER_MOTOR_ID);		
-		//bottomLifterMotor.setInverted(true);
-		lifterBase = RobotMap.lifterBase;
+		topLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_TOP_LIFTER_MOTOR_ID);
+		bottomLifterMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_BOTTOM_LIFTER_MOTOR_ID);		
+		bottomLifterMotor.setInverted(true);
+		lifterBase = new DifferentialDrive(topLifterMotor, bottomLifterMotor);
 		lifterBase.setExpiration(0.1);
 	
 }
@@ -41,7 +41,7 @@ public class BoxLifter extends PIDSubsystem{
 	/* function to pull the power cube into the holder  */
 	public void liftUp(double liftPower){
 
-		lifterBase.arcadeDrive(liftPower, 0);
+		lifterBase.arcadeDrive(-liftPower, 0);
 
 	}
 	
