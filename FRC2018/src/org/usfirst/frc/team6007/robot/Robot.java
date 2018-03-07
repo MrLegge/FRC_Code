@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.CameraServer;
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+//import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
 //import edu.wpi.first.wpilibj.VictorSP;
 
 
@@ -433,11 +433,9 @@ public class Robot extends TimedRobot {
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 			
 			
-			/*System.out.print("encoder Left:  ");
-			System.out.println(right_motor_encoder.getRaw());
-			System.out.print("encoder Right:  ");
-			System.out.println(left_motor_encoder.getRaw());*/
-			System.out.println("encoder Lifter:  "+ lifter_motor_encoder.getDistance());
+			System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
+			System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
+			System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
 
 			
 		}
