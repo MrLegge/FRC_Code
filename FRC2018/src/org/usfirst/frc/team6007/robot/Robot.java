@@ -40,7 +40,8 @@ public class Robot extends TimedRobot {
 	
 	
 	public Robot(){
-		/*Defines driverStick variable, can be used for extra driverSticks*/
+		/*Defines base variable, can be used for extra methods*/
+		RobotMap.robotInit();
 		driverStick = new Joystick(0);
 		boxGraber = new BoxGrabber();
 		boxlifter = new BoxLifter();
