@@ -3,7 +3,7 @@ package org.usfirst.frc.team6007.robot;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 //import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /* this is the declaraion of the class everything must be within these curly braces  */
