@@ -4,7 +4,7 @@ package org.usfirst.frc.team6007.robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 //import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 // this is the declaraion of the class everything must be within these curly braces
@@ -15,8 +15,8 @@ public class BoxGrabber extends Subsystem{
 	/* motor controllers*/
 	//private VictorSP leftGrabberMotor;
 	//private VictorSP rightGrabberMotor;
-	private Spark leftGrabberMotor;
-	private Spark rightGrabberMotor;
+	//private Spark leftGrabberMotor;
+//	private Spark rightGrabberMotor;
 
 	
 	
