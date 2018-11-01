@@ -3,10 +3,10 @@ https://guides.github.com/activities/forking/
 https://guides.github.com/introduction/flow/
 
 
-drive control --->   we have Joystick lets add Gamepad
+drive control --->   we have Joystick lets add Gamepad (Anke and Nat)
 
-drive dtation GUI interface new class RobotGUI.java ---> input/output
+drive dtation GUI interface new class RobotGUI.java ---> input/output   (Daniel)
 
-Navigation with sensors ----> NavX & Encoders 
+Navigation with sensors ----> NavX & Encoders (Hayley)
 
-What design approach? (Ebony?) OOP ---> 
+What design approach? (Ebony?) OOP ---> (Ebony)
