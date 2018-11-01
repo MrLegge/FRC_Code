@@ -1,3 +1,8 @@
+/***********************************************************
+* this is just the copy of 2018 
+* Date: 1-11-2018
+************************************************************/
+
 package org.usfirst.frc.team6007.robot;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into 
