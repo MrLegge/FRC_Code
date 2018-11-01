@@ -9,4 +9,4 @@ drive dtation GUI interface new class RobotGUI.java ---> input/output   (Daniel)
 
 Navigation with sensors ----> NavX & Encoders (Hayley)
 
-What design approach? (Ebony?) OOP ---> (Ebony)
+What design approach? (Subsystem/Command) OOP ---> (Ebony)
