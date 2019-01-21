@@ -9,4 +9,7 @@ drive dtation GUI interface new class RobotGUI.java ---> input/output   (Daniel)
 
 Navigation with sensors ----> NavX & Encoders (Hayley)
 
+Something that might be useful with the arm controls --> 
+https://wpilib.screenstepslive.com/s/currentCS/m/java/l/599709-switches-using-limit-switches-to-control-behavior
+
 What design approach? (Subsystem/Command) OOP ---> (Ebony)
