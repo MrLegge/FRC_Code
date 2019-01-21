@@ -25,19 +25,26 @@ import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID;
+
 //import edu.wpi.first.wpilibj.VictorSP;
 
 
 public class Robot extends TimedRobot {
 	
 	public Joystick driverStick;
+	public Joystick xBox;
 	public DifferentialDrive driveBase;
 	private String gameData;
 	private int startPos;
 	public BoxGrabber boxGraber;
 	public BoxLifter boxlifter;
 	public RobotIO robotIO;
+	public HatchDelivery hatchDelivery;
+	public BallDelivery ballDelivery;
 	boolean flag = true;
+	boolean selectionIsJoyStick= true;
 
 	
 	
@@ -45,6 +52,7 @@ public class Robot extends TimedRobot {
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
+		xBox = new XboxController(1);
 		boxGraber = new BoxGrabber();
 		boxlifter = new BoxLifter();
 		robotIO = new RobotIO(); 
@@ -315,7 +323,21 @@ public class Robot extends TimedRobot {
 				
 			}
 
-
+			if (xbox.getBumper(GenericHID.Hand kLeft)){
+				
+				hatchDelivery // grab
+				
+					//double intakePower = -0.7;
+				//boxGraber.suckIn(intakePower);
+			}
+			
+			if (xbox.getBumper(GenericHID.Hand kRight)){
+				hatchDelivery //release
+				
+				//double outputPower = 1;
+				//boxGraber.spitOut(outputPower);
+			}
+				
 			if (driverStick.getRawButton(3)){
 				
 				double intakePower = -0.7;  //this value will need to be created from the PID data
