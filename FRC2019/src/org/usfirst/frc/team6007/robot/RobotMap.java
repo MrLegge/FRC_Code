@@ -29,14 +29,10 @@ package org.usfirst.frc.team6007.robot;
 		final static int RIGHT_GRABBER_MOTOR_ID = 7;
 	}
 	public class DIO_PinOut{
-		final static int RIGHT_MOTOR_ENCODER_A_CHANNEL = 0;
-		final static int RIGHT_MOTOR_ENCODER_B_CHANNEL = 1;
-		
-		final static int LEFT_MOTOR_ENCODER_A_CHANNEL = 2;
-		final static int LEFT_MOTOR_ENCODER_B_CHANNEL = 3;
-		
-		final static int LIFTER_MOTOR_ENCODER_A_CHANNEL = 4;
-		final static int LIFTER_MOTOR_ENCODER_B_CHANNEL = 5;
+		final static int HOME_HATCH_SWITCH = 0;
+		final static int LOWER_HATCH_SWITCH = 1;
+		final static int HOME_BALL_SWITCH = 2;
+		final static int LOWER_BALL_SWITCH = 3;
 	}	
 	public class Analog_PinOut{
 		final static int ROBOT_LIFTER_GYRO = 0;
