@@ -12,21 +12,30 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class RobotIO{
   
 	private AHRS ahrs;
 	public Joystick driverStick;
-	private static AnalogGyro robotLifterGyro;
-	private static Encoder right_motor_encoder;
-	private static Encoder left_motor_encoder;
-	private static Encoder lifter_motor_encoder;
+	//private static HatchDelivery hatchDelivery;
+	private Potentiometer hatchPotentiometer;
+	private Potentiometer ballPotentiometer;
+	private DigitalInput homeHatchSwitch;
+	private DigitalInput lowerHatchSwitch;
+	private DigitalInput homeBallSwitch;
+	private DigitalInput lowerBallSwitch;
+	//private static Encoder lifter_motor_encoder;
  
 
 
 	public RobotIO(){
 	
+		homeHatchSwitch = new DigitalInput(RobotMap.HOME_HATCH_SWITCH);
+		lowerHatchSwitch = new DigitalInput(RobotMap.LOWER_HATCH_SWITCH);
+		homeBallSwitch = new DigitalInput(RobotMap.HOME_BALLSWITCH);
+		lowerBallSwitch = new DigitalInput(RobotMap.LOWER_BALL_SWITCH);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
 		AHRS ahrs = new AHRS(SPI.Port.kMXP); 
