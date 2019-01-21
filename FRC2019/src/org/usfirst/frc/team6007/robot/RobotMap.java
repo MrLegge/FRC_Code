@@ -41,4 +41,8 @@ package org.usfirst.frc.team6007.robot;
 	public class Analog_PinOut{
 		final static int ROBOT_LIFTER_GYRO = 0;
 	}
+	public class MyJoystick{
+		final static int JOYSTICK_PORT = 1;
+		final static int XBOXCONTROLLER_PORT = 2;
+	}
 }	
