@@ -1,4 +1,4 @@
-Please read these two guides:
+Please read these three guides:
 https://guides.github.com/activities/forking/
 https://guides.github.com/introduction/flow/
 https://help.github.com/articles/fork-a-repo/    ----->  this is how you can keep your version of my code synchronised with the current code 
