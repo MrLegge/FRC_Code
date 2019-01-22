@@ -21,11 +21,11 @@ public class RobotIO{
 	public Joystick driverStick;
 	//private static HatchDelivery hatchDelivery;
 	private Potentiometer hatchPotentiometer;
-	private Potentiometer ballPotentiometer;
+	private Potentiometer cargoPotentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	private DigitalInput homeBallSwitch;
-	private DigitalInput lowerBallSwitch;
+	private DigitalInput homeCargoSwitch;
+	private DigitalInput lowerCargoSwitch;
 	//private static Encoder lifter_motor_encoder;
  
 
@@ -34,8 +34,8 @@ public class RobotIO{
 	
 		homeHatchSwitch = new DigitalInput(RobotMap.HOME_HATCH_SWITCH);
 		lowerHatchSwitch = new DigitalInput(RobotMap.LOWER_HATCH_SWITCH);
-		homeBallSwitch = new DigitalInput(RobotMap.HOME_BALLSWITCH);
-		lowerBallSwitch = new DigitalInput(RobotMap.LOWER_BALL_SWITCH);
+		homeCargoSwitch = new DigitalInput(RobotMap.HOME_CARGO_SWITCH);
+		lowerCargoSwitch = new DigitalInput(RobotMap.LOWER_CARGO_SWITCH);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
