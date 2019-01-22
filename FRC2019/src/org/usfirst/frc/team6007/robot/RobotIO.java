@@ -143,11 +143,11 @@ public class RobotIO{
 	
 	}
 	
-	public static bool cargoSwitchAtFloor() {
-	return !cargoSwitchAtFloor.get();	
+	/*public static bool cargoSwitchDelivery() {
+	return !cargoSwitchDelivery.get();	
 	
 	
-	}
+	}*/
 	
 	public static bool cargoSwitchAtHome() {
 		return !cargoSwitchAtHome.get();
