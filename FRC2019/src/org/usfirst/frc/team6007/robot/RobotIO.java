@@ -36,6 +36,7 @@ public class RobotIO{
 		lowerHatchSwitch = new DigitalInput(RobotMap.LOWER_HATCH_SWITCH);
 		homeBallSwitch = new DigitalInput(RobotMap.HOME_BALLSWITCH);
 		lowerBallSwitch = new DigitalInput(RobotMap.LOWER_BALL_SWITCH);
+		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
 		AHRS ahrs = new AHRS(SPI.Port.kMXP); 
@@ -127,7 +128,26 @@ public class RobotIO{
 		this.ahrs = ahrs;
 	}
 	
-	public static double getRobotLifterGyroAngle() {
+	public static bool hatchSwitchAtFloor() {
+	return !hatchSwitchAtFloor.get();
+	}
+	
+	public static bool hatchSwitchAtHome() {
+	return !hatchSwitchAtHome.get();
+	
+	}
+	
+	public static bool hatchSwitchAtLower() {
+	return !hatchSwitchAtLower.get();
+	
+	
+	}
+
+
+	
+	
+	
+	/*public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
 	}
 
@@ -141,6 +161,6 @@ public class RobotIO{
 
 	public static Encoder getRight_motor_encoder() {
 		return right_motor_encoder;
-	}
+	}*/
 
 }
