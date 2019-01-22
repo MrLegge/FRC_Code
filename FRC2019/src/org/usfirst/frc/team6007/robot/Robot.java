@@ -42,9 +42,15 @@ public class Robot extends TimedRobot {
 	public BoxLifter boxlifter;
 	public RobotIO robotIO;
 	public HatchDelivery hatchDelivery;
-	public BallDelivery ballDelivery;
+	public HatchIntake hatchIntake;
+	public CargoDelivery cargoDelivery;
+	public CargoIntake cargoIntake;
 	boolean flag = true;
 	boolean selectionIsJoyStick= true;
+	private double speedModifierX;
+	private double speedModifierY;
+	private double xboxSpeedModifierX;
+	private double xboxSpeedModifierY;
 
 	
 	
@@ -59,7 +65,11 @@ public class Robot extends TimedRobot {
 		
 		//ADD OPTIONS FOR AUTONOMOUS 
 		startPos = 3;
-				
+		
+		speedModifierX = 1.0;
+		speedModifierY = -1.0;
+		xboxSpeedModifierX = 0.1;
+		xboxSpeedModifierY = 0.1;		
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
 		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
@@ -130,165 +140,7 @@ public class Robot extends TimedRobot {
 
 		
 	public void autonomousPeriodic(){
-		//Disables the setExpiration to stop robot stopping
-		driveBase.setSafetyEnabled(false);
 		
-		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
-		driveBase.setInvertedMotor(MotorType.kRearRight, true);
-		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
-		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
-		
-		
-		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
-		driveBase.setInvertedMotor(MotorType.kRearRight, true);
-		driveBase.setInvertedMotor(MotorType.kFrontLeft, true);
-		driveBase.setInvertedMotor(MotorType.kRearLeft, true);*/
-		
-		
-		
-		
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		gameData = "RRR";
-		if(gameData.charAt(0) == 'L' && flag)
-		{
-		  switch(startPos){
-			  case 0:                       //position 1 (left) going to left side
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.7);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);	
-				  driveBase.arcadeDrive(-0.65, 0.8);
-				  Timer.delay(0.7);				  
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);
-
-				  flag = false;
-			  break;
-			  case 1:                       //position 1 (left) going to left side
-				  							//very good
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(2);				  
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);				  
-				  boxGraber.spitOut(1);
-				  Timer.delay(1.5);
-				  
-				  flag = false;
-				  //drive forward
-				  //drop cube
-			  break;
-			  case 2:                       //center position (2) going to left side
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.7);
-				  driveBase.tankDrive(-0.65, 0.65);
-				  Timer.delay(0.73);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.9);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.1);
-				  driveBase.tankDrive(0.7, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(2.5);
-				  driveBase.tankDrive(0.65, -0.65);
-				  Timer.delay(1.4);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.42);
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);
-				  
-				  flag = false;
-				  //drive forward
-				  //turn 45
-				  //drive forward
-				  //drop cube
-			  break;
-			  case 3:                       //position 3 (right) going to left side
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //drop cube
-			  break;
-			  default: 
-			  break;
-		  }
-		} 
-		else if(gameData.charAt(0) == 'R' && flag){
-		  switch(startPos){
-			  case 0:                       //position 4 (right) going to right side
-				  //drive forward 
-				  //turn right 90
-				  //drive forward 
-				  //drop cube
-				  break;
-			  case 1:                       //position 3 (right) going to right side
-				  //drive forward
-				  //drop cube
-				  break;
-			  case 2:                       //center position (2) going to right side
-				  
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.4);	
-				  driveBase.arcadeDrive(-0.7, 0.8);
-				  Timer.delay(0.7);				  			  
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.arcadeDrive(-0.7, -0.8);
-				  Timer.delay(0.85);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(2.4);
-				  driveBase.tankDrive(0, 0);
-				  Timer.delay(0.1);
-				  driveBase.tankDrive(-0.65, 0.65);
-				  Timer.delay(1.35);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.3);
-				  boxGraber.spitOut(0.5);				  
-				  Timer.delay(1.5);
-
-				  
-				  flag = false;
-				  
-				  break;
-			  case 3:                       //position 1 (left) going to right side
-				
-				  
-				  
-				  
-				  
-				  
-				  flag = false;
-
-				 break;
-			  
-			  default: 
-				  //driveBase.drive(0.0,0);
-				// Timer.delay(1.0);
-				//  driveBase.drive(0, 0);
-				  break;
-			}
-		}
-		driveBase.setSafetyEnabled(true);
 	}
 	
 	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
@@ -305,8 +157,7 @@ public class Robot extends TimedRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			
-			double speedModifierX = 1.0; //changed to -ve to invert the twist turn
-			double speedModifierY = -1.0;
+			
 
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
@@ -322,6 +173,10 @@ public class Robot extends TimedRobot {
 				//limitedJoystick is the rate-limited joystick value you use to control your motors.
 				
 			}
+			
+			
+			
+			
 
 			if (xbox.getBumper(GenericHID.Hand kLeft)){
 				
@@ -337,31 +192,40 @@ public class Robot extends TimedRobot {
 				//double outputPower = 1;
 				//boxGraber.spitOut(outputPower);
 			}
+			
+			if (xbox.getTriggerAxis(GenericHID.Hand kRight)&&xboxSpeedModifierX >= 1.0){
+			xboxSpeedModifierX = xboxSpeedModifierX + 0.1;
+			//accelorate
+			}
+			
+			if (xbox.getTriggerAxis(GenericHID.Hand kLeft)&&xboxSpeedModifierX <= -1.0){
+			xboxSpeedModifierX = xboxSpeedModifierX - 0.1;
+			//brake
+			}
+			
+			if (xbox.getJoystick( kLeft.getY()>0)){
+			//turning
+			driveBase.curvatureDrive(xboxSpeedModifierX, -1.0,true);
+			}
+			if (xbox.getJoystick( kLeft.getY()<0)){
+			//turning
+			driveBase.curvatureDrive(xboxSpeedModifierX, 1.0,true);
+			}
+			if (xbox.getJoystick(GenericHID.Hand kRight)){
+			//arm movement
+			}
+			
+			
+			
+			
 				
 			if (driverStick.getRawButton(3)){
 				
-				double intakePower = -0.7;  //this value will need to be created from the PID data
-				boxGraber.suckIn(intakePower);
+			// stub left as example when setting buttons
 				
 			}
 			
-			if (driverStick.getRawButton(11)){
-				
-				double outputPower = 1;  //this value will need to be created from the PID data
-				boxGraber.spitOut(outputPower);
-				
-			}
 			
-			if (driverStick.getRawButton(2)){
-				
-				boxGraber.shuffle();
-				
-			}
-			
-			if (driverStick.getRawButton(5)){
-				
-				double liftPower = 0.45;  //this value will hold arm at current weight
-				boxlifter.liftUp(liftPower);
 								
 			}
 			
@@ -379,7 +243,7 @@ public class Robot extends TimedRobot {
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 			
 			
-			}
+			
 		
 		System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
 		System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
