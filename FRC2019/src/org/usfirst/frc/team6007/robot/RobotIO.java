@@ -129,18 +129,33 @@ public class RobotIO{
 	}
 	
 	public static bool hatchSwitchAtFloor() {
-	return !hatchSwitchAtFloor.get();
+		return !hatchSwitchAtFloor.get();
 	}
 	
 	public static bool hatchSwitchAtHome() {
-	return !hatchSwitchAtHome.get();
+		return !hatchSwitchAtHome.get();
 	
 	}
 	
 	public static bool hatchSwitchAtLower() {
-	return !hatchSwitchAtLower.get();
+		return !hatchSwitchAtLower.get();
 	
 	
+	}
+	
+	public static bool cargoSwitchAtFloor() {
+	return !cargoSwitchAtFloor.get();	
+	
+	
+	}
+	
+	public static bool cargoSwitchAtHome() {
+		return !cargoSwitchAtHome.get();
+	}
+	
+	
+	public static bool cargoSwitchIntake() {
+		return !cargoSwitchIntake.get()
 	}
 
 
