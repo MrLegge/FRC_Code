@@ -16,18 +16,18 @@ public class CargoDelivery{
     	}
 	
 	public void cargoIntake(){
-		while(robotIO.?reedSwitch?.get()){
+		while(robotIO.LowerBallSwitch.get()){
 		
 		}
 	}
 	
   	public void cargoLoad(){
-		while(robotIO.?poteniometervalue?.get >= ?value? && robotIO.?poteniometervalue?.get <= ?value?){
+		while(robotIO.ballPotentiometer.get >= ?value? && robotIO.ballPotentiometer.get <= ?value?){
 		}
 	}
 	
 	public void loaderToHome(){
-		while(robotIO.?reedSwitch?.get()){
+		while(robotIO.homeBallSwitch.get()){
 		
 		}
 	}
