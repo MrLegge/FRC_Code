@@ -16,7 +16,7 @@ public class CargoDelivery{
     	}
 	
 	public void cargoIntake(){
-		while(robotIO.LowerBallSwitch.get()){
+		while(robotIO.LowerCargoSwitch.get()){
 		
 		}
 	}
@@ -27,7 +27,7 @@ public class CargoDelivery{
 	}
 	
 	public void loaderToHome(){
-		while(robotIO.homeBallSwitch.get()){
+		while(robotIO.homeCargoSwitch.get()){
 		
 		}
 	}
