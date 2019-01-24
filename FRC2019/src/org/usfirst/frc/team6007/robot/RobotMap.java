@@ -3,7 +3,7 @@
 * Date: 1-11-2018
 ************************************************************/
 
-package org.usfirst.frc.team6007.robot;
+package frc.robot;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into 
  * to a variable name. This provides flexibility changing wiring, makes checking 
@@ -27,6 +27,8 @@ package org.usfirst.frc.team6007.robot;
 		
 		final static int LEFT_GRABBER_MOTOR_ID = 6;
 		final static int RIGHT_GRABBER_MOTOR_ID = 7;
+
+		final static int RIGHT_HATCH_MOTOR_ID = 8;
 	}
 	public class DIO_PinOut{
 		final static int HOME_HATCH_SWITCH = 0;
