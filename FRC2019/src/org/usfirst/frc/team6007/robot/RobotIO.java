@@ -3,16 +3,18 @@
 * Date: 1-11-2018
 ************************************************************/
 
-package org.usfirst.frc.team6007.robot;
+package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+
 
 
 public class RobotIO{
@@ -20,22 +22,22 @@ public class RobotIO{
 	private AHRS ahrs;
 	public Joystick driverStick;
 	//private static HatchDelivery hatchDelivery;
-	private Potentiometer hatchPotentiometer;
-	private Potentiometer cargoPotentiometer;
+	private AnalogPotentiometer hatchPotentiometer;
+	private AnalogPotentiometer cargoPotentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	private DigitalInput homeCargoSwitch;
-	private DigitalInput lowerCargoSwitch;
+	private DigitalInput cargoSwitchAtHome;
+	private DigitalInput cargoSwitchIntake;
 	//private static Encoder lifter_motor_encoder;
- 
-
+	private static Encoder right_motor_encoder; 
+	private static Encoder left_motor_encoder;
 
 	public RobotIO(){
 	
-		homeHatchSwitch = new DigitalInput(RobotMap.HOME_HATCH_SWITCH);
-		lowerHatchSwitch = new DigitalInput(RobotMap.LOWER_HATCH_SWITCH);
-		homeCargoSwitch = new DigitalInput(RobotMap.HOME_CARGO_SWITCH);
-		lowerCargoSwitch = new DigitalInput(RobotMap.LOWER_CARGO_SWITCH);
+		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
+		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
+		cargoSwitchAtHome = new DigitalInput(RobotMap.DIO_PinOut.HOME_CARGO_SWITCH);
+		cargoSwitchIntake = new DigitalInput(RobotMap.DIO_PinOut.LOWER_CARGO_SWITCH);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
@@ -82,24 +84,6 @@ public class RobotIO{
 		Direction - The direction of the last value change (true for Up, false for Down)
 		Stopped - If the counter is currently stopped (period has exceeded Max Period)
 		****************************************************************************************************************/
-	  try {
-		  right_motor_encoder = new Encoder(RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
-		  }
-	  catch (RuntimeException ex ){
-		  DriverStation.reportError("Error instantiating the right encoder:  " + ex.getMessage(), true);
-		  }
-	  try {
-		  left_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
-		  }
-	  catch (RuntimeException ex ){
-		  DriverStation.reportError("Error instantiating the left encoder:  " + ex.getMessage(), true);
-		  }
-	  try {
-		  lifter_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
-		  }
-	  catch (RuntimeException ex ){
-		  DriverStation.reportError("Error instantiating the lifter encoder:  " + ex.getMessage(), true);
-		  }
 	  
 		/***************************************************************************************************************
 		* these are the base functions to bring the gyro data in *
@@ -110,13 +94,7 @@ public class RobotIO{
 		void	initGyro() Initialize the gyro.
 		void	reset() Reset the gyro.
 	  ****************************************************************************************************************/
-	  try {
-		  robotLifterGyro = new AnalogGyro(RobotMap.Analog_PinOut.ROBOT_LIFTER_GYRO);
-		  robotLifterGyro.initGyro();
-		  robotLifterGyro.calibrate();
-		}catch (RuntimeException ex ){
-		  DriverStation.reportError("Error instantiating the lifter gyro:  " + ex.getMessage(), true);
-		}
+	 
 	}
 
 
@@ -128,54 +106,44 @@ public class RobotIO{
 		this.ahrs = ahrs;
 	}
 	
-	public static bool hatchSwitchAtFloor() {
-		return !hatchSwitchAtFloor.get();
+	public boolean hatchSwitchAtLower() {
+		return lowerHatchSwitch.get();
 	}
 	
-	public static bool hatchSwitchAtHome() {
-		return !hatchSwitchAtHome.get();
-	
-	}
-	
-	public static bool hatchSwitchAtLower() {
-		return !hatchSwitchAtLower.get();
-	
+	public boolean hatchSwitchAtHome() {
+		return homeHatchSwitch.get();
 	
 	}
 	
-	/*public static bool cargoSwitchDelivery() {
-	return !cargoSwitchDelivery.get();	
-	
-	
-	}*/
-	
-	public static bool cargoSwitchAtHome() {
-		return !cargoSwitchAtHome.get();
+	public boolean cargoSwitchAtHome() {
+		return cargoSwitchAtHome.get();
 	}
 	
 	
-	public static bool cargoSwitchIntake() {
-		return !cargoSwitchIntake.get()
+	public boolean cargoSwitchIntake() {
+		return cargoSwitchIntake.get();
 	}
 
-
+	public double getCurrentLiftDistance(){
+		return hatchPotentiometer.get();
+	}
 	
 	
-	
-	/*public static double getRobotLifterGyroAngle() {
+/*	
+public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
 	}
-
+	
 	public static Encoder getLifter_motor_encoder() {
 		return lifter_motor_encoder;
 	}
-
+*/
 	public static Encoder getLeft_motor_encoder() {
 		return left_motor_encoder;
 	}
 
 	public static Encoder getRight_motor_encoder() {
 		return right_motor_encoder;
-	}*/
+	}
 
 }
