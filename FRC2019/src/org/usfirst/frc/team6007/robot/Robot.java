@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 
 //import edu.wpi.first.wpilibj.VictorSP;
 
-
 public class Robot extends TimedRobot {
 	
 	public Joystick driverStick;
@@ -50,8 +49,6 @@ public class Robot extends TimedRobot {
 	private double speedModifierY;
 	private double xboxSpeedModifierX;
 	private double xboxSpeedModifierY;
-	
-	
 	
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
@@ -114,7 +111,7 @@ public class Robot extends TimedRobot {
 		//motor_rearRight.enableDeadbandElimination(true);
 		
 		
-	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************
+	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
 		 new Thread(() -> {
                 UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
                 camera.setResolution(640, 480);
@@ -133,7 +130,6 @@ public class Robot extends TimedRobot {
             }).start();
 	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
-
 		
 	public void autonomousPeriodic(){
 		
@@ -141,9 +137,6 @@ public class Robot extends TimedRobot {
 	
 	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
 		driveBase.setSafetyEnabled(true);
-
-			  
-		
 		
 		//Ensures robot only drives when under operator control 
 		while(isOperatorControl() && isEnabled()) {//&&false){
@@ -152,9 +145,6 @@ public class Robot extends TimedRobot {
 			//double speedSlider = driverStick.getRawAxis(3) + 2;
 			
 			// X-axis for turning , Y-axis for forward/back  
-			
-			
-
 			//Sets speed to half when side button is held, for fine control
 			if(driverStick.getRawButton(1)){
 				speedModifierX = -driverStick.getRawAxis(3);
@@ -169,9 +159,6 @@ public class Robot extends TimedRobot {
 				//limitedJoystick is the rate-limited joystick value you use to control your motors.
 				
 			}
-			
-			
-			
 			
 /*
 			if (xbox.getBumper(GenericHID.Hand kLeft)){
@@ -211,18 +198,13 @@ public class Robot extends TimedRobot {
 			//arm movement
 			}
 	*/		
-			
-			
-			
-				
+					
 			if (driverStick.getRawButton(3)){
 				
 			// stub left as example when setting buttons
 				
 			}
 			
-			
-								
 			}
 			
 			if (driverStick.getRawButton(6)){
@@ -237,24 +219,23 @@ public class Robot extends TimedRobot {
 			driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
-			
-			
-			
 		
-		System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
-		System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
+		//System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
+		//System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
 		//System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
 	}
+	
 	public void disabledInit(){
-		
-		
-	}
+	
+		}
+	
 	public void teleopInit(){
 		//RobotIO.getLifter_motor_encoder().reset();
 		RobotIO.getLeft_motor_encoder().reset();
 		RobotIO.getRight_motor_encoder().reset();
 		
 	}
+	
 	public void disabledPeriodic(){
 		
 		
@@ -269,6 +250,5 @@ public class Robot extends TimedRobot {
 	LiveWindow.run();
 		
 	}
-	
 	
 }
