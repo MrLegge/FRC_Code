@@ -3,36 +3,37 @@
 *This things gets data from the dashboard and sends 
 *data to the dashboard
 ****************************************************/
-package org.usfirst.frc.team6007.robot;
+package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class RobotGUI{
 //variable spot?
-
-
+private String CaseFive;
+private String Case0;
+private String ThereIsNothingThere;
 	public RobotGUI(){
 	//the something goes here?
 	
 	}
 		
-	public int getData(){
+	public String getData(){
 		
-		return startPos = SmartDashboard.getString("DB/String 0", "There is nothing there");
+		return SmartDashboard.getString(Case0, ThereIsNothingThere);
 		
 		//gets data from the dashboard, 
 		//if there is nothing there it gives the defult data
 			
 	}
 	
-	public int sendData(){
+	public void sendData(){
 		
-		SmartDashboardputNumber("DB/String 5", "420");
+		SmartDashboard.putNumber(CaseFive, 420);
 		//sends data to the dashboard
 			
 	}
 	
-	public bool switchController(){
+	public boolean switchController(){
 		
 		return SmartDashboard.putBoolean("DB/Button 0", false);
 		//if return is true, the Xbox controller is used, if false joystick is used
