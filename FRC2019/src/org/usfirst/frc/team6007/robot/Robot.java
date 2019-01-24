@@ -2,7 +2,7 @@
 * this is just the copy of 2018 
 * Date: 1-11-2018
 ************************************************************/
-package org.usfirst.frc.team6007.robot;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -34,24 +34,22 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class Robot extends TimedRobot {
 	
 	public Joystick driverStick;
-	public Joystick xBox;
+	public XboxController xBox;
 	public DifferentialDrive driveBase;
 	private String gameData;
 	private int startPos;
-	public BoxGrabber boxGraber;
-	public BoxLifter boxlifter;
 	public RobotIO robotIO;
+	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
-	public HatchIntake hatchIntake;
+	//public HatchIntake hatchIntake;
 	public CargoDelivery cargoDelivery;
-	public CargoIntake cargoIntake;
+	//public CargoIntake cargoIntake;
 	boolean flag = true;
 	boolean selectionIsJoyStick= true;
 	private double speedModifierX;
 	private double speedModifierY;
 	private double xboxSpeedModifierX;
 	private double xboxSpeedModifierY;
-
 	
 	
 	
@@ -59,10 +57,8 @@ public class Robot extends TimedRobot {
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
 		xBox = new XboxController(1);
-		boxGraber = new BoxGrabber();
-		boxlifter = new BoxLifter();
 		robotIO = new RobotIO(); 
-		
+		robotGUI = new RobotGUI();
 		//ADD OPTIONS FOR AUTONOMOUS 
 		startPos = 3;
 		
@@ -177,17 +173,17 @@ public class Robot extends TimedRobot {
 			
 			
 			
-
+/*
 			if (xbox.getBumper(GenericHID.Hand kLeft)){
 				
-				hatchDelivery // grab
+				// // grab
 				
 					//double intakePower = -0.7;
 				//boxGraber.suckIn(intakePower);
 			}
 			
 			if (xbox.getBumper(GenericHID.Hand kRight)){
-				hatchDelivery //release
+				//hatchDelivery //release
 				
 				//double outputPower = 1;
 				//boxGraber.spitOut(outputPower);
@@ -214,7 +210,7 @@ public class Robot extends TimedRobot {
 			if (xbox.getJoystick(GenericHID.Hand kRight)){
 			//arm movement
 			}
-			
+	*/		
 			
 			
 			
@@ -232,7 +228,7 @@ public class Robot extends TimedRobot {
 			if (driverStick.getRawButton(6)){
 				
 				double lowerPower = 0.5;  //this value will need to be created from the PID data
-				boxlifter.placeDown(lowerPower);
+					hatchDelivery.retriveHatchFromFloor(lowerPower);
 				
 			}	
 			
@@ -247,14 +243,14 @@ public class Robot extends TimedRobot {
 		
 		System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
 		System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
-		System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
+		//System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
 	}
 	public void disabledInit(){
 		
 		
 	}
 	public void teleopInit(){
-		RobotIO.getLifter_motor_encoder().reset();
+		//RobotIO.getLifter_motor_encoder().reset();
 		RobotIO.getLeft_motor_encoder().reset();
 		RobotIO.getRight_motor_encoder().reset();
 		
