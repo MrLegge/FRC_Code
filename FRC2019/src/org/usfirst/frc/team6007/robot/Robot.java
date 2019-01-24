@@ -1,6 +1,7 @@
 /***********************************************************
 * this is just the copy of 2018 
 * Date: 1-11-2018
+* Changed for 2019
 ************************************************************/
 package frc.robot;
 
@@ -24,11 +25,11 @@ import edu.wpi.first.wpilibj.Timer;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID;
 
-//import edu.wpi.first.wpilibj.VictorSP;
+//import edu.wpi.first.wpilibj.Spark;
 
 public class Robot extends TimedRobot {
 	
@@ -36,14 +37,12 @@ public class Robot extends TimedRobot {
 	public XboxController xBox;
 	public DifferentialDrive driveBase;
 	private String gameData;
-	private int startPos;
 	public RobotIO robotIO;
 	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
 	//public HatchIntake hatchIntake;
 	public CargoDelivery cargoDelivery;
 	//public CargoIntake cargoIntake;
-	boolean flag = true;
 	boolean selectionIsJoyStick= true;
 	private double speedModifierX;
 	private double speedModifierY;
@@ -56,8 +55,7 @@ public class Robot extends TimedRobot {
 		xBox = new XboxController(1);
 		robotIO = new RobotIO(); 
 		robotGUI = new RobotGUI();
-		//ADD OPTIONS FOR AUTONOMOUS 
-		startPos = 3;
+
 		
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
@@ -65,16 +63,16 @@ public class Robot extends TimedRobot {
 		xboxSpeedModifierY = 0.1;		
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
-		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
-		Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
-		Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
-		Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
+		//Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		//Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		//Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		//Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
 		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
-		//VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
-		//VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
-		//VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
-		//VictorSP motor_rearRight = new VictorSP(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
+		VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
+		VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
+		VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
+		VictorSP motor_rearRight = new VictorSP(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
 
 		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
@@ -88,24 +86,9 @@ public class Robot extends TimedRobot {
 	
 	public void robotInit(){
 		
-		/****seting encoder parameters*********************check against standards b4 use**/
-	/*	right_motor_encoder.setMaxPeriod(.1);
-		right_motor_encoder.setMinRate(10);
-		right_motor_encoder.setDistancePerPulse(5);
-		right_motor_encoder.setSamplesToAverage(7);
-		
-		left_motor_encoder.setMaxPeriod(.1);
-		left_motor_encoder.setMinRate(10);
-		left_motor_encoder.setDistancePerPulse(5);
-		left_motor_encoder.setSamplesToAverage(7);
-		
-		lifter_motor_encoder.setMaxPeriod(.1);
-		lifter_motor_encoder.setMinRate(10);
-		lifter_motor_encoder.setDistancePerPulse(5);
-		lifter_motor_encoder.setSamplesToAverage(7);*/
-		
+				
 		/****remove deadband from the speed controllers on driveBase*****Check effects b4 blind use*****/
-	//	motor_frontLeft.enableDeadbandElimination(true);
+	        //motor_frontLeft.enableDeadbandElimination(true);
 		//motor_rearLeft.enableDeadbandElimination(true);
 		//motor_frontRight.enableDeadbandElimination(true);
 		//motor_rearRight.enableDeadbandElimination(true);
@@ -220,19 +203,14 @@ public class Robot extends TimedRobot {
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 		
-		//System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
-		//System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
-		//System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
 	}
 	
 	public void disabledInit(){
 	
-		}
+	}
 	
 	public void teleopInit(){
-		//RobotIO.getLifter_motor_encoder().reset();
-		RobotIO.getLeft_motor_encoder().reset();
-		RobotIO.getRight_motor_encoder().reset();
+	
 		
 	}
 	
