@@ -1,9 +1,11 @@
-package org.usfirst.frc.team6007.robot;
+package frc.robot;
 
 //i couldnt find the library because im a chungus
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Compressor;
 
-public class PneumaticDelivery extends Subsystem{
+public class PneumaticDelivery{
   //i dont know if anything extra goes here
   private Solenoid leftPneumatic;
   private Solenoid middlePneumatic;
@@ -12,32 +14,32 @@ public class PneumaticDelivery extends Subsystem{
   
   public PneumaticDelivery(){
 	//does that thing and get the ports from robotMAP
-    Solenoid leftPneumatic = new Solenoid(LEFT_SOLENOID_ID);
-    Solenoid middlePneumatic = new Solenoid(MIDDLE_SOLENOID_ID);
-    Solenoid rightPneumatic = new Solenoid(RIGHT_SOLENOID_ID);
-    Compressor compressor = new Compressor(COMPRESSOR_ID);
-  }
+    leftPneumatic = new Solenoid(1);
+    middlePneumatic = new Solenoid(2);
+    rightPneumatic = new Solenoid(3);
+    compressor = new Compressor(4);
+}
 
 	public void pushOut(){//just pushes it out
-		leftPneumatic(true);
-		middlePneumatic(true);
-		rightPneumatic(true);   
+		leftPneumatic.set(true);
+		middlePneumatic.set(true);
+		rightPneumatic.set(true);   
 	} 
 
 	public void pullIn(){// just pulls it in
-		leftPneumatic(false);
-		middlePneumatic(false);
-		rightPneumatic(false);
+		leftPneumatic.set(false);
+		middlePneumatic.set(false);
+		rightPneumatic.set(false);
 	}
 
 	public void pushAndPull(double delay){//pushes it out and pulls it in 
-		leftPneumatic(true);			  //after a chosen amount of time
-		middlePneumatic(true);
-		rightPneumatic(true); 
+		leftPneumatic.set(true);			  //after a chosen amount of time
+		middlePneumatic.set(true);
+		rightPneumatic.set(true); 
 		Timer.delay(delay);
-		leftPneumatic(false);
-		middlePneumatic(false);
-		rightPneumatic(false);		
+		leftPneumatic.set(false);
+		middlePneumatic.set(false);
+		rightPneumatic.set(false);		
 	}
 
 	public void turnCompressorOn(double timeOn){
