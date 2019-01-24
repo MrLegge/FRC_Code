@@ -1,56 +1,57 @@
 /*******************************************************
-* Robotics Hatch Delivery by Jordan Thorne date 22/01/19	
+* Robotics Hatch Delivery by Jordan Thorne date 23/01/19	
 *******************************************************/
-package org.usfirst.frc.team6007.robot;
-
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
+/***********************************
+*Arm that retrives and delivers disk
+***********************************/
+package frc.robot;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class HatchDelivery{
-  
-	DifferentialDrive hatchBase;
-	private static RobotIO hatchtLifterPotentiometer;
+
+	//private static RobotIO hatchtLifterPotentiometer;
 	private RobotIO robotIO;
-	private Spark leftHatchMotor;
-	private Spark rightHatchMotor;
-	
+	private VictorSP hatchMotor;
+	private int target;
+	public double liftPower;
+
 	public HatchDelivery(){
-    
-		leftHatchMotor = new Spark(RobotMap.PWM_PinOut.LEFT_HATCH_MOTOR_ID);
-		rightHatchMotor = new Spark(RobotMap.PWM_PinOut.RIGHT_HATCH_MOTOR_ID);
-    
-		HatchBase = new DifferentialDrive(leftHatchMotor, rightHatchMotor);
-	
+		
+		robotIO = new RobotIO();
+		hatchMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_HATCH_MOTOR_ID);
+   
 	}
 
-
-	
 	//Puts disk in home position
 	public void hatchLifterToHomePosition(double Power){
-		while(!robotIO.hatchSwitchAtHome){
-			HatchBase.arcadeDrive(Power, 0);
+		while(!robotIO.hatchSwitchAtHome()){
+			hatchMotor.set(Power);
 			//while so it runs until its false
 		}
 		
 	}
 	
 	//Puts arm in delivery position
-	public void deliveryPosition(double power) {
-		HatchBase.arcadeDrive (power, 0) ;
+	public void deliveryPosition(double Power) {
 	
-	}
-		
-	//Retrieve from floor
-	public void retriveHatchFromFloor(double DownPower){
-		while (!robotIO.hatchSwitchAtLower){
-			HatchBase.arcadeDrive(DownPower, 0);	
+		if (robotIO.getCurrentLiftDistance() < target - 20 ) {
+			liftPower = 0.7;
+		} else if (robotIO.getCurrentLiftDistance() > target + 20) {
+			liftPower = 0.3;
+		} else {
+			liftPower = 0.5;
+		}
+	
+	hatchMotor.set(liftPower);
+	
+}	
+
+	//Retrieves the hatch from floor
+	public void retriveHatchFromFloor (double DownPower) {
+		while (!robotIO.hatchSwitchAtLower()){
+			hatchMotor.set(DownPower);	
 		}
 		
-		
 	}
-	
 	
   }
