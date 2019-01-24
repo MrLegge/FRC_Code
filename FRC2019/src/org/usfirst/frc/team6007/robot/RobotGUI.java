@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotGUI{
 //variable spot?
-private String CaseFive;
-private String Case0;
-private String ThereIsNothingThere;
+private String caseFive;                //dummy names for errors
+private String case0;
+private String thereIsNothingThere;
 	public RobotGUI(){
 	//the something goes here?
 	
@@ -19,7 +19,7 @@ private String ThereIsNothingThere;
 		
 	public String getData(){
 		
-		return SmartDashboard.getString(Case0, ThereIsNothingThere);
+		return SmartDashboard.getString(case0, thereIsNothingThere);
 		
 		//gets data from the dashboard, 
 		//if there is nothing there it gives the defult data
@@ -28,7 +28,7 @@ private String ThereIsNothingThere;
 	
 	public void sendData(){
 		
-		SmartDashboard.putNumber(CaseFive, 420);
+		SmartDashboard.putNumber(caseFive, 420);
 		//sends data to the dashboard
 			
 	}
