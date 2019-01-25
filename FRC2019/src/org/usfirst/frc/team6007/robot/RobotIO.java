@@ -1,6 +1,7 @@
 /***********************************************************
 * this is just the copy of 2018 
 * Date: 1-11-2018
+* Changed for 2019
 ************************************************************/
 
 package frc.robot;
@@ -8,7 +9,6 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -28,10 +28,7 @@ public class RobotIO{
 	private DigitalInput lowerHatchSwitch;
 	private DigitalInput cargoSwitchAtHome;
 	private DigitalInput cargoSwitchIntake;
-	//private static Encoder lifter_motor_encoder;
-	private static Encoder right_motor_encoder; 
-	private static Encoder left_motor_encoder;
-
+	
 	public RobotIO(){
 	
 		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
@@ -63,15 +60,6 @@ public class RobotIO{
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 			}
 		/*************************************************************************************************************
-		* these are the functions to get data from the encoders *
-		int count = sampleEncoder.get();
-		double distance = sampleEncoder.getRaw();
-		double distance = sampleEncoder.getDistance();
-		double period = sampleEncoder.getPeriod();
-		double rate = sampleEncoder.getRate();
-		boolean direction = sampleEncoder.getDirection();
-		boolean stopped = sampleEncoder.getStopped();
-		sampleEncoder.reset();
 		
 		double	pidGet() Implement the PIDSource interface.
 		void	setPIDSourceType(PIDSourceType pidSource) Set which parameter of the encoder you are using as a process control variable.
@@ -134,16 +122,8 @@ public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
 	}
 	
-	public static Encoder getLifter_motor_encoder() {
-		return lifter_motor_encoder;
-	}
-*/
-	public static Encoder getLeft_motor_encoder() {
-		return left_motor_encoder;
-	}
 
-	public static Encoder getRight_motor_encoder() {
-		return right_motor_encoder;
-	}
+*/
+	
 
 }
