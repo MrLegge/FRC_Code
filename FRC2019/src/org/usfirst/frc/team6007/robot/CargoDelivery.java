@@ -19,7 +19,7 @@ public class CargoDelivery{
 	}
 	
   	public void cargoLoad(){
-		while(robotIO.ballPotentiometer.get >= RobotMap.hatch_delivery_lower_limit && robotIO.ballPotentiometer.get <= RobotMap.hatch_delivery_upper_limit){
+		while(robotIO.ballPotentiometer.get >= RobotMap.HATCH_DELIVERY_LOWER_lIMIT && robotIO.ballPotentiometer.get <= RobotMap.HATCH_DELIVERY_UPPER_lIMIT){
 			//run motor to move to positon
 		}
 	}
