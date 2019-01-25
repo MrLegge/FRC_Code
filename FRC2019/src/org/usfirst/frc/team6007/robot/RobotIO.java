@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -28,6 +29,7 @@ public class RobotIO{
 	private DigitalInput lowerHatchSwitch;
 	private DigitalInput cargoSwitchAtHome;
 	private DigitalInput cargoSwitchIntake;
+	private static Encoder hatch_motor_encoder; 
 	
 	public RobotIO(){
 	
@@ -35,6 +37,7 @@ public class RobotIO{
 		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
 		cargoSwitchAtHome = new DigitalInput(RobotMap.DIO_PinOut.HOME_CARGO_SWITCH);
 		cargoSwitchIntake = new DigitalInput(RobotMap.DIO_PinOut.LOWER_CARGO_SWITCH);
+		hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
@@ -114,6 +117,9 @@ public class RobotIO{
 
 	public double getCurrentLiftDistance(){
 		return hatchPotentiometer.get();
+	}
+	public static Encoder gethatch_motor_encoder() {
+		return hatch_motor_encoder;
 	}
 	
 	
