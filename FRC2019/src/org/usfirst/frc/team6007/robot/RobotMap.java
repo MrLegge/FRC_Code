@@ -22,10 +22,8 @@ package frc.robot;
 		final static int FRONT_RIGHT_MOTOR_ID = 2;
 		final static int REAR_RIGHT_MOTOR_ID = 3;
 		
-		final static int RIGHT_HATCH_MOTOR_ID = 4;
-		
-		//final static int RIGHT_TOP_LIFTER_MOTOR_ID = 4;
-		//final static int RIGHT_BOTTOM_LIFTER_MOTOR_ID = 5;
+		final static int FRONT_HATCH_MOTOR_ID = 4;
+		final static int BACK_HATCH_MOTOR_ID = 5;
 
 
 	}
