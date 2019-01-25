@@ -8,27 +8,25 @@ package org.usfirst.frc.team6007.robot;
 
 public class CargoDelivery{
   
-	private static RobotIO ballLifterPotentiometer;
-  	private static RobotIO robotIO;
-
 	public CargolDelivery(){
-  		robotIO = new RobotIO();
+  		
     	}
 	
 	public void cargoIntake(){
-		while(robotIO.LowerCargoSwitch.get()){
-		
+		while(robotIO.cargoSwitchIntake()){
+			//run motor to move to positon
 		}
 	}
 	
   	public void cargoLoad(){
-		while(robotIO.ballPotentiometer.get >= ?value? && robotIO.ballPotentiometer.get <= ?value?){
+		while(robotIO.ballPotentiometer.get >= RobotMap.hatch_delivery_lower_limit && robotIO.ballPotentiometer.get <= RobotMap.hatch_delivery_upper_limit){
+			//run motor to move to positon
 		}
 	}
 	
 	public void loaderToHome(){
 		while(robotIO.homeCargoSwitch.get()){
-		
+			//run motor to move to positon
 		}
 	}
   }
