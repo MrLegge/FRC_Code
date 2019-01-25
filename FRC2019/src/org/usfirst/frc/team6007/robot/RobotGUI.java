@@ -1,7 +1,7 @@
 /******Edited on 21/01/2019, by Daniel Elliott******/
 /****************************************************
-*This things gets data from the dashboard and sends 
-*data to the dashboard
+*Smart dashboards for communication between drive team and robot
+*for input and to recieve data
 ****************************************************/
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
