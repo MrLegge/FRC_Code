@@ -34,6 +34,7 @@ package frc.robot;
 		final static int HOME_CARGO_SWITCH = 2;
 		final static int LOWER_CARGO_SWITCH = 3;
 		final static int HATCH_MOTOR_ENCODER_A_CHANNEL = 4;   
+		final static int HATCH_MOTOR_ENCODER_B_CHANNEL = 5; 
 	}	
 	public class Analog_PinOut{
 		//final static int PNEUMATIC = 0;
