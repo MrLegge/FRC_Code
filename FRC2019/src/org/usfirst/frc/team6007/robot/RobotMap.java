@@ -13,8 +13,8 @@ package frc.robot;
 
 	public class RobotMap{
 		
-		final static double hatch_delivery_upper_limit = ?;
-		final static double hatch_delivery_lower_limit = ?;
+		final static double HATCH_DELIVERY_UPPER_lIMIT = ?;
+		final static double HATCH_DELIVERY_LOWER_lIMIT = ?;
 	/*********************************
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
