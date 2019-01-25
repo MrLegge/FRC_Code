@@ -22,8 +22,9 @@ package frc.robot;
 		final static int FRONT_RIGHT_MOTOR_ID = 2;
 		final static int REAR_RIGHT_MOTOR_ID = 3;
 		
-		final static int FRONT_HATCH_MOTOR_ID = 4;
-		final static int BACK_HATCH_MOTOR_ID = 5;
+		final static int TOP_HATCH_MOTOR_ID = 4;
+		final static int BOTTOM_HATCH_MOTOR_ID = 5;
+
 
 
 	}
@@ -32,6 +33,7 @@ package frc.robot;
 		final static int LOWER_HATCH_SWITCH = 1;
 		final static int HOME_CARGO_SWITCH = 2;
 		final static int LOWER_CARGO_SWITCH = 3;
+		final static int HATCH_MOTOR_ENCODER_A_CHANNEL = 4;   
 	}	
 	public class Analog_PinOut{
 		//final static int PNEUMATIC = 0;
