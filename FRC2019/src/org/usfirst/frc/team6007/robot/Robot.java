@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 //camera stuff
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc; 
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 
 //New Imports
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -32,22 +34,24 @@ import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Spark;
 
 public class Robot extends TimedRobot {
+
 	
 	public Joystick driverStick;
 	public XboxController xBox;
 	public DifferentialDrive driveBase;
-	private String gameData;
 	public RobotIO robotIO;
 	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
 	//public HatchIntake hatchIntake;
 	public CargoDelivery cargoDelivery;
 	//public CargoIntake cargoIntake;
-	boolean selectionIsJoyStick= true;
+	
+	private boolean selectionIsJoyStick= true;
 	private double speedModifierX;
 	private double speedModifierY;
 	private double xboxSpeedModifierX;
 	private double xboxSpeedModifierY;
+	private Thread m_visionThread;
 	
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
@@ -82,34 +86,53 @@ public class Robot extends TimedRobot {
 		driveBase.setExpiration(0.1);
 
 	}
-	
+	@Override
 	public void robotInit(){
 		
-				
-		/****remove deadband from the speed controllers on driveBase*****Check effects b4 blind use*****/
-	        //motor_frontLeft.enableDeadbandElimination(true);
-		//motor_rearLeft.enableDeadbandElimination(true);
-		//motor_frontRight.enableDeadbandElimination(true);
-		//motor_rearRight.enableDeadbandElimination(true);
+
 		
 		
 	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
-		 new Thread(() -> {
-                UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-                camera.setResolution(640, 480);
-                 
-                CvSink cvSink = CameraServer.getInstance().getVideo();
-                CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-                
-                Mat source = new Mat();
-                Mat output = new Mat();
-                
-                while(!Thread.interrupted()) {
-                    cvSink.grabFrame(source);
-                    Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-                    outputStream.putFrame(output);
-                }
-            }).start();
+
+
+    m_visionThread = new Thread(() -> {
+      // Get the Axis camera from CameraServer
+      AxisCamera camera
+          = CameraServer.getInstance().addAxisCamera("axis-camera.local");
+      // Set the resolution
+      camera.setResolution(640, 480);
+
+      // Get a CvSink. This will capture Mats from the camera
+      CvSink cvSink = CameraServer.getInstance().getVideo();
+      // Setup a CvSource. This will send images back to the Dashboard
+      CvSource outputStream
+          = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+
+      // Mats are very memory expensive. Lets reuse this Mat.
+      Mat mat = new Mat();
+
+      // This cannot be 'true'. The program will never exit if it is. This
+      // lets the robot stop this thread when restarting robot code or
+      // deploying.
+      while (!Thread.interrupted()) {
+        // Tell the CvSink to grab a frame from the camera and put it
+        // in the source mat.  If there is an error notify the output.
+        if (cvSink.grabFrame(mat) == 0) {
+          // Send the output the error.
+          outputStream.notifyError(cvSink.getError());
+          // skip the rest of the current iteration
+          continue;
+        }
+        // Put a rectangle on the image
+        Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
+            new Scalar(255, 255, 255), 5);
+        // Give the output stream a new image to display
+        outputStream.putFrame(mat);
+      }
+    });
+    m_visionThread.setDaemon(true);
+    m_visionThread.start();
+  
 	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
 		
