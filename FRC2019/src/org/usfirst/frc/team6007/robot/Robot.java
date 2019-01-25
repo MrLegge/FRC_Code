@@ -59,8 +59,7 @@ public class Robot extends TimedRobot {
 		
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
-		xboxSpeedModifierX = 0.1;
-		xboxSpeedModifierY = 0.1;		
+		
 	
 		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
 		//Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
@@ -143,45 +142,57 @@ public class Robot extends TimedRobot {
 				
 			}
 			
-/*
-			if (xbox.getBumper(GenericHID.Hand kLeft)){
-				
-				// // grab
-				
-					//double intakePower = -0.7;
-				//boxGraber.suckIn(intakePower);
-			}
-			
+
+			//Joystick or Xbox
+			if(selectionIsJoyStick){
+				axisY = driverStick.getRawAxis(1);
+				axisX = driverStick.getRawAxis(2);
+				//speedModifierX = -driverStick.getRawAxis(3);
+				///speedModifierY = driverStick.getRawAxis(3);
+				if(driverStick.getRawButton(?SHOoT HATCH on?)){
+					hatchDelivery // shoot
+				}
+			else {
+				axisX = xBox.getX(?leftstick?); //axisX gets value from left thumbstick 
+				if(?lefttrigger?&&!?righttrigger?){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
+					axisY = xBox.getY(?lefttrigger?); //takes value of the trigger
+				}else if(?righttrigger?&&!?lefttrigger?){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
+					axisY = xBox.getY(?righttrigger?); //takes value of the trigger 
+				} else {
+					axisY = 0;							//if both or no buttons pushed it brakes
+				}
+				//speedModifierX = ;
+				//speedModifierY = ;
+			if (xbox.getBumper(GenericHID.Hand kLeft)){				
+					hatchDelivery // shoot					
+				}
 			if (xbox.getBumper(GenericHID.Hand kRight)){
-				//hatchDelivery //release
-				
+					hatchDelivery //release	
 				//double outputPower = 1;
-				//boxGraber.spitOut(outputPower);
-			}
-			
-			if (xbox.getTriggerAxis(GenericHID.Hand kRight)&&xboxSpeedModifierX >= 1.0){
-			xboxSpeedModifierX = xboxSpeedModifierX + 0.1;
-			//accelorate
-			}
-			
-			if (xbox.getTriggerAxis(GenericHID.Hand kLeft)&&xboxSpeedModifierX <= -1.0){
-			xboxSpeedModifierX = xboxSpeedModifierX - 0.1;
-			//brake
-			}
-			
+					//boxGraber.spitOut(outputPower);
+				}
 			if (xbox.getJoystick( kLeft.getY()>0)){
-			//turning
-			driveBase.curvatureDrive(xboxSpeedModifierX, -1.0,true);
+					//turning
+					driveBase.curvatureDrive(xboxSpeedModifierX, -1.0,true);
+				}
+				if (xbox.getJoystick( kLeft.getY()<0)){
+					//turning
+					driveBase.curvatureDrive(xboxSpeedModifierX, 1.0,true);
+				}
+				if (xbox.getJoystick(GenericHID.Hand kRight)){
+					//arm movement
+				}
+				
+				
+				//change = joystick - limitedJoystick;
+				//if (change>limit) change = limit;
+				//else (if change<-limit) change = -limit;
+				//limitedJoystick += change;
+
+				//limit is the amount of change you will allow every iteration
+				//limitedJoystick is the rate-limited joystick value you use to control your motors.
+
 			}
-			if (xbox.getJoystick( kLeft.getY()<0)){
-			//turning
-			driveBase.curvatureDrive(xboxSpeedModifierX, 1.0,true);
-			}
-			if (xbox.getJoystick(GenericHID.Hand kRight)){
-			//arm movement
-			}
-	*/		
-					
 			if (driverStick.getRawButton(3)){
 				
 			// stub left as example when setting buttons
@@ -198,11 +209,12 @@ public class Robot extends TimedRobot {
 			}	
 			
 			//Sets the driving method
+			driveBase.curvatureDrive(axisY*speedModifierY, axisX*speedModifierX, true);
 			//Use this one for z rotation
-			driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
+			//driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
-		
+
 	}
 	
 	public void disabledInit(){
