@@ -13,6 +13,8 @@ package frc.robot;
 
 	public class RobotMap{
 		
+		final static double hatch_delivery_upper_limit = ?;
+		final static double hatch_delivery_lower_limit = ?;
 	/*********************************
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
@@ -22,6 +24,7 @@ package frc.robot;
 		final static int FRONT_RIGHT_MOTOR_ID = 2;
 		final static int REAR_RIGHT_MOTOR_ID = 3;
 		
+	//2019 game
 		final static int TOP_HATCH_MOTOR_ID = 4;
 		final static int BOTTOM_HATCH_MOTOR_ID = 5;
 
@@ -40,7 +43,7 @@ package frc.robot;
 		//final static int PNEUMATIC = 0;
 	}
 	public class MyJoystick{
-		final static int JOYSTICK_PORT = 1;
-		final static int XBOXCONTROLLER_PORT = 2;
+		final static int JOYSTICK_PORT = 0;
+		final static int XBOXCONTROLLER_PORT = 1;
 	}
 }	
