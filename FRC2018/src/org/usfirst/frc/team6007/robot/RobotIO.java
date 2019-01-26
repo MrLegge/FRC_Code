@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+//import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 
 public class RobotIO{
   
 	private AHRS ahrs;
-	public Joystick driverStick;
+	public static Joystick driverStick;
 	private static AnalogGyro robotLifterGyro;
 	private static Encoder right_motor_encoder;
 	private static Encoder left_motor_encoder;
@@ -21,6 +22,10 @@ public class RobotIO{
 
 
 	public RobotIO(){
+		
+		driverStick = new Joystick(RobotMap.JOYSTICK_PORT);	//sets up the game joystick
+		
+		//Button slowTrigger  = new JoystickButton(driverStick, JOYSTICK_TRIGGER_NUMBER);
 	
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
@@ -68,19 +73,21 @@ public class RobotIO{
 		Stopped - If the counter is currently stopped (period has exceeded Max Period)
 		****************************************************************************************************************/
 	  try {
-		  right_motor_encoder = new Encoder(RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
+		  right_motor_encoder = new Encoder(RobotMap.RIGHT_MOTOR_ENCODER_A_CHANNEL, RobotMap.RIGHT_MOTOR_ENCODER_B_CHANNEL, true, Encoder.EncodingType.k4X);
+		  right_motor_encoder.setReverseDirection(true);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the right encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  left_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  left_motor_encoder = new Encoder(RobotMap.LEFT_MOTOR_ENCODER_A_CHANNEL, RobotMap.LEFT_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  left_motor_encoder.setReverseDirection(true);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the left encoder:  " + ex.getMessage(), true);
 		  }
 	  try {
-		  lifter_motor_encoder = new Encoder(RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.DIO_PinOut.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
+		  lifter_motor_encoder = new Encoder(RobotMap.LIFTER_MOTOR_ENCODER_A_CHANNEL, RobotMap.LIFTER_MOTOR_ENCODER_B_CHANNEL, false, Encoder.EncodingType.k4X);
 		  }
 	  catch (RuntimeException ex ){
 		  DriverStation.reportError("Error instantiating the lifter encoder:  " + ex.getMessage(), true);
@@ -96,7 +103,7 @@ public class RobotIO{
 		void	reset() Reset the gyro.
 	  ****************************************************************************************************************/
 	  try {
-		  robotLifterGyro = new AnalogGyro(RobotMap.Analog_PinOut.ROBOT_LIFTER_GYRO);
+		  robotLifterGyro = new AnalogGyro(RobotMap.ROBOT_LIFTER_GYRO);
 		  robotLifterGyro.initGyro();
 		  robotLifterGyro.calibrate();
 		}catch (RuntimeException ex ){
@@ -106,27 +113,30 @@ public class RobotIO{
 
 
 	public AHRS getAhrs() {
-		return ahrs;
+		return ahrs;										//returns the NavX object
 	}
 
 	public void setAhrs(AHRS ahrs) {
-		this.ahrs = ahrs;
+		this.ahrs = ahrs;									//updates the NavX
 	}
 	
 	public static double getRobotLifterGyroAngle() {
-		return robotLifterGyro.getAngle();
+		return robotLifterGyro.getAngle();					//gets the lifter gyro angle
 	}
 
-	public static Encoder getLifter_motor_encoder() {
-		return lifter_motor_encoder;
+	public Encoder getLifter_motor_encoder() {
+		return lifter_motor_encoder;						//gets the encoder value for the lifter motor	
 	}
 
-	public static Encoder getLeft_motor_encoder() {
-		return left_motor_encoder;
+	public Encoder getLeft_motor_encoder() {
+		return left_motor_encoder;							//gets the encoder value for the left motor							
 	}
 
-	public static Encoder getRight_motor_encoder() {
-		return right_motor_encoder;
+	public Encoder getRight_motor_encoder() {
+		return right_motor_encoder;							//gets the encoder value for the right motor
 	}
-
+	public Joystick getDriverStick() {
+		return driverStick;									//
+	}
+	
 }
