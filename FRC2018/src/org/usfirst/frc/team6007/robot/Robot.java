@@ -1,62 +1,52 @@
-
 package org.usfirst.frc.team6007.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-
+/*
 //camera stuff
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc; 
-
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-
-//New Imports
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+*/
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
-//import edu.wpi.first.wpilibj.VictorSP;
 
 
 public class Robot extends TimedRobot {
 	
-	public Joystick driverStick;
-	public DifferentialDrive driveBase;
+	//public DifferentialDrive driveBase;
 	private String gameData;
 	private int startPos;
-	public BoxGrabber boxGraber;
-	public BoxLifter boxlifter;
-	public RobotIO robotIO;
+	public static BoxGrabber boxGrabber;
+	public static BoxLifter boxLifter;
+	public static RobotIO robotIO;
+	public static RobotDrive robotDrive;
 	boolean flag = true;
-
 	
 	
 	
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
-		driverStick = new Joystick(0);
-		boxGraber = new BoxGrabber();
-		boxlifter = new BoxLifter();
+		boxGrabber = new BoxGrabber();
+		boxLifter = new BoxLifter();
 		robotIO = new RobotIO(); 
-		
+		robotDrive = new RobotDrive();
 		//ADD OPTIONS FOR AUTONOMOUS 
-		startPos = 3;
+		startPos = 2;
 				
 	
-		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED*/
-		Spark motor_frontLeft = new Spark(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
-		Spark motor_rearLeft = new Spark(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
-		Spark motor_frontRight = new Spark(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
-		Spark motor_rearRight = new Spark(RobotMap.PWM_PinOut.REAR_RIGHT_MOTOR_ID);
+		/*COMMENT OUT IF SPARK MOTOR CONTROLLER IS USED
+		Spark motor_frontLeft = new Spark(RobotMap.FRONT_LEFT_MOTOR_ID);
+		Spark motor_rearLeft = new Spark(RobotMap.REAR_LEFT_MOTOR_ID);
+		Spark motor_frontRight = new Spark(RobotMap.FRONT_RIGHT_MOTOR_ID);
+		Spark motor_rearRight = new Spark(RobotMap.REAR_RIGHT_MOTOR_ID);
 
-		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED*/
+		/*COMMENT OUT IF VICTORSP MOTOR CONTROLLER IS USED
 		//VictorSP motor_frontLeft = new VictorSP(RobotMap.PWM_PinOut.FRONT_LEFT_MOTOR_ID);
 		//VictorSP motor_rearLeft = new VictorSP(RobotMap.PWM_PinOut.REAR_LEFT_MOTOR_ID);
 		//VictorSP motor_frontRight = new VictorSP(RobotMap.PWM_PinOut.FRONT_RIGHT_MOTOR_ID);
@@ -65,10 +55,10 @@ public class Robot extends TimedRobot {
 		SpeedControllerGroup motors_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
 		SpeedControllerGroup motors_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
 
-		driveBase = new DifferentialDrive(motors_left, motors_right);
+		//driveBase = new DifferentialDrive(motors_left, motors_right);
 		
 		//This stops the robot if no input received SAFETY!!
-		driveBase.setExpiration(0.1);
+		//driveBase.setExpiration(0.1);*/
 
 	}
 	
@@ -117,11 +107,15 @@ public class Robot extends TimedRobot {
 
 	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
-
+	public void autonomousInit(){
+		robotIO.getLeft_motor_encoder().reset();
+		robotIO.getRight_motor_encoder().reset();
+		
+	}
 		
 	public void autonomousPeriodic(){
 		//Disables the setExpiration to stop robot stopping
-		driveBase.setSafetyEnabled(false);
+		robotDrive.driveBase.setSafetyEnabled(false);
 		
 		/*driveBase.setInvertedMotor(MotorType.kFrontRight, true);
 		driveBase.setInvertedMotor(MotorType.kRearRight, true);
@@ -138,138 +132,291 @@ public class Robot extends TimedRobot {
 		
 		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		gameData = "RRR";
+		//gameData = "LLL";
+	    boxLifter.liftUp(0.5);
 		if(gameData.charAt(0) == 'L' && flag)
 		{
 		  switch(startPos){
-			  case 0:                       //position 1 (left) going to left side
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.7, -0.7);
+			  case 0:                       //position 0 (leftleft) going to left side
+				                            //drives straight forward to side of switch, turns and drops cube
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
 				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.7);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);	
-				  driveBase.arcadeDrive(-0.65, 0.8);
-				  Timer.delay(0.7);				  
-				  boxGraber.spitOut(0.5);				  
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);	
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  robotDrive.driveBase.arcadeDrive(-0.65, 0.8);
+				  Timer.delay(0.7);	
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  boxGrabber.spitOut(-0.7);				  
 				  Timer.delay(1.5);
 
 				  flag = false;
 			  break;
 			  case 1:                       //position 1 (left) going to left side
+				                            //straight forward to infront of switch, drops cube
 				  							//very good
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(2);				  
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.5);
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1.2);				  
-				  boxGraber.spitOut(1);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  boxGrabber.spitOut(-0.7);
 				  Timer.delay(1.5);
 				  
 				  flag = false;
-				  //drive forward
-				  //drop cube
+				
 			  break;
 			  case 2:                       //center position (2) going to left side
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.7);
-				  driveBase.tankDrive(-0.65, 0.65);
-				  Timer.delay(0.73);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1.9);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(1.1);
-				  driveBase.tankDrive(0.7, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(2.5);
-				  driveBase.tankDrive(0.65, -0.65);
-				  Timer.delay(1.4);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.42);
-				  boxGraber.spitOut(0.5);				  
+				                            //goes across to left side, behind other robots, to beside switch then turns to drop cube
+				                            //add in delay if other robots need to time to move oout of our path!!!
+				  //small forward to allow turn
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.3);
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.3);
+				  //90 turn
+				  robotDrive.driveBase.arcadeDrive(-0.7, -0.8);
+				  Timer.delay(0.6);	
+				  //drive across
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.3);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.3);
+				  //turn 90
+				  robotDrive.driveBase.arcadeDrive(-0.7, 0.8);
+				  Timer.delay(0.6);
+				  //drive forward
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.8);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.8);
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  //drop cube
+				  boxGrabber.spitOut(-0.7);				  
 				  Timer.delay(1.5);
 				  
 				  flag = false;
-				  //drive forward
-				  //turn 45
-				  //drive forward
-				  //drop cube
+				  
 			  break;
 			  case 3:                       //position 3 (right) going to left side
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //turn left 90
-				 //drive forward
-				 //drop cube
+				                            //drives straight forward, stops in front of switch over line
+	/*			  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(2);				  
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+		*/
+				  
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  
+				  //test for turn to degrees:
+				  //robotDrive.turnToDegrees(90, true);             //turns left
+				  //robotDrive.turnToDegrees(90, false);            //turns right
+				  
+				  //test for drive to metres:
+				  //robotDrive.speedUp;
+				  //robotDrive.driveForMetres(1.5//parallels, driving and adjusting heading at once);
+				  //robotDrive.slowDown;
+				  
+				  //robotDrive.speedUp();                                  //travelling for 2100mm
+				  //robotDrive.driveForMetres(0.9);
+				 // robotDrive.driveBase.arcadeDrive(0.8, 0);
+				  //Timer.delay(2);                                      //4980mm for 3 secs 3630mm for 2 sec 2400mm for 1 sec
+				  //robotDrive.slowDown();
+				  //robotDrive.driveBase.arcadeDrive(0, 0);      
+				
+				 flag = false;
 			  break;
+			  case 4:                         //position 4 (rightright) going to left side
+				                              //drive forward over line, stops next to switch
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  if(gameData.charAt(1) == 'R' && flag) {             //trying to spit cube into scale
+					  robotDrive.driveBase.arcadeDrive(0.7, -0.6);
+					  Timer.delay(0.15);
+					  boxGrabber.spitOut(-1);				  
+					  Timer.delay(1.5);
+				  }
+				  
+				  //drives forward past switch, turns left, drives to left switch, turns and drops cube, second opt.:
+				  /*robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(2.5);                                  //change to go far enough in testing
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  robotDrive.driveBase.arcadeDrive(-0.7, -0.8);
+				  Timer.delay(1.7);                                  //change to turn 90
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(2.5);                                  //change to go far enough in testing
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.7);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  robotDrive.driveBase.arcadeDrive(-0.7, -0.8);
+				  Timer.delay(1.7);                                  //change to turn 90
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(1);                                     //drive forward slightly
+				  boxGrabber.spitOut(-0.5);				  
+				  Timer.delay(1.5);                                   //cube go
+				  */
+				  //end of second option
+				  
+				  flag = false;
+				  break;
 			  default: 
 			  break;
 		  }
 		} 
 		else if(gameData.charAt(0) == 'R' && flag){
 		  switch(startPos){
-			  case 0:                       //position 4 (right) going to right side
-				  //drive forward 
-				  //turn right 90
-				  //drive forward 
-				  //drop cube
+			  case 0:                       //position 0 (leftleft) going to right side
+                                            //drive forward over line, stops next to switch
+		  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+		  Timer.delay(1);	
+		  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+		  Timer.delay(1);
+		  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+		  Timer.delay(1.5);
+		  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+		  Timer.delay(0.7);
+		  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+		  Timer.delay(1.2);	
+		  if(gameData.charAt(1) == 'L' && flag) {              //trying to spit cube into scale
+			  robotDrive.driveBase.arcadeDrive(0.7, 0.6);
+			  Timer.delay(0.15);
+			  boxGrabber.spitOut(-1);				  
+			  Timer.delay(1.5);
+		  }
+				                           
+				  //robotDrive.turnToDegrees(-90, true);
+				
+				  flag = false;
 				  break;
-			  case 1:                       //position 3 (right) going to right side
-				  //drive forward
-				  //drop cube
+			  case 1:                       //position 1 (left) going to right side
+				                            //drives straight forward, stops in front of switch
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(2);				  
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(1.2);	
+				  
+				  flag = false;
+				  
 				  break;
 			  case 2:                       //center position (2) going to right side
+				                            //goes across to right side, behind other robots, to beside switch then turns to drop cube
+                                            //add in delay if other robots need to time to move oout of our path!!!
 				  
-				  driveBase.tankDrive(-0.5, -0.5);
-				  Timer.delay(1);	
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.4);	
-				  driveBase.arcadeDrive(-0.7, 0.8);
-				  Timer.delay(0.7);				  			  
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.tankDrive(-0.7, -0.7);
-				  Timer.delay(1);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(0.9);
-				  driveBase.arcadeDrive(-0.7, -0.8);
-				  Timer.delay(0.85);
-				  driveBase.tankDrive(-0.6, -0.6);
-				  Timer.delay(2.4);
-				  driveBase.tankDrive(0, 0);
-				  Timer.delay(0.1);
-				  driveBase.tankDrive(-0.65, 0.65);
-				  Timer.delay(1.35);
-				  driveBase.tankDrive(-0.6, -0.6);
+				//small forward to allow turn
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
 				  Timer.delay(0.3);
-				  boxGraber.spitOut(0.5);				  
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.3);
+				  //90 turn
+				  robotDrive.driveBase.arcadeDrive(-0.7, 0.8);
+				  Timer.delay(0.6);	
+				  //drive across
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.3);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.3);
+				  //turn 90
+				  robotDrive.driveBase.arcadeDrive(-0.7, -0.8);
+				  Timer.delay(0.6);
+				  //drive forward
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.8);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.8);
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  //drop cube
+				  boxGrabber.spitOut(-0.7);				  
 				  Timer.delay(1.5);
 
 				  
 				  flag = false;
 				  
 				  break;
-			  case 3:                       //position 1 (left) going to right side
+			  case 3:                       //position 3 (right) going to right side
+				                            //drive straight forward and drop cube
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);				  
+				  boxGrabber.spitOut(-0.7);
+				  Timer.delay(1.5);
 				
-				  
-				  
-				  
-				  
 				  
 				  flag = false;
 
 				 break;
+			  case 4:                         //position 4 (rightright) going to right side
+				                              //drives straight forward to side of switch, turns and drops cube
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);	
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.7, -0.7);
+				  Timer.delay(1.5);
+				  robotDrive.driveBase.tankDrive(-0.6, -0.6);
+				  Timer.delay(0.5);
+				  robotDrive.driveBase.tankDrive(-0.5, -0.5);
+				  Timer.delay(0.5);	
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  robotDrive.driveBase.arcadeDrive(-0.65, -0.8);
+				  Timer.delay(0.7);	
+				  robotDrive.driveBase.tankDrive(0, 0);
+				  Timer.delay(0.1);
+				  boxGrabber.spitOut(-0.7);				  
+				  Timer.delay(1.5);
+				  
+				  flag = false;
+				  
+				  break;
 			  
 			  default: 
 				  //driveBase.drive(0.0,0);
@@ -278,12 +425,11 @@ public class Robot extends TimedRobot {
 				  break;
 			}
 		}
-		driveBase.setSafetyEnabled(true);
+		robotDrive.driveBase.setSafetyEnabled(true);
 	}
-	
-	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
-		driveBase.setSafetyEnabled(true);
 
+	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
+		robotDrive.driveBase.setSafetyEnabled(true);
 			  
 		
 		
@@ -297,11 +443,14 @@ public class Robot extends TimedRobot {
 			
 			double speedModifierX = 1.0; //changed to -ve to invert the twist turn
 			double speedModifierY = -1.0;
-
+			boxLifter.setCurrentLiftDistance(robotIO.getLifter_motor_encoder().getDistance());
+			
+			
+			
 			//Sets speed to half when side button is held, for fine control
-			if(driverStick.getRawButton(1)){
-				speedModifierX = -driverStick.getRawAxis(3);
-				speedModifierY = driverStick.getRawAxis(3);	
+			if(robotIO.getDriverStick().getRawButton(RobotMap.JOYSTICK_TRIGGER_NUMBER)){
+				speedModifierX = -robotIO.getDriverStick().getRawAxis(RobotMap.JOYSTICK_AXIS);
+				speedModifierY = robotIO.getDriverStick().getRawAxis(RobotMap.JOYSTICK_AXIS);	
 
 				//change = joystick - limitedJoystick;
 				//if (change>limit) change = limit;
@@ -314,61 +463,89 @@ public class Robot extends TimedRobot {
 			}
 
 
-			if (driverStick.getRawButton(3)){
+			if (robotIO.getDriverStick().getRawButton(RobotMap.SUCK_IN_BUTTON)){
 				
-				double intakePower = -0.7;  //this value will need to be created from the PID data
-				boxGraber.suckIn(intakePower);
+				double intakePower = 1;  //
+				boxLifter.placeDown(0.4);
+				boxGrabber.suckIn(intakePower);
+				robotIO.getLifter_motor_encoder().reset();
+				
+			} 
+			
+			if (robotIO.getDriverStick().getRawButton(RobotMap.SPIT_OUT_BUTTON)){
+				
+				double outputPower = -1;  //this value will need to be created from the PID data
+				boxGrabber.spitOut(outputPower);
 				
 			}
 			
-			if (driverStick.getRawButton(11)){
+			if (robotIO.getDriverStick().getRawButton(RobotMap.SHUFFLE_BUTTON)){
 				
-				double outputPower = 1;  //this value will need to be created from the PID data
-				boxGraber.spitOut(outputPower);
-				
-			}
-			
-			if (driverStick.getRawButton(2)){
-				
-				boxGraber.shuffle();
+				boxGrabber.shuffle();
 				
 			}
 			
-			if (driverStick.getRawButton(5)){
-				
-				double liftPower = 0.45;  //this value will hold arm at current weight
-				boxlifter.liftUp(liftPower);
+			if (robotIO.getDriverStick().getRawButton(RobotMap.SWITCH_HEIGHT_BUTTON)){
+				//robotIO.getLifter_motor_encoder().reset();
+				double target =250;
+				if(boxLifter.getCurrentLiftDistance() < target - 20 ) {
+					boxLifter.setLiftPower(0.7);
+					} else if (boxLifter.getCurrentLiftDistance() > target + 20) {
+						
+						boxLifter.setLiftPower(0.3);
+					} else {
+						
+						boxLifter.setLiftPower(BoxLifter.getHoldPower());
+					}
 								
+				boxLifter.liftUp(BoxLifter.getLiftPower());
+
 			}
-			
-			if (driverStick.getRawButton(6)){
+	   		if (robotIO.getDriverStick().getRawButtonReleased(RobotMap.SWITCH_HEIGHT_BUTTON)) {
+				/*if(boxLifter.getCurrentLiftDistance() > 10) {
+				boxLifter.placeDown(0.5);				
+				BoxLifter.softDown();
+				Timer.delay(2);
+				}*/
+	   			
+	   			boxLifter.softDown();
+	   			
+	   			
+		
+			} 
+			if (robotIO.getDriverStick().getRawButton(6)){
 				
 				double lowerPower = 0.5;  //this value will need to be created from the PID data
-				boxlifter.placeDown(lowerPower);
-				
-			}	
+				boxLifter.placeDown(lowerPower);
+				//BoxLifter.softDown();
+				//Timer.delay(2);
+			}
 			
+			if (robotIO.getDriverStick().getRawButton(10)){
+				//robotDrive.turnToDegrees(10);
+			}
 			//Sets the driving method
 			//Use this one for z rotation
-			driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
+			robotDrive.driveBase.curvatureDrive(robotIO.getDriverStick().getRawAxis(1)*speedModifierY, robotIO.getDriverStick().getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
+
 			
-			
-			}
+		}
 		
-		System.out.print("encoder Left:  "+RobotIO.getRight_motor_encoder().getDistance());
-		System.out.println("encoder Right:  "+RobotIO.getLeft_motor_encoder().getDistance());
-		System.out.println("encoder Lifter:  "+ RobotIO.getLifter_motor_encoder().getDistance());
+		/*System.out.print("encoder Left:  "+robotIO.getRight_motor_encoder().getDistance());
+		System.out.println("encoder Right:  "+robotIO.getLeft_motor_encoder().getDistance());
+		.println("encoder Lifter:  "+ robotIO.getLifter_motor_encoder().getDistance());*/
 	}
 	public void disabledInit(){
 		
 		
 	}
 	public void teleopInit(){
-		RobotIO.getLifter_motor_encoder().reset();
-		RobotIO.getLeft_motor_encoder().reset();
-		RobotIO.getRight_motor_encoder().reset();
+		robotIO.getLifter_motor_encoder().reset();
+		robotIO.getLeft_motor_encoder().reset();
+		robotIO.getRight_motor_encoder().reset();
+		robotIO.getAhrs().zeroYaw();
 		
 	}
 	public void disabledPeriodic(){
@@ -385,6 +562,12 @@ public class Robot extends TimedRobot {
 	LiveWindow.run();
 		
 	}
-	
+	public static RobotIO getLocalRobotIO() {
+		
+		return robotIO;
+	}
+	public static BoxLifter getlocalBoxLifter() {
+		return boxLifter;
+	}
 	
 }
