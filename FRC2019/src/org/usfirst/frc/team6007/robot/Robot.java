@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID;
 
 //import edu.wpi.first.wpilibj.Spark;
@@ -46,13 +47,14 @@ public class Robot extends TimedRobot {
 	public CargoDelivery cargoDelivery;
 	//public CargoIntake cargoIntake;
 	
-	private boolean selectionIsJoyStick= true;
+	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
 	private double speedModifierY;
 	private double xboxSpeedModifierX;
 	private double xboxSpeedModifierY;
 	private Thread m_visionThread;
-	
+	private double axisX;
+	private double axisY;
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
@@ -145,7 +147,7 @@ public class Robot extends TimedRobot {
 		
 		//Ensures robot only drives when under operator control 
 		while(isOperatorControl() && isEnabled()) {//&&false){
-			
+			selectionIsJoyStick = RobotGUI.switchController();
 			//Exponential Speed Controller
 			//double speedSlider = driverStick.getRawAxis(3) + 2;
 			
@@ -172,21 +174,41 @@ public class Robot extends TimedRobot {
 				axisX = driverStick.getRawAxis(2);
 				//speedModifierX = -driverStick.getRawAxis(3);
 				///speedModifierY = driverStick.getRawAxis(3);
-				if(driverStick.getRawButton(?SHOoT HATCH on?)){
+				/*if(driverStick.getRawButton(?SHOoT HATCH on?)){
 					hatchDelivery // shoot
-				}
-			else {
-				axisX = xBox.getX(?leftstick?); //axisX gets value from left thumbstick 
-				if(?lefttrigger?&&!?righttrigger?){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
-					axisY = xBox.getY(?lefttrigger?); //takes value of the trigger
-				}else if(?righttrigger?&&!?lefttrigger?){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
-					axisY = xBox.getY(?righttrigger?); //takes value of the trigger 
+				}*/
+				if (driverStick.getRawButton(3)){
+				
+					// stub left as example when setting buttons
+						
+					}
+					
+					}
+					
+					if (driverStick.getRawButton(6)){
+						
+						double lowerPower = 0.5;  //this value will need to be created from the PID data
+							hatchDelivery.retriveHatchFromFloor(lowerPower);
+						
+					
+					
+					}else {
+				
+				axisX = xBox.getX(GenericHID.Hand.kRight); //axisX gets value from left thumbstick 
+				if(xBox.getTriggerAxis(GenericHID.Hand.kLeft) && !xBox.getTriggerAxis(GenericHID.Hand.kRight)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
+					
+					axisY = xBox.getTriggerAxis(GenericHID.Hand.kLeft); //takes value of the trigger
+				
+				}else if(xBox.getTriggerAxis(GenericHID.Hand.kRight) && !xBox.getTriggerAxis(GenericHID.Hand.kLeft)){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
+					
+					axisY = xBox.getTriggerAxis(GenericHID.Hand.kRight); //takes value of the trigger 
+				
 				} else {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
 				//speedModifierX = ;
 				//speedModifierY = ;
-			if (xbox.getBumper(GenericHID.Hand kLeft)){				
+			/*if (xbox.getBumper(GenericHID.Hand kLeft)){				
 					hatchDelivery // shoot					
 				}
 			if (xbox.getBumper(GenericHID.Hand kRight)){
@@ -204,7 +226,7 @@ public class Robot extends TimedRobot {
 				}
 				if (xbox.getJoystick(GenericHID.Hand kRight)){
 					//arm movement
-				}
+				}*/
 				
 				
 				//change = joystick - limitedJoystick;
@@ -216,20 +238,7 @@ public class Robot extends TimedRobot {
 				//limitedJoystick is the rate-limited joystick value you use to control your motors.
 
 			}
-			if (driverStick.getRawButton(3)){
-				
-			// stub left as example when setting buttons
-				
-			}
-			
-			}
-			
-			if (driverStick.getRawButton(6)){
-				
-				double lowerPower = 0.5;  //this value will need to be created from the PID data
-					hatchDelivery.retriveHatchFromFloor(lowerPower);
-				
-			}	
+
 			
 			//Sets the driving method
 			driveBase.curvatureDrive(axisY*speedModifierY, axisX*speedModifierX, true);
@@ -264,4 +273,5 @@ public class Robot extends TimedRobot {
 		
 	}
 	
+}
 }
