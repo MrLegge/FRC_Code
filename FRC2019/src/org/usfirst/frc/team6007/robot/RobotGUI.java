@@ -35,7 +35,7 @@ private String thereIsNothingThere;
 	
 	public boolean switchController(){
 		
-		return SmartDashboard.putBoolean("DB/Button 0", false);
+		return SmartDashboard.putBoolean("DB/Button 0", true);
 		//if return is true, the Xbox controller is used, if false joystick is used
 
 	}
