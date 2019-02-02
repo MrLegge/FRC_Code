@@ -50,8 +50,6 @@ public class Robot extends TimedRobot {
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
 	private double speedModifierY;
-	private double xboxSpeedModifierX;
-	private double xboxSpeedModifierY;
 	private Thread m_visionThread;
 	private double axisX;
 	private double axisY;
