@@ -27,7 +27,6 @@ public class RobotIO{
 	private AnalogPotentiometer cargoPotentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	private DigitalInput cargoSwitchAtHome;
 	private DigitalInput cargoSwitchIntake;
 	private static Encoder hatch_motor_encoder; 
 	
@@ -35,7 +34,6 @@ public class RobotIO{
 	
 		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
 		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
-		cargoSwitchAtHome = new DigitalInput(RobotMap.DIO_PinOut.HOME_CARGO_SWITCH);
 		cargoSwitchIntake = new DigitalInput(RobotMap.DIO_PinOut.LOWER_CARGO_SWITCH);
 		hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
@@ -105,11 +103,6 @@ public class RobotIO{
 		return homeHatchSwitch.get();
 	
 	}
-	
-	public boolean cargoSwitchAtHome() {
-		return cargoSwitchAtHome.get();
-	}
-	
 	
 	public boolean cargoSwitchIntake() {
 		return cargoSwitchIntake.get();
