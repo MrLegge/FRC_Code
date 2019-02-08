@@ -1,7 +1,7 @@
 /******Edited on 21/01/2019, by Daniel Elliott******/
 /****************************************************
-*Smart dashboards for communication between drive team and robot
-*for input and to recieve data
+*This things gets data from the dashboard and sends 
+*data to the dashboard
 ****************************************************/
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,10 +33,10 @@ private String thereIsNothingThere;
 			
 	}
 	
-	public boolean switchController(){
+	public static boolean switchController(){
 		
-		return SmartDashboard.putBoolean("DB/Button 0", true);
-		//if return is true, the Xbox controller is used, if false joystick is used
+		return SmartDashboard.getBoolean("DB/Button 0", false);
+		//if return is false, the Xbox controller is used, if true joystick is used
 
 	}
 	
