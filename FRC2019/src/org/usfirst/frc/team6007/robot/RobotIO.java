@@ -24,18 +24,16 @@ public class RobotIO{
 	public Joystick driverStick;
 	//private static HatchDelivery hatchDelivery;
 	private AnalogPotentiometer hatchPotentiometer;
-	private AnalogPotentiometer cargoPotentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	private DigitalInput cargoSwitchIntake;
-	private static Encoder hatch_motor_encoder; 
+	//private static Encoder hatch_motor_encoder; 
 	
 	public RobotIO(){
 	
 		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
 		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
-		cargoSwitchIntake = new DigitalInput(RobotMap.DIO_PinOut.LOWER_CARGO_SWITCH);
-		hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
+		
+		//hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
@@ -104,9 +102,6 @@ public class RobotIO{
 	
 	}
 	
-	public boolean cargoSwitchIntake() {
-		return cargoSwitchIntake.get();
-	}
 
 	public double getCurrentLiftDistance(){
 		return hatchPotentiometer.get();
