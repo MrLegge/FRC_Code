@@ -41,6 +41,7 @@ package frc.robot;
 	}	
 	public class Analog_PinOut{
 		//final static int PNEUMATIC = 0;
+		final static int HATCH_POTENTIOMETER = 0;
 	}
 	public class MyJoystick{
 		final static int JOYSTICK_PORT = 0;
