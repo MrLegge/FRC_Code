@@ -18,7 +18,7 @@ public class HatchDelivery{
 	public HatchDelivery(){
 		
 		robotIO = new RobotIO();
-		hatchMotor = new VictorSP(RobotMap.PWM_PinOut.RIGHT_HATCH_MOTOR_ID);
+		hatchMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
    
 	}
 
