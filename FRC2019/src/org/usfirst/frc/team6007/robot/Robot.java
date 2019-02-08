@@ -16,6 +16,7 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 
 //New Imports
@@ -50,13 +51,15 @@ public class Robot extends TimedRobot {
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
 	private double speedModifierY;
+	private double xboxSpeedModifierX;
+	private double xboxSpeedModifierY;
 	private Thread m_visionThread;
 	private double axisX;
 	private double axisY;
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-		xBox = new XboxController(1);
+		xBox = new XboxController(0);
 		robotIO = new RobotIO(); 
 		robotGUI = new RobotGUI();
 
@@ -89,49 +92,25 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit(){
 		
-
-		
-		
-	/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
-
-
-    m_visionThread = new Thread(() -> {
-      // Get the Axis camera from CameraServer
-      AxisCamera camera
-          = CameraServer.getInstance().addAxisCamera("axis-camera.local");
-      // Set the resolution
-      camera.setResolution(640, 480);
-
-      // Get a CvSink. This will capture Mats from the camera
-      CvSink cvSink = CameraServer.getInstance().getVideo();
-      // Setup a CvSource. This will send images back to the Dashboard
-      CvSource outputStream
-          = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
-
-      // Mats are very memory expensive. Lets reuse this Mat.
-      Mat mat = new Mat();
-
-      // This cannot be 'true'. The program will never exit if it is. This
-      // lets the robot stop this thread when restarting robot code or
-      // deploying.
-      while (!Thread.interrupted()) {
-        // Tell the CvSink to grab a frame from the camera and put it
-        // in the source mat.  If there is an error notify the output.
-        if (cvSink.grabFrame(mat) == 0) {
-          // Send the output the error.
-          outputStream.notifyError(cvSink.getError());
-          // skip the rest of the current iteration
-          continue;
-        }
-        // Put a rectangle on the image
-        Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
-            new Scalar(255, 255, 255), 5);
-        // Give the output stream a new image to display
-        outputStream.putFrame(mat);
-      }
-    });
-    m_visionThread.setDaemon(true);
-    m_visionThread.start();
+/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
+		new Thread(() -> {
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			camera.setResolution(320, 240);
+			camera.setFPS(24);
+			 
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 320, 240);
+			
+			Mat source = new Mat();
+			Mat output = new Mat();
+			
+			while(!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				Imgproc.cvtColor(source, output, 8);
+				outputStream.putFrame(output);
+			}
+		}).start();
+  
   
 	/*************************************************CAN CHANGE BELOW THIS *************************************************/	
 	}
@@ -151,9 +130,9 @@ public class Robot extends TimedRobot {
 			
 			// X-axis for turning , Y-axis for forward/back  
 			//Sets speed to half when side button is held, for fine control
-			if(driverStick.getRawButton(1)){
-				speedModifierX = -driverStick.getRawAxis(3);
-				speedModifierY = driverStick.getRawAxis(3);	
+			//if(driverStick.getRawButton(1)){
+				//speedModifierX = -driverStick.getRawAxis(3);
+				//speedModifierY = driverStick.getRawAxis(3);	
 
 				//change = joystick - limitedJoystick;
 				//if (change>limit) change = limit;
@@ -163,7 +142,7 @@ public class Robot extends TimedRobot {
 				//limit is the amount of change you will allow every iteration
 				//limitedJoystick is the rate-limited joystick value you use to control your motors.
 				
-			}
+			//}
 			
 
 			//Joystick or Xbox
@@ -181,7 +160,7 @@ public class Robot extends TimedRobot {
 						
 					}
 					
-					}
+					
 					
 					if (driverStick.getRawButton(6)){
 						
@@ -190,14 +169,14 @@ public class Robot extends TimedRobot {
 						
 					
 					
-					}else {
-				
-				axisX = xBox.getX(GenericHID.Hand.kRight); //axisX gets value from left thumbstick 
-				if(xBox.getTriggerAxis(GenericHID.Hand.kLeft) && !xBox.getTriggerAxis(GenericHID.Hand.kRight)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
+					}
+				}else {
+				axisX = xBox.getX(GenericHID.Hand.kLeft); //axisX gets value from left thumbstick 
+				if((xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kRight)>0)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
 					
-					axisY = xBox.getTriggerAxis(GenericHID.Hand.kLeft); //takes value of the trigger
+					axisY = xBox.getTriggerAxis(GenericHID.Hand.kLeft)*-1; //takes value of the trigger
 				
-				}else if(xBox.getTriggerAxis(GenericHID.Hand.kRight) && !xBox.getTriggerAxis(GenericHID.Hand.kLeft)){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
+				}else if((xBox.getTriggerAxis(GenericHID.Hand.kRight)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0)){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
 					
 					axisY = xBox.getTriggerAxis(GenericHID.Hand.kRight); //takes value of the trigger 
 				
@@ -239,14 +218,14 @@ public class Robot extends TimedRobot {
 
 			
 			//Sets the driving method
-			driveBase.curvatureDrive(axisY*speedModifierY, axisX*speedModifierX, true);
+			driveBase.arcadeDrive(axisY*speedModifierY, axisX*speedModifierX, true);
 			//Use this one for z rotation
 			//driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
 
 	}
-	
+	/*
 	public void disabledInit(){
 	
 	}
@@ -263,13 +242,13 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic(){
 		
 		
-	}
-	@SuppressWarnings("deprecation")
-	public void testPeriodic(){
+	}*/
+	//@SuppressWarnings("deprecation")
+	//public void testPeriodic(){
 		
-	LiveWindow.run();
+	//LiveWindow.run();
 		
-	}
+	//}
 	
 }
 }
