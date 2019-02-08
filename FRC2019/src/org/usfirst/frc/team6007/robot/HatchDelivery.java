@@ -1,5 +1,8 @@
 /*******************************************************
-* Robotics Hatch Delivery by Jordan Thorne date 23/01/19	
+* Robotics Hatch Delivery by 
+* Jordan Thorne 
+* Dan Elliot 
+* start date 23/01/19
 *******************************************************/
 /***********************************
 *Arm that retrives and delivers disk
