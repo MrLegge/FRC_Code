@@ -1,32 +1,50 @@
-/***********************************************************
-* 
-* 
-************************************************************/
-
-package org.usfirst.frc.team6007.robot;
-
+/*******************************************************
+* Robotics Hatch Delivery by Jordan Thorne date 23/01/19	
+*******************************************************/
+/***********************************
+*Arm that retrives and delivers disk
+***********************************/
+package frc.robot;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import java.lang.Math;
 
 public class CargoDelivery{
-  
-	public CargolDelivery(){
-  		
-    	}
-	
-	public void cargoIntake(){
-		while(robotIO.cargoSwitchIntake()){
-			//run motor to move to positon
-		}
+
+	private RobotIO robotIO;
+	private VictorSP topHatchMotor;
+	private VictorSP bottomHatchMotor;
+	private DifferentialDrive hatchBase;
+	private int cargoTargetLower, cargoTargetUpper;
+	public double liftPower;
+	public HatchDelivery hatchDelivery;
+	public long cargoPotentiometer;
+
+	public CargoDelivery(){
+
+		//robotIO = new RobotIO();		
+		cargoTargetLower = 130;
+		cargoTargetUpper = 140;
+
+		hatchDelivery = new HatchDelivery();
+
 	}
+
 	
-  	public void cargoLoad(){
-		while(robotIO.ballPotentiometer.get >= RobotMap.HATCH_DELIVERY_LOWER_lIMIT && robotIO.ballPotentiometer.get <= RobotMap.HATCH_DELIVERY_UPPER_lIMIT){
-			//run motor to move to positon
-		}
-	}
+	//Puts arm in delivery position
+	public void cargoDeliveryPosition(double Power) {
 	
-	public void loaderToHome(){
-		while(robotIO.homeCargoSwitch.get()){
-			//run motor to move to positon
-		}
-	}
+		if (hatchDelivery.hatchPotentiometer  > cargoTargetLower) {
+			liftPower = 0.4;
+		} else if (hatchDelivery.hatchPotentiometer < cargoTargetUpper) {
+			liftPower = -0.5;
+		} else {
+			liftPower = -0.475;
+		}	
+		hatchBase.arcadeDrive(liftPower, 0);
+	
+}	
+
+
+	
   }
