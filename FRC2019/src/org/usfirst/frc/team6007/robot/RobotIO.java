@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 
@@ -26,12 +27,13 @@ public class RobotIO{
 	private AnalogPotentiometer hatchPotentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	//private static Encoder hatch_motor_encoder; 
+	private static Encoder hatch_motor_encoder; 
 	
 	public RobotIO(){
 	
 		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
 		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
+		hatchPotentiometer = new AnalogPotentiometer(RobotMap.Analog_PinOut.HATCH_POTENTIOMETER);
 		
 		//hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
@@ -101,7 +103,6 @@ public class RobotIO{
 		return homeHatchSwitch.get();
 	
 	}
-	
 
 	public double getCurrentLiftDistance(){
 		return hatchPotentiometer.get();
@@ -110,7 +111,7 @@ public class RobotIO{
 		return hatch_motor_encoder;
 	}
 	
-	
+
 /*	
 public static double getRobotLifterGyroAngle() {
 		return robotLifterGyro.getAngle();
