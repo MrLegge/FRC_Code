@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import java.lang.Math;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -62,7 +63,7 @@ public class Robot extends TimedRobot {
 		xBox = new XboxController(0);
 		robotIO = new RobotIO(); 
 		robotGUI = new RobotGUI();
-
+		hatchDelivery = new HatchDelivery();
 		
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit(){
 		
-/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
+/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(320, 240);
@@ -124,7 +125,9 @@ public class Robot extends TimedRobot {
 		
 		//Ensures robot only drives when under operator control 
 		while(isOperatorControl() && isEnabled()) {//&&false){
-			selectionIsJoyStick = RobotGUI.switchController();
+			selectionIsJoyStick = false;
+			hatchDelivery.hatchPotentiometer = Math.round(robotIO.getCurrentLiftDistance()*10000);
+
 			//Exponential Speed Controller
 			//double speedSlider = driverStick.getRawAxis(3) + 2;
 			
@@ -156,16 +159,20 @@ public class Robot extends TimedRobot {
 				}*/
 				if (driverStick.getRawButton(3)){
 				
-					// stub left as example when setting buttons
+					hatchDelivery.putHatchArmDown();
 						
 					}
-					
+					if (driverStick.getRawButton(4)){
+				
+						hatchDelivery.liftHatchArmUp();
+							
+						}
 					
 					
 					if (driverStick.getRawButton(6)){
 						
 						double lowerPower = 0.5;  //this value will need to be created from the PID data
-							hatchDelivery.retriveHatchFromFloor(lowerPower);
+							//hatchDelivery.retriveHatchFromFloor(lowerPower);
 						
 					
 					
@@ -183,9 +190,22 @@ public class Robot extends TimedRobot {
 				} else {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
+/*******************JUST TESTING CODE***************************/
+				if(xBox.getAButton()){
+					hatchDelivery.liftHatchArmUp();
+				}
+				if(xBox.getBButton()){
+					hatchDelivery.putHatchArmDown();
+				}
+				
+				if(xBox.getXButton()){
+					System.out.println(Math.round(robotIO.getCurrentLiftDistance()*1000));
+				}
+/****************************************************************/
 				//speedModifierX = ;
 				//speedModifierY = ;
-			/*if (xbox.getBumper(GenericHID.Hand kLeft)){				
+			
+				/*if (xbox.getBumper(GenericHID.Hand kLeft)){				
 					hatchDelivery // shoot					
 				}
 			if (xbox.getBumper(GenericHID.Hand kRight)){
