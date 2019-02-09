@@ -25,8 +25,8 @@ package frc.robot;
 		final static int REAR_RIGHT_MOTOR_ID = 3;
 		
 	//2019 game
-		final static int TOP_HATCH_MOTOR_ID = 4;
-		final static int BOTTOM_HATCH_MOTOR_ID = 5;
+		final static int TOP_HATCH_MOTOR_ID = 7;
+		final static int BOTTOM_HATCH_MOTOR_ID = 6;
 
 
 
