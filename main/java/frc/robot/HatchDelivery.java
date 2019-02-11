@@ -11,14 +11,12 @@ import java.lang.Math;
 
 public class HatchDelivery extends Kevin{
 
-	private RobotIO robotIO;
-	private DifferentialDrive kevinBase;
-	public double liftPower;
-	
-	public long hatchPotentiometer;
+
+	//private RobotIO robotIO;
 
 	public HatchDelivery(){
-
+		super();
+		
 
 	}
 
@@ -31,8 +29,10 @@ public class HatchDelivery extends Kevin{
 		}
 	}*/
 
-	public void liftToHatchPosition(int target){
-		liftToPosition(target);
+
+	public static void liftToHatchPosition(int target){
+		Robot.kevin.liftToPosition(target);
+
 		}
 	
   }
