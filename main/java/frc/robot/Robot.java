@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
 	public CargoDelivery cargoDelivery;
+
 	public static Kevin kevin;
 
 	private boolean selectionIsJoyStick = true;
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
+
 		xBox = new XboxController(0); 
 		//robotGUI = new RobotGUI();
 		//hatchDelivery = new HatchDelivery();
@@ -180,6 +182,7 @@ public class Robot extends TimedRobot {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
 
+
 /*******************JUST TESTING CODE***************************/
 				try{
 					rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight)*0.75;
@@ -187,6 +190,7 @@ public class Robot extends TimedRobot {
 				catch(RuntimeException ex ){
 					DriverStation.reportError("Error instantiating y axis not reading  " + ex.getMessage(), true);
 			
+
 				}
 				//System.out.println(rigthStickAxisY);				
 				if(rigthStickAxisY > 0.0 || rigthStickAxisY < 0.0){
@@ -202,6 +206,12 @@ public class Robot extends TimedRobot {
 				}
 				if(xBox.getBButton()){
 					kevin.liftToPosition(110);
+				}
+				if(xBox.getAButton()){
+					hatchDelivery.liftToHatchPosition(90);
+				}
+				if(xBox.getBButton()){
+					cargoDelivery.liftToCargoPosition(110);
 				}
 /****************************************************************/
 				//speedModifierX = ;

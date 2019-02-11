@@ -10,62 +10,65 @@ package frc.robot;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import java.lang.Math;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Kevin{
 
-	private RobotIO robotIO;
-	private VictorSP topMotor;
-  private VictorSP bottomMotor;
-  private DifferentialDrive kevinBase;
-	private int targetLower, targetHigher, offset;
-  public long kevinPotentiometer;
-	public double liftPower;
+	private static RobotIO robotIO;
+	private static VictorSP topKevinMotor;
+	private static VictorSP bottomKevinMotor;
+	private static DifferentialDrive kevinBase;
+	private static int targetHigher, targetLower, offset;
+ 	public static double kevinPotentiometer;
+	public static double liftPower;
+	private static boolean homePosition, floorPostition;
 
 	public Kevin(){
-		
-		//robotIO = new RobotIO();
-	topMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
-  bottomMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID); 
-  kevinBase = new DifferentialDrive(topMotor, bottomMotor);
-  bottomMotor.setInverted(true);
-  kevinBase.setExpiration(0.1);
-  kevinBase.setSafetyEnabled(true);
-  offset = 10;
+	robotIO = new RobotIO();
+	topKevinMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
+	bottomKevinMotor = new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID); 
+
+	bottomKevinMotor.setInverted(true);
+
+	kevinBase = new DifferentialDrive(topKevinMotor, bottomKevinMotor);	
+
+
+	kevinBase.setExpiration(0.1);
+	kevinBase.setSafetyEnabled(true);
+	offset = 10;
 	}
 
 	//Puts disk in home position
-	public void liftToPosition(double target){
-    targetLower = target + offset;
-    targetHigher = target - offset;
-    kevinPotentiometer = robotIO.
-    while(!robotIO.hatchSwitchAtHome()){
-			hatchMotor.set(Power);
-			//while so it runs until its false
-		}
-		
-	}
-	
-	//Puts arm in delivery position
-	public void deliveryPosition(double Power) {
-	
-		if (robotIO.getCurrentLiftDistance() < target - 20 ) {
-			liftPower = 0.7;
-		} else if (robotIO.getCurrentLiftDistance() > target + 20) {
-			liftPower = 0.3;
-		} else {
-			liftPower = 0.5;
-		}
-	
-	hatchMotor.set(liftPower);
-	
-}	
 
-	//Retrieves the hatch from floor
-	public void retriveHatchFromFloor (double DownPower) {
-		while (!robotIO.hatchSwitchAtLower()){
-			hatchMotor.set(DownPower);	
-		}
-		
+	public static void liftToPosition(int target){
+		targetLower = target + offset;
+		targetHigher = target - offset;
+		try{
+		kevinPotentiometer =  Math.round(robotIO.getCurrentLiftDistance()*10000);
+		System.out.println(kevinPotentiometer);
+
 	}
+	catch(RuntimeException re){
+		DriverStation.reportError("Error instantiating potentiometer  " + re.getMessage(), true);
+	}
+		if (kevinPotentiometer  > targetLower) {
+			liftPower = 0.4;
+			System.out.println("moving up");
+
+		} else if (kevinPotentiometer < targetHigher) {
+			liftPower = -0.6;
+			System.out.println("moving down");
+		} else {
+			liftPower = 0.46;
+			System.out.println("holding steady");
+		}	
+		//kevinBase.arcadeDrive(liftPower, 0);
+	}
+
+	public void manualKevinControl(double powerIn){
+		kevinBase.arcadeDrive(powerIn, 0);
+	}
+
+
 	
   }
