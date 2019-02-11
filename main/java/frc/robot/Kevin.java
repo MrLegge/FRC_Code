@@ -10,52 +10,65 @@ package frc.robot;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import java.lang.Math;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Kevin{
 
-	private RobotIO robotIO;
-	private VictorSP topMotor;
-	private VictorSP bottomMotor;
-	private DifferentialDrive kevinBase;
-	private int targetHigher, targetLower, offset;
- 	public double kevinPotentiometer;
-	public double liftPower;
-	private boolean homePosition, floorPostition;
+	private static RobotIO robotIO;
+	private static VictorSP topKevinMotor;
+	private static VictorSP bottomKevinMotor;
+	private static DifferentialDrive kevinBase;
+	private static int targetHigher, targetLower, offset;
+ 	public static double kevinPotentiometer;
+	public static double liftPower;
+	private static boolean homePosition, floorPostition;
 
 	public Kevin(){
-		
-		//robotIO = new RobotIO();
-	topMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
-	bottomMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID); 
-	kevinBase = new DifferentialDrive(topMotor, bottomMotor);
-	bottomMotor.setInverted(true);
+	robotIO = new RobotIO();
+	topKevinMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
+	bottomKevinMotor = new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID); 
+
+	bottomKevinMotor.setInverted(true);
+
+	kevinBase = new DifferentialDrive(topKevinMotor, bottomKevinMotor);	
+
+
 	kevinBase.setExpiration(0.1);
 	kevinBase.setSafetyEnabled(true);
 	offset = 10;
 	}
 
 	//Puts disk in home position
-	public void liftToPosition(int target){
-    targetLower = target + offset;
-    targetHigher = target - offset;
-	kevinPotentiometer = robotIO.getCurrentLiftDistance();
-	
-	if (kevinPotentiometer  > targetLower + 10) {
-		liftPower = 0.4;
-	} else if (kevinPotentiometer < targetHigher - 10) {
-		liftPower = -0.5;
-	} else {
-		liftPower = -0.475;
-	}	
-	kevinBase.arcadeDrive(liftPower, 0);
-		
+
+	public static void liftToPosition(int target){
+		targetLower = target + offset;
+		targetHigher = target - offset;
+		try{
+		kevinPotentiometer =  Math.round(robotIO.getCurrentLiftDistance()*10000);
+		System.out.println(kevinPotentiometer);
+
 	}
-	public void liftArmUp(double powerIn){
+	catch(RuntimeException re){
+		DriverStation.reportError("Error instantiating potentiometer  " + re.getMessage(), true);
+	}
+		if (kevinPotentiometer  > targetLower) {
+			liftPower = 0.4;
+			System.out.println("moving up");
+
+		} else if (kevinPotentiometer < targetHigher) {
+			liftPower = -0.6;
+			System.out.println("moving down");
+		} else {
+			liftPower = 0.46;
+			System.out.println("holding steady");
+		}	
+		//kevinBase.arcadeDrive(liftPower, 0);
+	}
+
+	public void manualKevinControl(double powerIn){
 		kevinBase.arcadeDrive(powerIn, 0);
 	}
-	public void putArmDown(double powerIn){
-		kevinBase.arcadeDrive(-powerIn, 0);
-	}
+
 
 	
   }
