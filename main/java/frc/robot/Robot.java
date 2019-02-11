@@ -48,7 +48,8 @@ public class Robot extends TimedRobot {
 	//public HatchIntake hatchIntake;
 	public CargoDelivery cargoDelivery;
 	//public CargoIntake cargoIntake;
-	
+	public Kevin kevin;
+
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
 	private double speedModifierY;
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
 	private Thread m_visionThread;
 	private double axisX;
 	private double axisY;
+	private double rigthStickAxisY;
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
@@ -64,7 +66,8 @@ public class Robot extends TimedRobot {
 		robotIO = new RobotIO(); 
 		robotGUI = new RobotGUI();
 		hatchDelivery = new HatchDelivery();
-		
+		kevin = new Kevin();
+
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
 		
@@ -157,16 +160,7 @@ public class Robot extends TimedRobot {
 				/*if(driverStick.getRawButton(?SHOoT HATCH on?)){
 					hatchDelivery // shoot
 				}*/
-				if (driverStick.getRawButton(3)){
-				
-					hatchDelivery.putHatchArmDown();
-						
-					}
-					if (driverStick.getRawButton(4)){
-				
-						hatchDelivery.liftHatchArmUp();
-							
-						}
+
 					
 					
 					if (driverStick.getRawButton(6)){
@@ -190,16 +184,25 @@ public class Robot extends TimedRobot {
 				} else {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
+
+
 /*******************JUST TESTING CODE***************************/
-				if(xBox.getAButton()){
-					hatchDelivery.liftHatchArmUp();
+				rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight)/2;				
+				if(rigthStickAxisY > 0.0){
+					kevin.liftArmUp(rigthStickAxisY);
 				}
-				if(xBox.getBButton()){
-					hatchDelivery.putHatchArmDown();
+				if(rigthStickAxisY < 0.0){
+					kevin.putArmDown(rigthStickAxisY);
 				}
 				
 				if(xBox.getXButton()){
 					System.out.println(Math.round(robotIO.getCurrentLiftDistance()*1000));
+				}
+				if(xBox.getAButton()){
+					hatchDelivery.liftToHatchPosition(90);
+				}
+				if(xBox.getBButton()){
+					cargoDelivery.liftToCargoPosition(110);
 				}
 /****************************************************************/
 				//speedModifierX = ;
