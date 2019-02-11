@@ -45,26 +45,24 @@ public class Robot extends TimedRobot {
 	public RobotIO robotIO;
 	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
-	//public HatchIntake hatchIntake;
 	public CargoDelivery cargoDelivery;
-	//public CargoIntake cargoIntake;
-	
+	public static Kevin kevin;
+
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
 	private double speedModifierY;
-	private double xboxSpeedModifierX;
-	private double xboxSpeedModifierY;
 	private Thread m_visionThread;
 	private double axisX;
 	private double axisY;
+	private double rigthStickAxisY;
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-		xBox = new XboxController(0);
-		robotIO = new RobotIO(); 
-		robotGUI = new RobotGUI();
-		hatchDelivery = new HatchDelivery();
-		
+		xBox = new XboxController(0); 
+		//robotGUI = new RobotGUI();
+		//hatchDelivery = new HatchDelivery();
+		kevin = new Kevin();
+		rigthStickAxisY = 0;
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
 		
@@ -126,7 +124,6 @@ public class Robot extends TimedRobot {
 		//Ensures robot only drives when under operator control 
 		while(isOperatorControl() && isEnabled()) {//&&false){
 			selectionIsJoyStick = false;
-			hatchDelivery.hatchPotentiometer = Math.round(robotIO.getCurrentLiftDistance()*10000);
 
 			//Exponential Speed Controller
 			//double speedSlider = driverStick.getRawAxis(3) + 2;
@@ -157,16 +154,7 @@ public class Robot extends TimedRobot {
 				/*if(driverStick.getRawButton(?SHOoT HATCH on?)){
 					hatchDelivery // shoot
 				}*/
-				if (driverStick.getRawButton(3)){
-				
-					hatchDelivery.putHatchArmDown();
-						
-					}
-					if (driverStick.getRawButton(4)){
-				
-						hatchDelivery.liftHatchArmUp();
-							
-						}
+
 					
 					
 					if (driverStick.getRawButton(6)){
@@ -178,6 +166,7 @@ public class Robot extends TimedRobot {
 					
 					}
 				}else {
+
 				axisX = xBox.getX(GenericHID.Hand.kLeft); //axisX gets value from left thumbstick 
 				if((xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kRight)>0)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
 					
@@ -190,16 +179,29 @@ public class Robot extends TimedRobot {
 				} else {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
+
 /*******************JUST TESTING CODE***************************/
-				if(xBox.getAButton()){
-					hatchDelivery.liftHatchArmUp();
+				try{
+					rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight)*0.75;
 				}
-				if(xBox.getBButton()){
-					hatchDelivery.putHatchArmDown();
+				catch(RuntimeException ex ){
+					DriverStation.reportError("Error instantiating y axis not reading  " + ex.getMessage(), true);
+			
+				}
+				//System.out.println(rigthStickAxisY);				
+				if(rigthStickAxisY > 0.0 || rigthStickAxisY < 0.0){
+					kevin.manualKevinControl(rigthStickAxisY);
 				}
 				
+				
 				if(xBox.getXButton()){
-					System.out.println(Math.round(robotIO.getCurrentLiftDistance()*1000));
+					System.out.println(Math.round(RobotIO.getCurrentLiftDistance()*1000));
+				}
+				if(xBox.getAButton()){
+					kevin.liftToPosition(170);
+				}
+				if(xBox.getBButton()){
+					kevin.liftToPosition(110);
 				}
 /****************************************************************/
 				//speedModifierX = ;
