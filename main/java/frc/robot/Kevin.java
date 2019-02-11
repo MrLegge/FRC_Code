@@ -15,57 +15,47 @@ public class Kevin{
 
 	private RobotIO robotIO;
 	private VictorSP topMotor;
-  private VictorSP bottomMotor;
-  private DifferentialDrive kevinBase;
-	private int targetLower, targetHigher, offset;
-  public long kevinPotentiometer;
+	private VictorSP bottomMotor;
+	private DifferentialDrive kevinBase;
+	private int targetHigher, targetLower, offset;
+ 	public double kevinPotentiometer;
 	public double liftPower;
+	private boolean homePosition, floorPostition;
 
 	public Kevin(){
 		
 		//robotIO = new RobotIO();
 	topMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID);
-  bottomMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID); 
-  kevinBase = new DifferentialDrive(topMotor, bottomMotor);
-  bottomMotor.setInverted(true);
-  kevinBase.setExpiration(0.1);
-  kevinBase.setSafetyEnabled(true);
-  offset = 10;
+	bottomMotor = new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID); 
+	kevinBase = new DifferentialDrive(topMotor, bottomMotor);
+	bottomMotor.setInverted(true);
+	kevinBase.setExpiration(0.1);
+	kevinBase.setSafetyEnabled(true);
+	offset = 10;
 	}
 
 	//Puts disk in home position
-	public void liftToPosition(double target){
+	public void liftToPosition(int target){
     targetLower = target + offset;
     targetHigher = target - offset;
-    kevinPotentiometer = robotIO.
-    while(!robotIO.hatchSwitchAtHome()){
-			hatchMotor.set(Power);
-			//while so it runs until its false
-		}
+	kevinPotentiometer = robotIO.getCurrentLiftDistance();
+	
+	if (kevinPotentiometer  > targetLower + 10) {
+		liftPower = 0.4;
+	} else if (kevinPotentiometer < targetHigher - 10) {
+		liftPower = -0.5;
+	} else {
+		liftPower = -0.475;
+	}	
+	kevinBase.arcadeDrive(liftPower, 0);
 		
 	}
-	
-	//Puts arm in delivery position
-	public void deliveryPosition(double Power) {
-	
-		if (robotIO.getCurrentLiftDistance() < target - 20 ) {
-			liftPower = 0.7;
-		} else if (robotIO.getCurrentLiftDistance() > target + 20) {
-			liftPower = 0.3;
-		} else {
-			liftPower = 0.5;
-		}
-	
-	hatchMotor.set(liftPower);
-	
-}	
+	public void liftArmUp(double powerIn){
+		kevinBase.arcadeDrive(powerIn, 0);
+	}
+	public void putArmDown(double powerIn){
+		kevinBase.arcadeDrive(-powerIn, 0);
+	}
 
-	//Retrieves the hatch from floor
-	public void retriveHatchFromFloor (double DownPower) {
-		while (!robotIO.hatchSwitchAtLower()){
-			hatchMotor.set(DownPower);	
-		}
-		
-	}
 	
   }
