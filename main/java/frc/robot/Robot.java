@@ -45,9 +45,9 @@ public class Robot extends TimedRobot {
 	public RobotIO robotIO;
 	public RobotGUI robotGUI;
 	public HatchDelivery hatchDelivery;
-	public CargoDelivery cargoDelivery;
-
+	public static CargoDelivery cargoDelivery;
 	public static Kevin kevin;
+	public static PneumaticDelivery pneumaticDelivery;
 
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
@@ -56,14 +56,18 @@ public class Robot extends TimedRobot {
 	private double axisX;
 	private double axisY;
 	private double rigthStickAxisY;
+	
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-
 		xBox = new XboxController(0); 
 		//robotGUI = new RobotGUI();
-		//hatchDelivery = new HatchDelivery();
+		
 		kevin = new Kevin();
+		pneumaticDelivery = new PneumaticDelivery();
+		cargoDelivery = new CargoDelivery(new RobotIO(), new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID), new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID), new DifferentialDrive(kevin.topKevinMotor, kevin.bottomKevinMotor), 10);
+		hatchDelivery = new HatchDelivery(new RobotIO(), new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID), new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID), new DifferentialDrive(kevin.topKevinMotor, kevin.bottomKevinMotor), 10);
+		
 		rigthStickAxisY = 0;
 		speedModifierX = 1.0;
 		speedModifierY = -1.0;
@@ -182,7 +186,6 @@ public class Robot extends TimedRobot {
 					axisY = 0;							//if both or no buttons pushed it brakes
 				}
 
-
 /*******************JUST TESTING CODE***************************/
 				try{
 					rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight)*0.75;
@@ -190,28 +193,25 @@ public class Robot extends TimedRobot {
 				catch(RuntimeException ex ){
 					DriverStation.reportError("Error instantiating y axis not reading  " + ex.getMessage(), true);
 			
-
 				}
 				//System.out.println(rigthStickAxisY);				
 				if(rigthStickAxisY > 0.0 || rigthStickAxisY < 0.0){
 					kevin.manualKevinControl(rigthStickAxisY);
 				}
 				
-				
+				if(xBox.getYButton()){
+					pneumaticDelivery.pushAndPull(0.07);
+				}				
 				if(xBox.getXButton()){
-					System.out.println(Math.round(RobotIO.getCurrentLiftDistance()*1000));
+					//cargoDelivery.succCargo();
+					
+					//System.out.println(Math.round(RobotIO.getCurrentLiftDistance()*1000));
 				}
 				if(xBox.getAButton()){
 					kevin.liftToPosition(170);
 				}
 				if(xBox.getBButton()){
 					kevin.liftToPosition(110);
-				}
-				if(xBox.getAButton()){
-					hatchDelivery.liftToHatchPosition(90);
-				}
-				if(xBox.getBButton()){
-					cargoDelivery.liftToCargoPosition(110);
 				}
 /****************************************************************/
 				//speedModifierX = ;
