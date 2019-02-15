@@ -1,5 +1,5 @@
 /*******************************************************
-* Robotics Hatch Delivery by Jordan Thorne date 23/01/19	
+* Robotics Hatch Delivery by except Jordan Thorne date 23/01/19	
 *******************************************************/
 /***********************************
 *Arm that retrives and delivers disk
@@ -11,13 +11,11 @@ import java.lang.Math;
 
 public class HatchDelivery extends Kevin{
 
-
 	//private RobotIO robotIO;
 
-	public HatchDelivery(){
-		super();
+	public HatchDelivery(RobotIO rio, VictorSP tkm, VictorSP bkm, DifferentialDrive kb, int off){
+		super(rio, tkm, bkm, kb, off);
 		
-
 	}
 
 	
@@ -29,10 +27,8 @@ public class HatchDelivery extends Kevin{
 		}
 	}*/
 
-
 	public static void liftToHatchPosition(int target){
 		Robot.kevin.liftToPosition(target);
-
 		}
 	
   }
