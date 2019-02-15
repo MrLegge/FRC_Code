@@ -13,10 +13,9 @@ import java.lang.Math;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Kevin{
-
 	private static RobotIO robotIO;
-	private static VictorSP topKevinMotor;
-	private static VictorSP bottomKevinMotor;
+	public static VictorSP topKevinMotor;
+	public static VictorSP bottomKevinMotor;
 	private static DifferentialDrive kevinBase;
 	private static int targetHigher, targetLower, offset;
  	public static double kevinPotentiometer;
@@ -32,14 +31,24 @@ public class Kevin{
 
 	kevinBase = new DifferentialDrive(topKevinMotor, bottomKevinMotor);	
 
-
 	kevinBase.setExpiration(0.1);
 	kevinBase.setSafetyEnabled(true);
 	offset = 10;
 	}
+	Kevin(RobotIO rio, VictorSP tkm, VictorSP bkm, DifferentialDrive kb, int off){
+		this.robotIO = rio;
+		this.topKevinMotor = tkm;
+		this.bottomKevinMotor = bkm; 
+	
+		bottomKevinMotor.setInverted(true);
+	
+		this.kevinBase = kb;
+		kevinBase.setExpiration(0.1);
+		kevinBase.setSafetyEnabled(true);
+		this.offset = off;
+	}
 
 	//Puts disk in home position
-
 	public static void liftToPosition(int target){
 		targetLower = target + offset;
 		targetHigher = target - offset;
