@@ -32,12 +32,12 @@ package frc.robot;
 
 	}
 	public class DIO_PinOut{
-		final static int HOME_HATCH_SWITCH = 0;
-		final static int LOWER_HATCH_SWITCH = 1;
+		final static int HATCH_MOTOR_ENCODER_A_CHANNEL = 0;   
+		final static int HATCH_MOTOR_ENCODER_B_CHANNEL = 1; 		
 		final static int HOME_CARGO_SWITCH = 2;
 		final static int LOWER_CARGO_SWITCH = 3;
-		final static int HATCH_MOTOR_ENCODER_A_CHANNEL = 4;   
-		final static int HATCH_MOTOR_ENCODER_B_CHANNEL = 5; 
+		final static int HOME_HATCH_SWITCH = 4;
+		final static int LOWER_HATCH_SWITCH = 5;
 	}	
 	public class Analog_PinOut{
 		//final static int PNEUMATIC = 0;
