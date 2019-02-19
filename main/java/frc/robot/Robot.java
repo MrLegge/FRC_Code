@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
 	public static CargoDelivery cargoDelivery;
 	public static Kevin kevin;
 	public static PneumaticDelivery pneumaticDelivery;
+	public static Boolean holdPosition = false;
 
 	private boolean selectionIsJoyStick = true;
 	private double speedModifierX;
@@ -60,13 +61,12 @@ public class Robot extends TimedRobot {
 	public Robot(){
 		/*Defines driverStick variable, can be used for extra driverSticks*/
 		driverStick = new Joystick(0);
-		xBox = new XboxController(0); 
-		//robotGUI = new RobotGUI();
-		
+		xBox = new XboxController(0); 	
 		kevin = new Kevin();
 		pneumaticDelivery = new PneumaticDelivery();
-		cargoDelivery = new CargoDelivery(new RobotIO(), new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID), new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID), new DifferentialDrive(kevin.topKevinMotor, kevin.bottomKevinMotor), 10);
-		hatchDelivery = new HatchDelivery(new RobotIO(), new VictorSP(RobotMap.PWM_PinOut.TOP_HATCH_MOTOR_ID), new VictorSP(RobotMap.PWM_PinOut.BOTTOM_HATCH_MOTOR_ID), new DifferentialDrive(kevin.topKevinMotor, kevin.bottomKevinMotor), 10);
+
+		cargoDelivery = new CargoDelivery(kevin.robotIO, kevin.topKevinMotor, kevin.bottomKevinMotor, kevin.kevinMotors, 10, kevin.kevinController);
+		hatchDelivery = new HatchDelivery(kevin.robotIO, kevin.topKevinMotor, kevin.bottomKevinMotor, kevin.kevinMotors, 10, kevin.kevinController);
 		
 		rigthStickAxisY = 0;
 		speedModifierX = 1.0;
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit(){
 		
-/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************
+/*********************************** DONT CHANGE THIS CODE!!!	*****************************************************/
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(320, 240);
@@ -126,137 +126,96 @@ public class Robot extends TimedRobot {
 	
 	public void teleopPeriodic(){   //teleopPeriodic   operatorControl
 		driveBase.setSafetyEnabled(true);
-		
+
 		//Ensures robot only drives when under operator control 
-		while(isOperatorControl() && isEnabled()) {//&&false){
-			selectionIsJoyStick = false;
+		while(isOperatorControl() && isEnabled()) {
 
-			//Exponential Speed Controller
-			//double speedSlider = driverStick.getRawAxis(3) + 2;
+			/*************DRIVING AND STEERING CODE*************/
+			axisX = xBox.getX(GenericHID.Hand.kLeft); //axisX gets value from left thumbstick 
+			if((xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kRight)>0)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
+				
+				axisY = xBox.getTriggerAxis(GenericHID.Hand.kLeft); //takes value of the trigger
 			
-			// X-axis for turning , Y-axis for forward/back  
-			//Sets speed to half when side button is held, for fine control
-			//if(driverStick.getRawButton(1)){
-				//speedModifierX = -driverStick.getRawAxis(3);
-				//speedModifierY = driverStick.getRawAxis(3);	
-
-				//change = joystick - limitedJoystick;
-				//if (change>limit) change = limit;
-				//else (if change<-limit) change = -limit;
-				//limitedJoystick += change;
-				
-				//limit is the amount of change you will allow every iteration
-				//limitedJoystick is the rate-limited joystick value you use to control your motors.
-				
-			//}
-			
-
-			//Joystick or Xbox
-			if(selectionIsJoyStick){
-				axisY = driverStick.getRawAxis(1);
-				axisX = driverStick.getRawAxis(2);
-				//speedModifierX = -driverStick.getRawAxis(3);
-				///speedModifierY = driverStick.getRawAxis(3);
-				/*if(driverStick.getRawButton(?SHOoT HATCH on?)){
-					hatchDelivery // shoot
-				}*/
-
+			}else if((xBox.getTriggerAxis(GenericHID.Hand.kRight)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0)){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
 					
-					
-					if (driverStick.getRawButton(6)){
-						
-						double lowerPower = 0.5;  //this value will need to be created from the PID data
-							//hatchDelivery.retriveHatchFromFloor(lowerPower);
-						
-					
-					
-					}
-				}else {
-
-				axisX = xBox.getX(GenericHID.Hand.kLeft); //axisX gets value from left thumbstick 
-				if((xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kRight)>0)){ //if lefttrigger is pushed down and not righttrigger the lefttrigger doese its thing
-					
-					axisY = xBox.getTriggerAxis(GenericHID.Hand.kLeft)*-1; //takes value of the trigger
+				axisY = xBox.getTriggerAxis(GenericHID.Hand.kRight)*-1; //takes value of the trigger 
 				
-				}else if((xBox.getTriggerAxis(GenericHID.Hand.kRight)>0) && !(xBox.getTriggerAxis(GenericHID.Hand.kLeft)>0)){ //it the righttrigger is pusheed down and not lefttrigger the righttrigger does its thing
-					
-					axisY = xBox.getTriggerAxis(GenericHID.Hand.kRight); //takes value of the trigger 
-				
-				} else {
-					axisY = 0;							//if both or no buttons pushed it brakes
-				}
-
-/*******************JUST TESTING CODE***************************/
-				try{
-					rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight)*0.75;
-				}
-				catch(RuntimeException ex ){
-					DriverStation.reportError("Error instantiating y axis not reading  " + ex.getMessage(), true);
-			
-				}
-				//System.out.println(rigthStickAxisY);				
-				if(rigthStickAxisY > 0.0 || rigthStickAxisY < 0.0){
-					kevin.manualKevinControl(rigthStickAxisY);
-				}
-				
-				if(xBox.getYButton()){
-					pneumaticDelivery.pushAndPull(0.07);
-				}				
-				if(xBox.getXButton()){
-					//cargoDelivery.succCargo();
-					
-					//System.out.println(Math.round(RobotIO.getCurrentLiftDistance()*1000));
-				}
-				if(xBox.getAButton()){
-					kevin.liftToPosition(170);
-				}
-				if(xBox.getBButton()){
-					kevin.liftToPosition(110);
-				}
-/****************************************************************/
-				//speedModifierX = ;
-				//speedModifierY = ;
-			
-				/*if (xbox.getBumper(GenericHID.Hand kLeft)){				
-					hatchDelivery // shoot					
-				}
-			if (xbox.getBumper(GenericHID.Hand kRight)){
-					hatchDelivery //release	
-				//double outputPower = 1;
-					//boxGraber.spitOut(outputPower);
-				}
-			if (xbox.getJoystick( kLeft.getY()>0)){
-					//turning
-					driveBase.curvatureDrive(xboxSpeedModifierX, -1.0,true);
-				}
-				if (xbox.getJoystick( kLeft.getY()<0)){
-					//turning
-					driveBase.curvatureDrive(xboxSpeedModifierX, 1.0,true);
-				}
-				if (xbox.getJoystick(GenericHID.Hand kRight)){
-					//arm movement
-				}*/
-				
-				
-				//change = joystick - limitedJoystick;
-				//if (change>limit) change = limit;
-				//else (if change<-limit) change = -limit;
-				//limitedJoystick += change;
-
-				//limit is the amount of change you will allow every iteration
-				//limitedJoystick is the rate-limited joystick value you use to control your motors.
-
+			} else {
+				axisY = 0;	//if both or no buttons pushed it brakes
 			}
 
+			/*********gets the value from the right stick*********/	
+			try{
+				rigthStickAxisY = xBox.getY(GenericHID.Hand.kRight) * -1.0;
+			}
+			catch(RuntimeException ex ){
+				DriverStation.reportError("Error instantiating y axis not reading  " + ex.getMessage(), true);
 			
-			//Sets the driving method
+			}		
+
+			/*********if the arm is not being used the power is set to 0**********/
+
+
+			/*********manual control for the arm**********/
+
+
+			/*********controls everything to do with the arm**********/	
+			if(xBox.getAButton()){
+				kevin.liftToPosition(180);
+			}else if(xBox.getBButton()){
+				kevin.liftToPosition(170);
+			}else if(rigthStickAxisY > 0.1 || rigthStickAxisY < -0.1){
+				kevin.manualKevinControl(rigthStickAxisY*0.75);
+			}else{//((rigthStickAxisY < 0.05 && rigthStickAxisY > -0.05) && !(xBox.getAButton()))
+				kevin.placeArmDown(300);
+				System.out.println("ïs else");
+			}
+
+			/*********retrives the disk from the floor***********/
+
+
+			/*********makes the cargo motor succ in and spit out cargo**********/			
+			if(xBox.getXButton()){
+				cargoDelivery.succCargo();
+			}else if(xBox.getYButton()){
+				cargoDelivery.shootCargo();
+			}else{
+				cargoDelivery.cargoDeliveryMotor.set(0.0);
+			}
+
+			/********* **********/	
+
+
+			/*********fires the pneumatics**********/	
+			if(xBox.getBumper(GenericHID.Hand.kRight)){
+				pneumaticDelivery.pushAndPull(0.1);
+			}	
+
+			/*********hopefully makes the arm hold current position**********/	
+			if(xBox.getBumperReleased(GenericHID.Hand.kLeft)){
+				System.out.println(Math.round(robotIO.getCurrentLiftDistance() * 2000));
+				//holdPosition = !holdPosition;
+			}
+
 			driveBase.arcadeDrive(axisY*speedModifierY, axisX*speedModifierX, true);
+		}
+	
+			//change = joystick - limitedJoystick;
+			//if (change>limit) change = limit;
+			//else (if change<-limit) change = -limit;
+			//limitedJoystick += change;
+			//limit is the amount of change you will allow every iteration
+			//limitedJoystick is the rate-limited joystick value you use to control your motors.
+			//Sets the driving method
+			
+			
 			//Use this one for z rotation
 			//driveBase.curvatureDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(2)*speedModifierX, true);
 			//Use this one for x rotation
 			//driveBase.arcadeDrive(driverStick.getRawAxis(1)*speedModifierY, driverStick.getRawAxis(0)*speedModifierX, true);
-
 	}
+		
+	
 	/*
 	public void disabledInit(){
 	
@@ -283,4 +242,4 @@ public class Robot extends TimedRobot {
 	//}
 	
 }
-}
+
