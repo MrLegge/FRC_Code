@@ -1,5 +1,4 @@
 /***********************************************************
-* this is just the copy of 2018 
 * Date: 1-11-2018
 * Changed for 2019
 ************************************************************/
@@ -7,35 +6,57 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-
 
 
 public class RobotIO{
   
 	private AHRS ahrs;
-	public Joystick driverStick;
-	//private static HatchDelivery hatchDelivery;
-	private AnalogPotentiometer hatchPotentiometer;
+	public static AnalogInput potentiometer;
 	private DigitalInput homeHatchSwitch;
 	private DigitalInput lowerHatchSwitch;
-	private static Encoder hatch_motor_encoder; 
+	private static Encoder hatch_motor_encoder;
 	
 	public RobotIO(){
-	
-		homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
-		lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
-		hatchPotentiometer = new AnalogPotentiometer(RobotMap.Analog_PinOut.HATCH_POTENTIOMETER);
+		/*********sets the switches**********/	
+		try{
+			homeHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.HOME_HATCH_SWITCH);
+			lowerHatchSwitch = new DigitalInput(RobotMap.DIO_PinOut.LOWER_HATCH_SWITCH);
+		}
+		catch(RuntimeException ex ){
+			DriverStation.reportError("Error instantiating switches  " + ex.getMessage(), true);
+		}
+
+		/*********stes the potentiometer**********/	
+		try{
+			potentiometer = new AnalogInput(RobotMap.Analog_PinOut.HATCH_POTENTIOMETER);
+		}
+		catch (RuntimeException ex ){
+			DriverStation.reportError("Error instantiating potentiometer  " + ex.getMessage(), true);
+		}
 		
-		//hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
+		/*********sets the encoder for the arm**********/	
+		try{
+			hatch_motor_encoder = new Encoder(RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_A_CHANNEL,RobotMap.DIO_PinOut.HATCH_MOTOR_ENCODER_B_CHANNEL);
+		}
+		catch (RuntimeException ex ){
+			DriverStation.reportError("Error instantiating encoder  " + ex.getMessage(), true);
+		}
+
+		/*********sets the ahrs thing**********/
+		try{
+			setAhrs(new AHRS(SPI.Port.kMXP));
+		}
+		catch (RuntimeException ex ){
+			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+		}
+
+		
+		
 		//homeHatchSwitchAtFl= DigitakInput(RobotMap.HOME_HATCH_SWITCH_AT_FLOOR);
 		/************************************************************************************************************
 		*these are the functions to get data from the navX board*
@@ -54,12 +75,7 @@ public class RobotIO{
 		void	zeroYaw() Sets the user-specified yaw offset to the current yaw value reported by the sensor.	
 		
 		*************************************************************************************************************/
-		try{
-			setAhrs(new AHRS(SPI.Port.kMXP));
-			}
-		catch (RuntimeException ex ){
-			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-			}
+
 		/*************************************************************************************************************
 		
 		double	pidGet() Implement the PIDSource interface.
@@ -86,39 +102,47 @@ public class RobotIO{
 	 
 	}
 
-
+	/*********gets the ahrs thing**********/
 	public AHRS getAhrs() {
 		return ahrs;
 	}
 
+	/*********does something else to the ahrs thing**********/
 	public void setAhrs(AHRS ahrs) {
 		this.ahrs = ahrs;
 	}
-	
-	public boolean hatchSwitchAtLower() {
-		return lowerHatchSwitch.get();
-	}
-	
-	public boolean hatchSwitchAtHome() {
-		return homeHatchSwitch.get();
-	
+
+	/*********returns the potentiometer value**********/
+	public static double getCurrentLiftDistance(){
+		return potentiometer.getAverageVoltage();
 	}
 
-	public double getCurrentLiftDistance(){
-		return hatchPotentiometer.get();
-	}
+	/*********returns the encoder value**********/
 	public static Encoder gethatch_motor_encoder() {
 		return hatch_motor_encoder;
 	}
-	
 
-/*	
-public static double getRobotLifterGyroAngle() {
-		return robotLifterGyro.getAngle();
-	}
-	
+	/*********sets the encoder up, needs tweaking**********/
+	public static void setUpEncoder() {
+		hatch_motor_encoder.reset();
+		hatch_motor_encoder.setMaxPeriod(.1);
+		hatch_motor_encoder.setMinRate(10);
+		
+		hatch_motor_encoder.setSamplesToAverage(10);
+	}	
 
-*/
+	//public boolean hatchSwitchAtLower() {
+	//	return lowerHatchSwitch.get();
+	//}
+	
+	/*public boolean hatchSwitchAtHome() {
+		return homeHatchSwitch.get();
+	
+	}*/
+
+
+
+
 	
 
 }
