@@ -18,12 +18,14 @@ package frc.robot;
 	/*********************************
 	*  Change these depending on pin configuration on RoboRIO *** 
 	*********************************/
+
+
 	public class PWM_PinOut {
 		final static int REAR_LEFT_MOTOR_ID = 0;
 		final static int FRONT_LEFT_MOTOR_ID = 1;
 		final static int FRONT_RIGHT_MOTOR_ID = 2;
 		final static int REAR_RIGHT_MOTOR_ID = 3;
-		
+		final static int CARGO_SHOOTER_MOTOR_ID = 5;
 	//2019 game
 		final static int TOP_HATCH_MOTOR_ID = 7;
 		final static int BOTTOM_HATCH_MOTOR_ID = 6;
@@ -33,7 +35,7 @@ package frc.robot;
 	}
 	public class DIO_PinOut{
 		final static int HATCH_MOTOR_ENCODER_A_CHANNEL = 0;   
-		final static int HATCH_MOTOR_ENCODER_B_CHANNEL = 1; 			
+		final static int HATCH_MOTOR_ENCODER_B_CHANNEL = 1; 
 		final static int HOME_HATCH_SWITCH = 2;
 		final static int LOWER_HATCH_SWITCH = 3;
 		final static int HOME_CARGO_SWITCH = 4;
